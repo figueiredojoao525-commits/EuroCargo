@@ -1,0 +1,2 @@
+# Netlify: single-page app — every route is served by index.html (React Router handles it).
+/*    /index.html   200
