@@ -1,9 +1,18 @@
 import { useState } from 'react'
 import { useI18n } from '../../i18n/context'
 import type { ProductImage } from '../../types'
-import { Icon } from '../Icon'
+import { ProductIllustration } from './ProductIllustration'
 
-export function ProductGallery({ images, name }: { images: ProductImage[]; name: string }) {
+export function ProductGallery({
+  images,
+  name,
+  categorySlug,
+}: {
+  images: ProductImage[]
+  name: string
+  /** Illustrative image when there is no photo. */
+  categorySlug?: string | null
+}) {
   const { t } = useI18n()
   const [index, setIndex] = useState(0)
   const current = images[Math.min(index, images.length - 1)]
@@ -11,9 +20,8 @@ export function ProductGallery({ images, name }: { images: ProductImage[]; name:
   if (!current) {
     return (
       <div className="gallery">
-        <div className="gallery-main gallery-empty">
-          <Icon name="image" size={40} />
-          <span>{t.shop.noImage}</span>
+        <div className="gallery-main">
+          <ProductIllustration categorySlug={categorySlug} size="lg" />
         </div>
       </div>
     )
@@ -24,7 +32,9 @@ export function ProductGallery({ images, name }: { images: ProductImage[]; name:
       <div className="gallery-main">
         <img src={current.url} alt={current.alt || name} decoding="async" />
       </div>
-      {current.source && <p className="gallery-credit">{current.source}</p>}
+      {(current.source || current.license) && (
+        <p className="gallery-credit">{[current.source, current.license].filter(Boolean).join(' · ')}</p>
+      )}
       {images.length > 1 && (
         <div className="gallery-thumbs" role="group" aria-label={t.shop.gallery}>
           {images.map((image, i) => (

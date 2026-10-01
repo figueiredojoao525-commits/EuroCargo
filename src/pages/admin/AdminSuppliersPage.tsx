@@ -12,6 +12,8 @@ import type { Supplier } from '../../types'
 export function AdminSuppliersPage() {
   const { t } = useI18n()
   const suppliers = useAsync(listSuppliers, [])
+  // Ranking columns exist once migration 20261004 is applied.
+  const hasRanking = (suppliers.data ?? []).some((s) => 'preferred' in s)
   const fields: CrudField<Supplier>[] = [
     {
       key: 'name',
@@ -30,6 +32,12 @@ export function AdminSuppliersPage() {
     { key: 'country', label: t.auth.country, type: 'country', column: true },
     { key: 'website', label: t.adminCommon.website, type: 'url', maxLength: 200 },
     { key: 'notes', label: t.adminCommon.notes, type: 'textarea', maxLength: 2000 },
+    ...(hasRanking
+      ? ([
+          { key: 'preferred', label: t.adminSuppliers.preferred, type: 'checkbox', column: true },
+          { key: 'priority', label: t.adminSuppliers.priority, type: 'number', initial: '0', column: true },
+        ] satisfies CrudField<Supplier>[])
+      : []),
     { key: 'active', label: t.adminCommon.active, type: 'checkbox', initial: true, column: true },
   ]
 
@@ -45,7 +53,7 @@ export function AdminSuppliersPage() {
           title={t.adminNav.suppliers}
           rows={suppliers.data ?? []}
           fields={fields}
-          onSave={saveSupplier}
+          onSave={(row, id) => saveSupplier(hasRanking ? { ...row, priority: row.priority ?? 0 } : row, id)}
           onDelete={deleteSupplier}
           onChanged={suppliers.reload}
         />

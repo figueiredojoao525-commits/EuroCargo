@@ -1,63 +1,202 @@
-# Catálogo de peças, fornecedores e assistente — arquitetura e integrações futuras
+# Catálogo de peças, fornecedores e assistente — arquitetura e integrações
 
 ## Princípio
 
-**Nenhum produto, preço, stock, referência ou compatibilidade é inventado.** Tudo o que o cliente vê vem:
+**Nenhum produto, preço, stock, referência, compatibilidade ou imagem é inventado.** Tudo o que o cliente vê
+vem das tabelas do EuroCargo no Supabase, preenchidas por:
 
-- das tabelas do EuroCargo no Supabase (produtos criados pelo admin, importações de fornecedores), ou
-- de um catálogo externo **licenciado**, através de uma Edge Function.
+- produtos criados pelo admin;
+- importações de ficheiros (CSV / JSON / XML) — ver [catalog-import.md](catalog-import.md);
+- sincronização de fornecedores / APIs licenciadas (Edge Function `catalog-sync`);
+- consulta em tempo real a um catálogo licenciado (Edge Function `catalog-external`), cujos resultados
+  são gravados nas mesmas tabelas antes de serem mostrados.
 
-Dados de demonstração (`is_demo = true`, marca "DEMO Parts") são mostrados com o selo **DEMO** e podem ser apagados em **Admin → Preços → Apagar dados de demonstração** (função `admin_purge_demo_data()`).
+O preço público é sempre calculado pelo sistema (preço da fonte ou regras de margem sobre o custo); custo,
+margem, fornecedor e notas internas nunca chegam ao navegador. Sem scraping de lojas.
+
+Dados de demonstração (`is_demo = true`, marca "DEMO Parts") continuam visíveis com o selo **DEMO** e podem
+ser apagados em **Admin → Preços → Apagar dados de demonstração**. As importações nunca os alteram.
+
+## Modelo comercial: a EuroCargo é a vendedora
+
+Os fornecedores são **internos**: fornecem peças à EuroCargo, que vende ao cliente. Por isso:
+
+- **Um produto = um resultado comercial**, mesmo que 5 fornecedores tenham a mesma peça. Cada oferta de
+  fornecedor (custo, stock, prazo, referência interna, URL de origem) é uma linha de `supplier_products`.
+  A importação junta automaticamente a mesma peça (marca + referência) de vários fornecedores num só produto.
+- **O sistema escolhe a melhor oferta** (`catalog_best_offer`), sempre com stock primeiro, pela regra definida
+  em Admin → Preços → "Regra de escolha do fornecedor" (`catalog_settings.offer_strategy`):
+  menor custo · maior stock · melhor prazo · fornecedor preferencial (`suppliers.preferred` / `priority`).
+- **Stock e disponibilidade agregados** (`catalog_refresh_offers`): stock = soma dos fornecedores;
+  "Disponível" se algum tem stock, senão "Disponível por encomenda" (com o prazo mais curto), senão
+  "Sob consulta", senão "Indisponível". Recalculado automaticamente quando uma oferta ou fornecedor muda.
+- **Preço EuroCargo** = custo da oferta escolhida × regra de margem (`catalog_compute_price`). Exemplo:
+  A 50 € (com stock), B 55 €, margem 30 % → A escolhido → o cliente vê **65,00 €**; nunca vê 50 €, 30 % nem "A".
+- **O cliente nunca vê** fornecedor, contactos, custos, margens, referências internas, notas nem a origem
+  comercial: além das tabelas internas (só admin), as colunas internas de `products` (`data_source`,
+  `external_id`, `price_mode`, datas de sincronização, `selected_supplier_id`), das imagens, referências,
+  compatibilidades e veículos **não são legíveis** pelo browser (privilégios por coluna). O admin lê-as pela
+  vista `admin_products` e por `admin_product_offers()` (Admin → Produto → "Fornecedores internos e preço EuroCargo").
+- A IA e a pesquisa só devolvem campos públicos: nunca revelam fornecedores.
+- Produtos sem ofertas de fornecedor (ex.: peças usadas próprias) mantêm preço e stock manuais.
 
 ## Camadas
 
 ```
-Browser (React)                       Supabase
-─────────────────────────────         ──────────────────────────────────────────
-catalogProvider                       tabelas: products, product_images,
- ├─ LocalCatalogProvider  ─────────►   product_vehicle_compatibility, brands,
- │   (search_products RPC, RLS)        vehicle_makes/models/variants, part_categories
- └─ ExternalCatalogProvider ───────►  Edge Function catalog-external ──► API licenciada
-                                        (CATALOG_API_KEY em secrets)
-aiProvider
- ├─ LocalCatalogAssistant (regras,     search_products + log_assistant_exchange
- │   sem IA externa)
- └─ ExternalAiProvider ────────────►  Edge Function ai-assistant ──► fornecedor de IA
-                                        (AI_API_KEY em secrets; a IA só interpreta
-                                         o pedido, os dados vêm de search_products)
+Browser (React)                                Supabase
+──────────────────────────────────            ─────────────────────────────────────────────────────────
+UI (ShopPage, ProductPage, PartsAssistant,
+    VehicleSelector, VehicleLookup, admin)
+        │  (só fala com a interface)
+        ▼
+catalogProvider  (src/services/catalog)
+ ├─ LocalCatalogProvider ───────────────────► catalog_search() / tabelas públicas (RLS)
+ └─ ExternalCatalogProvider ────────────────► Edge Function catalog-external
+                                                 └─ adaptador (_shared/catalog/adapters/*)
+                                                       └─ API licenciada (secrets CATALOG_*)
+                                                 └─ grava via catalog_import_rows() (service_role)
+                                                 └─ responde com catalog_search() (direitos de quem chama)
+aiProvider (src/services/ai)
+ ├─ LocalCatalogAssistant (regras) ─► catalogProvider
+ └─ ExternalAiProvider ────────────────────► Edge Function ai-assistant
+                                                 └─ IA só interpreta → ServerCatalog.searchProducts()
+Admin → Catálogo → Importação ─────────────► admin_catalog_import_* (is_admin) → importador SQL
+Admin → Catálogo → Providers  ─────────────► catalog_sources (RLS admin) · catalog-sync
 ```
 
-Seleção no frontend (`.env`, valores públicos):
+### Interface `CatalogProvider` (`src/services/catalog/types.ts`)
 
-| Variável | Valores | Efeito |
-|---|---|---|
-| `VITE_CATALOG_PROVIDER` | `local` (padrão) / `external` | `external` tenta a Edge Function e volta ao local enquanto não estiver configurada |
-| `VITE_AI_PROVIDER` | `local` (padrão) / `external` | idem para o assistente |
-| `VITE_WHATSAPP_PT` / `VITE_WHATSAPP_ES` | só dígitos, ex.: `351…` / `34…` | ativa os botões WhatsApp (Portugal / Espanha) |
+| Método | Para quê |
+|---|---|
+| `searchProducts(params)` | pesquisa com texto, veículo (marca/modelo/versão/ano/combustível/cilindrada/motor), categoria, estado, marca, disponibilidade, paginação |
+| `getProduct(id)` | página do produto (imagens, compatibilidades) |
+| `searchByReference(ref)` / `searchByOE(oe)` | referência do fabricante / EAN · número OE (inclui referências cruzadas) |
+| `searchByVehicle(vehicle)` | peças compatíveis com um veículo |
+| `searchByVIN(vin)` / `searchByPlate(plate, country)` | só com provider que ofereça o serviço; o local devolve `{ supported: false }` |
+| `getVehicle(ids)`, `getCompatibility(id)`, `getProductImages(id)`, `getAlternatives(product)` | leituras auxiliares |
+| `listCategories/Makes/Models/Variants` | listas de referência (em cache) |
+| `capabilities()` | o que o provider sabe responder (`vin`, `plate`, …) — a UI mostra a pesquisa por VIN/matrícula só quando existe |
+
+Implementações:
+
+- **LocalCatalogProvider** — `catalog_search()` (migração 20261002) e, se ainda não aplicada,
+  `search_products()` (original). Cache de 60 s para pesquisas e de sessão para listas.
+- **ExternalCatalogProvider** — `catalog-external`; leituras por id são locais (os resultados externos são
+  gravados localmente, por isso carrinho, pedidos e preços funcionam igual).
+- **TecDocCatalogProvider** — no servidor: `supabase/functions/_shared/catalog/adapters/tecdoc.ts`
+  (preparado, sem capacidades até existir contrato).
+
+### Escolha do provider (sem rebuild)
+
+`VITE_CATALOG_PROVIDER` (público):
+
+| Valor | Efeito |
+|---|---|
+| `auto` (padrão) | local; usa também o externo enquanto houver uma fonte **ativa** com utilização "Consulta em tempo real"/"Ambos" em Admin → Catálogo → Providers (lida por `catalog_public_config()`, cache 5 min) |
+| `local` | nunca chama o externo |
+| `external` | tenta sempre o externo primeiro |
+
+Em todos os casos, se `catalog-external` não estiver publicada/configurada (HTTP 404/503), responde o catálogo local.
+
+## Pesquisa
+
+`catalog_search(p_params jsonb)`:
+
+1. termos normalizados (sem acentos, minúsculas), com **stems** PT/ES (`pastilhas`→`pastilh`,
+   `dianteira/dianteiro`→`dianteir`) e **sinónimos** da tabela `search_synonyms`
+   (`farol` ↔ `ótica`/`faro`/`headlight`…, editável por admins);
+2. 1.ª passagem: produtos com **todos** os termos (índice trigram, um só varrimento);
+3. se não houver nenhum: produtos com **alguns** termos, ordenados por quantos (limitado a 2000 candidatos por termo);
+4. referências / OE / EAN / referências cruzadas pelo índice de `product_references`;
+5. filtros de veículo: uma compatibilidade sem versão (motor) serve todas as versões do modelo; com versão,
+   é filtrada por combustível, cilindrada (±60 cc), nome/código do motor e anos;
+6. total limitado a 1000 (`total_capped`) para não contar milhões de linhas; paginação por `limit/offset`.
+
+O assistente transforma a pergunta em filtros (`src/services/ai/queryParser.ts`):
+
+| Pergunta | Filtros |
+|---|---|
+| "pastilhas Peugeot 307 1.6 HDI 2005" | texto `pastilhas` · Peugeot · 307 · 2005 · 1600 cc · motor `hdi` · gasóleo |
+| "farol esquerdo Opel Vectra 2008" | texto `farol esquerdo` · Opel · Vectra · 2008 |
+| "amortecedor dianteiro Hyundai Accent 1994" | texto `amortecedor dianteiro` · Hyundai · Accent · 1994 |
+| "referência 123456" | referência `123456` |
+| "OE 123456789" | OE `123456789` |
+
+Se não houver correspondência confirmada: "Não encontrámos uma correspondência confirmada no nosso catálogo.
+Contacte um especialista." (com os botões de contacto/WhatsApp).
+
+## Veículos
+
+Marca → Modelo (+ geração) → Versão/motor (nome, código do motor, combustível, cilindrada, kW, cv, anos) →
+compatibilidade por produto (anos, posição, notas, verificada). O seletor da loja mostra "Motorização" quando
+o modelo tem versões. VIN e matrícula: preparado em `searchByVIN` / `searchByPlate`, ativo só com um provider
+que ofereça esse serviço (a pesquisa não guarda VIN nem matrículas).
+
+## Fornecedores e preços
+
+Cada produto pode ter vários fornecedores (`supplier_products`): referência do fornecedor, custo, moeda,
+stock, estado, disponibilidade, prazo, URL interna/origem, última atualização — tudo só para admins.
+O preço público: preço da fonte, ou regras de margem (produto › fornecedor › categoria › estado › faixa de
+custo › geral) sobre o custo do fornecedor mais barato com stock (`catalog_compute_price`, mesmo cálculo de
+`admin_recalculate_price`). Histórico em `product_price_history`.
 
 ## Onde ficam as credenciais (nunca no frontend)
 
+Só em secrets do Supabase (ou `supabase/functions/.env` em desenvolvimento local, valores vazios por omissão —
+ver `supabase/functions/.env.example`):
+
 ```bash
+# Catálogo licenciado / fornecedor
+supabase secrets set CATALOG_PROVIDER=<adaptador> CATALOG_API_URL=<url> CATALOG_API_KEY=<chave>
+supabase functions deploy catalog-external
+supabase functions deploy catalog-sync
+
 # Fornecedor de IA (quando for escolhido e contratado)
 supabase secrets set AI_PROVIDER=<nome> AI_API_KEY=<chave> AI_MODEL=<modelo opcional>
 supabase functions deploy ai-assistant
-
-# Catálogo licenciado (TecDoc/TecAlliance ou semelhante)
-supabase secrets set CATALOG_PROVIDER=<nome> CATALOG_API_URL=<url> CATALOG_API_KEY=<chave>
-supabase functions deploy catalog-external
 ```
 
-Depois de fazer o deploy, definir `VITE_AI_PROVIDER=external` e/ou `VITE_CATALOG_PROVIDER=external` e fazer um novo build.
+`catalog_sources.config` guarda apenas definições não secretas (a base de dados recusa campos como
+`api_key`, `token`, `secret`, `password`).
 
-## O que falta implementar em cada integração
+## Ativar o TecDoc (quando houver contrato TecAlliance)
 
-1. **IA** — `supabase/functions/_shared/ai-provider.ts`: implementar `AiBackend.interpret()` para o fornecedor escolhido. Deve devolver apenas `{ text, make, model, year, condition, reference }`. A Edge Function aceita apenas veículos que existem na base de dados e responde com linhas de `search_products`.
-2. **Catálogo externo** — `supabase/functions/catalog-external/index.ts`: implementar `ExternalCatalog` (search / product / alternatives) com mapeamento para `CatalogSearchResult` e `ProductDetail` (`src/types/catalog.ts`) e `data_source` = nome do fornecedor.
-3. **Feeds de fornecedores** (stock, custo, prazo): importar para `supplier_products` a partir de uma Edge Function ou tarefa agendada com `service_role`. O preço público calcula-se com `admin_recalculate_price()` / `admin_recalculate_all_prices()`.
-4. **Pesquisa por matrícula / VIN**: exige um catálogo externo que o suporte. O assistente deteta VIN/matrícula e explica que ainda não está disponível.
+1. Implementar `supabase/functions/_shared/catalog/adapters/tecdoc.ts` (o ficheiro descreve o mapeamento
+   artigo → linha canónica) e devolver as capacidades reais.
+2. `supabase secrets set CATALOG_PROVIDER=tecdoc CATALOG_API_URL=… CATALOG_API_KEY=…` e publicar
+   `catalog-external` (e `catalog-sync`, se também for importar).
+3. Admin → Catálogo → Providers → fonte **TecDoc** (já criada, inativa): pôr em `config` o provider id /
+   idioma / país do contrato, escolher a utilização e **ativar**.
+4. `npm run check:supabase` e testar uma pesquisa na loja.
+
+## Adicionar outro fornecedor / catálogo
+
+- **Ficheiros**: criar uma fonte "Ficheiros" em Providers e importar (sem código).
+- **API com o contrato EuroCargo** ([catalog-import.md](catalog-import.md#api--feed-rest-sincronização-incremental)):
+  adaptador `eurocargo-feed`, sem código.
+- **Outra API**: criar `supabase/functions/_shared/catalog/adapters/<nome>.ts` que implemente `CatalogAdapter`
+  (`search`, `fetchChanges`, `decodeVin`… o que a API oferecer) mapeando para `ImportRow`, registá-lo em
+  `registry.ts`, definir `CATALOG_PROVIDER=<nome>` e criar a fonte em Providers.
+
+Nota: os secrets `CATALOG_*` configuram um adaptador de cada vez. Para vários fornecedores por API em
+simultâneo, generalizar `registry.ts` para ler secrets por fonte (ex.: `CATALOG_<CHAVE>_API_KEY`).
+
+## Desempenho (centenas de milhares / milhões de registos)
+
+- Paginação no servidor (máx. 60 por página); nunca se carregam milhares de produtos no navegador.
+- Índices: trigram em `search_text`, `product_references(reference_norm)`, `(data_source, external_id)`,
+  `(brand_id, referência normalizada)`, compatibilidades por veículo, nomes de modelos/versões.
+- Contagem limitada a 1000; listas admin com contagem estimada; árvore de veículos no admin filtrada por
+  marca/modelo.
+- Importação em blocos, uma transação por bloco, refresco do texto de pesquisa uma vez por produto.
+- Sincronização incremental por cursor; cache das consultas externas (`catalog_live_queries`, `cache_ttl_minutes`).
+- Medição local (Postgres em WASM, 100 000 produtos sintéticos): referência ~60 ms; texto 200–400 ms;
+  texto + veículo sem correspondência total ~1,1 s (passagem "alguns termos"). Num Postgres real é mais rápido;
+  acima de alguns milhões de produtos, considerar um motor de pesquisa dedicado (Postgres FTS com
+  `tsvector`, Typesense, Meilisearch) como mais um `CatalogProvider`.
 
 ## Licenças e dados
 
 - Não fazer scraping de lojas nem copiar imagens, preços ou dados sem autorização.
-- Imagens: apenas próprias ou licenciadas. O campo `product_images.source` guarda o crédito ou a licença.
-- Custos de fornecedor (`supplier_products.cost_price`), margens (`price_rules`) e histórico de preços são visíveis apenas para administradores (RLS).
+- Imagens: apenas próprias ou licenciadas; licença obrigatória na importação (`product_images.license`),
+  origem em `product_images.source`, URL original em `product_image_sources` (admin).

@@ -13,7 +13,11 @@ npm run dev               # http://localhost:5173
 npm run build             # typecheck + build de produção (dist/)
 npm run lint              # oxlint
 npm run typecheck         # só TypeScript
+npm test                  # testes unitários (importador CSV/JSON/XML, interpretação de pesquisas)
 npm run check:supabase    # teste de ligação ao Supabase do .env (só leitura)
+npm run check:catalog     # teste funcional do catálogo no Supabase do .env (visitante, só leitura)
+npm run test:e2e          # testes no browser (Chrome) contra `vite preview --port 4180`: loja, pesquisa, produto, carrinho, assistente, rastreio, login, admin protegido, idiomas, telemóvel
+npm run import:catalog -- ficheiro.csv --dry-run   # validar / importar catálogos grandes (docs/catalog-import.md)
 ```
 
 Sem `.env`, o site abre na mesma, mas mostra um aviso e as funcionalidades de conta e rastreamento ficam indisponíveis.
@@ -27,17 +31,23 @@ src/
   pages/        páginas públicas, de cliente, shop/ (loja) e admin/
   services/     acesso a dados (Supabase): auth, shipments, tracking, payments, admin,
                 orders, cart, whatsapp, adminCatalog, adminOrders,
-                catalog/ (catalogProvider: Local / External), ai/ (AiProvider: LocalCatalogAssistant / External)
+                catalog/ (CatalogProvider: Local / External + escolha em tempo de execução),
+                catalogImport/ (parsers CSV/JSON/XML, mapeamento e validação, envio em blocos),
+                ai/ (AiProvider: LocalCatalogAssistant / External; queryParser)
   hooks/        useAuth, useAsync
   i18n/         pt/es/en/fr/de/it + parts/ (textos da loja e do admin) e o provider
   lib/          cliente Supabase
   types/        tipos de domínio (espelham o schema SQL)
   utils/        formatação, validação, países
 supabase/
-  migrations/   schema inicial + migrações incrementais (estados de tracking, catálogo/pedidos, seed demo)
-  functions/    Edge Functions: create-checkout, payment-webhook, ai-assistant, catalog-external
+  migrations/   schema inicial + migrações incrementais (estados de tracking, catálogo/pedidos, seed demo,
+                catálogo em escala: providers, importação, referências, veículos, imagens, pesquisa)
+  functions/    Edge Functions: create-checkout, payment-webhook, ai-assistant, catalog-external, catalog-sync
+                _shared/catalog/: CatalogProvider do servidor, adaptadores (eurocargo-feed, tecdoc)
 docs/
-  catalog-and-ai.md   arquitetura do catálogo/assistente e onde ligar APIs licenciadas
+  catalog-and-ai.md   arquitetura CatalogProvider, pesquisa, credenciais, ativar TecDoc, novos fornecedores
+  catalog-import.md   importação CSV/JSON/XML/API: campos, regras, formatos, contrato de feed
+  examples/           ficheiros de exemplo (só formato, sem produtos reais)
 ```
 
 ## Idiomas
@@ -59,7 +69,8 @@ Para adicionar um idioma: criar `src/i18n/<código>.ts` tipado como `Dictionary`
 
 1. Criar um projeto em https://supabase.com (região na UE, por exemplo Frankfurt, por causa do RGPD).
 2. Aplicar as migrações de `supabase/migrations/` **por ordem e uma única vez**:
-   `20260930000000_initial_schema` → `20261001000000_tracking_statuses` → `20261001000100_parts_catalog_orders` → `20261001000200_demo_catalog_seed` (opcional: dados de demonstração).
+   `20260930000000_initial_schema` → `20261001000000_tracking_statuses` → `20261001000100_parts_catalog_orders` → `20261001000200_demo_catalog_seed` (opcional: dados de demonstração) → `20261002000000_catalog_scale_import` (catálogo em escala; aditiva — não apaga dados nem os produtos DEMO) → `20261003000000_catalog_import_match_fix` (atualizações de preço/stock sem coluna de estado) → `20261004000000_eurocargo_seller_model` (EuroCargo vendedora: vários fornecedores internos por produto, escolha da melhor oferta, stock agregado, colunas internas invisíveis para clientes) → `20261004000100_demo_catalog_expansion` (opcional: catálogo DEMO alargado, ~750 produtos, 15 categorias, 3 fornecedores DEMO).
+   Enquanto a última não estiver aplicada, a loja continua a funcionar com a pesquisa original (`search_products`) e as páginas de importação/providers mostram um aviso.
    Cada ficheiro deve correr na sua própria execução (um valor novo de enum só pode ser usado depois de confirmado).
    - pelo **SQL Editor** (um ficheiro de cada vez), ou
    - com a CLI: `supabase link --project-ref <ref>` e depois `supabase db push` (só aplica migrações em falta).
@@ -101,13 +112,20 @@ where user_id = (select id from auth.users where email = 'admin@exemplo.com');
   - clientes veem apenas o seu registo de cliente, moradas e pedidos; criam pedidos só através de `create_part_request`, que usa os preços da base de dados;
   - notas internas dos pedidos (`order_notes`) nunca são visíveis ao cliente;
   - `admin_create_shipment` / `admin_generate_tracking_code`: só administradores; permitem emitir o código de rastreio sem o pagamento online (encomendas por telefone/WhatsApp), ficando `tracking_fee_waived = true`.
+- Modelo vendedor (migração `20261004000000`): a EuroCargo é a vendedora; fornecedores, custos, margens, referências internas e origem dos dados nunca são legíveis pelo cliente (tabelas só admin + privilégios por coluna em `products`, imagens, referências, compatibilidades e veículos). O admin vê tudo em `admin_products` e `admin_product_offers()`. Ver [docs/catalog-and-ai.md](docs/catalog-and-ai.md#modelo-comercial-a-eurocargo-é-a-vendedora).
+- Catálogo em escala (migração `20261002000000`):
+  - público: `catalog_search()` (direitos de quem chama, RLS), `catalog_public_config()` (só chave/tipo/capacidades das fontes ativas), referências públicas (`product_references`: referência, OE, EAN, cruzadas — nunca referências de fornecedor) e sinónimos;
+  - só administradores: `catalog_sources`, `catalog_import_batches`, `product_image_sources` (URL original das imagens), `catalog_live_queries`; importação por `admin_catalog_import_*` (verificam `is_admin()`);
+  - só `service_role` (Edge Functions): `catalog_import_*` e `catalog_compute_price`;
+  - nenhuma credencial na base de dados: `catalog_sources.config` recusa campos `api_key`/`token`/`secret`/`password`.
 - Tracking público (`get_tracking`): estado, histórico (data, localização, descrição), cidade/país de origem e destino e o destinatário abreviado ("João F."). Nunca telefones, emails, moradas, preços, fornecedores ou dados internos.
 
 ## Loja de peças, assistente e administração
 
 - Rotas públicas: `/pecas`, `/pecas/:id`, `/veiculos`, `/categorias`, `/carrinho`, `/rastrear` (alias de `/track`). Cliente: `/dashboard`, `/pedidos/:id`.
-- Admin: `/admin` (visão geral), `/admin/orders` (incluindo criar encomenda manual), `/admin/customers`, `/admin/shipments/new`, `/admin/products`, `/admin/catalog`, `/admin/brands`, `/admin/suppliers`, `/admin/pricing`, `/admin/payments`, `/admin/ai`.
-- **Dados de demonstração**: a migração `20261001000200` cria 8 produtos fictícios (marca "DEMO Parts", selo DEMO na loja) para testar. Categorias e veículos criados são dados de referência reais. Para apagar tudo o que é demo: **Admin → Preços → Apagar dados de demonstração**.
+- Admin: `/admin` (visão geral), `/admin/orders` (incluindo criar encomenda manual), `/admin/customers`, `/admin/shipments/new`, `/admin/products`, `/admin/catalog`, `/admin/catalog/import` (importação CSV/JSON/XML), `/admin/catalog/providers` (fontes de catálogo: ativar/desativar, sincronizar), `/admin/brands`, `/admin/suppliers`, `/admin/pricing`, `/admin/payments`, `/admin/ai`.
+- **Catálogo em escala** (migração `20261002000000`): `CatalogProvider` com fontes locais/externas trocáveis sem rebuild, importação em massa com validação e sem duplicados, vários fornecedores por produto, referências OE/EAN/cruzadas indexadas, veículos com geração e motorização, imagens com licença e imagem principal, pesquisa com sinónimos/stems e filtros de motor. Ver [docs/catalog-and-ai.md](docs/catalog-and-ai.md) e [docs/catalog-import.md](docs/catalog-import.md).
+- **Dados de demonstração**: a migração `20261001000200` cria 8 produtos fictícios (marca "DEMO Parts", selo DEMO na loja) e a `20261004000100` alarga para ~750 produtos DEMO (15 categorias, veículos populares na Europa, 3 fornecedores internos DEMO com custos/stock/prazos, marcas "DEMO …", sem códigos OE/EAN inventados). Produtos sem foto mostram uma imagem ilustrativa da categoria. Categorias e veículos criados são dados de referência reais. Para apagar tudo o que é demo: **Admin → Preços → Apagar dados de demonstração**.
 - **Preços**: preço público = custo do fornecedor × (1 + margem %) + valor fixo, pela regra mais específica (produto › fornecedor › categoria › estado › faixa de custo › geral). O cliente nunca vê custo nem margem.
 - **Assistente**: por omissão é local (sem IA externa). Interpreta o pedido (peça, marca, modelo, ano, estado, referência) e mostra apenas o que existe no catálogo. Quando não encontra: "Não encontrei uma correspondência confirmada no catálogo…" e oferece falar com um especialista.
 - **WhatsApp**: `VITE_WHATSAPP_PT` (Portugal) e `VITE_WHATSAPP_ES` (Espanha), números públicos só com dígitos. O site escolhe o número pelo país da conta do cliente (PT/ES) ou, sem conta, pelo idioma (pt → Portugal, es → Espanha); noutros idiomas mostra os dois. A secção Contactos lista sempre ambos. Mensagens pré-preenchidas via `wa.me`.
@@ -164,4 +182,7 @@ URLs oficiais: `/rastrear` (tracking; `/track` redireciona), `/pecas`, `/pedido`
 - Contactos: configurados no `.env` (email e WhatsApp PT/ES). Sem telefone fixo nem morada física (empresa online); `VITE_CONTACT_PHONE` fica vazio.
 - Imagem Open Graph (`og:image`): ainda não definida.
 - Fornecedor de IA e catálogo licenciado (contratos e credenciais) — ver `docs/catalog-and-ai.md`.
+- Publicar `catalog-external` / `catalog-sync` quando houver um fornecedor com API.
+- Carregar o primeiro catálogo real (docs/catalog-import.md → "Primeiro catálogo real") e, depois, apagar os dados DEMO.
+- Adaptador TecDoc: preparado em `supabase/functions/_shared/catalog/adapters/tecdoc.ts`, implementar com a documentação do contrato TecAlliance.
 - Pagamento online de pedidos de peças: os pedidos são confirmados pela equipa; o Stripe continua ligado apenas à taxa de rastreio.

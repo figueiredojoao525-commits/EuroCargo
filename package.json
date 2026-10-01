@@ -9,7 +9,11 @@
     "lint": "oxlint",
     "typecheck": "tsc -b",
     "preview": "vite preview",
-    "check:supabase": "node scripts/check-supabase.mjs"
+    "check:supabase": "node scripts/check-supabase.mjs",
+    "test": "node scripts/run-tests.mjs",
+    "check:catalog": "node scripts/check-catalog.mjs",
+    "import:catalog": "node scripts/import-catalog.mjs",
+    "test:e2e": "node scripts/e2e.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2",
@@ -23,6 +27,7 @@
     "@types/react-dom": "^19.2.7",
     "@vitejs/plugin-react": "^6.1.1",
     "oxlint": "^1.81.0",
+    "puppeteer-core": "^23.11.1",
     "typescript": "~6.0.2",
     "vite": "^8.3.0"
   }

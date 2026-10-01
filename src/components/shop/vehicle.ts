@@ -2,7 +2,9 @@
 export interface VehicleValue {
   makeId: string
   modelId: string
+  /** Engine / version (vehicle_variants). */
+  variantId: string
   year: string
 }
 
-export const EMPTY_VEHICLE: VehicleValue = { makeId: '', modelId: '', year: '' }
+export const EMPTY_VEHICLE: VehicleValue = { makeId: '', modelId: '', variantId: '', year: '' }

@@ -1,0 +1,25 @@
+{
+  "_nota": "EXEMPLO DE FORMATO — não são produtos reais. Ver docs/catalog-import.md.",
+  "items": [
+    {
+      "external_id": "EXEMPLO-ART-1",
+      "reference": "EXEMPLO-0002",
+      "brand": "MarcaExemplo",
+      "name": "Amortecedor dianteiro (EXEMPLO DE FORMATO)",
+      "category": "Suspensão",
+      "condition": "new",
+      "currency": "EUR",
+      "stock": 2,
+      "oe_numbers": ["OE-EXEMPLO-3"],
+      "cross_references": [{ "reference": "CR-EXEMPLO-1", "brand": "OutraMarca" }],
+      "supplier": "Fornecedor Exemplo",
+      "supplier_reference": "FX-2",
+      "cost": 30.5,
+      "images": [{ "url": "https://exemplo.invalid/a.jpg", "license": "Licença do fornecedor", "is_primary": true }],
+      "vehicles": [
+        { "make": "Hyundai", "model": "Accent", "year_from": 1994, "year_to": 1999, "position": "Dianteiro" }
+      ],
+      "source_updated_at": "2026-10-01T00:00:00Z"
+    }
+  ]
+}

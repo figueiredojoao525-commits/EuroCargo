@@ -3,7 +3,7 @@
 // The model is ONLY used to understand the customer's request (extract part,
 // vehicle, year, condition, reference). It never produces product data:
 // products, prices, stock and compatibility always come from the database
-// (search_products), so the assistant cannot invent them.
+// (CatalogProvider → catalog_search), so the assistant cannot invent them.
 //
 // To add a provider: implement AiBackend, return it from getAiBackend() when its
 // secrets are set, e.g.
@@ -18,6 +18,12 @@ export interface ParsedRequest {
   year?: number
   condition?: 'new' | 'used'
   reference?: string
+  /** Original-equipment number, when the customer gives one ("OE 123…"). */
+  oe?: string
+  /** Engine family / code ("hdi", "9HZ"), fuel and size in cc ("1.6" → 1600). */
+  engine?: string
+  fuel?: 'petrol' | 'diesel' | 'hybrid' | 'electric' | 'lpg' | 'other'
+  engineCc?: number
 }
 
 export interface AiBackend {

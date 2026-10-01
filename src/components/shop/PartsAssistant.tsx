@@ -10,6 +10,7 @@ import { Alert } from '../Alert'
 import { Icon } from '../Icon'
 import { AvailabilityBadge, ConditionBadge, DemoBadge, PriceDisplay } from './Badges'
 import { ContactSpecialist } from './ContactSpecialist'
+import { ProductIllustration } from './ProductIllustration'
 
 type Message =
   | { id: number; role: 'user'; text: string }
@@ -35,8 +36,11 @@ function AnswerView({ answer }: { answer: AssistantAnswer }) {
     parsed.text,
     vehicle,
     parsed.year,
+    [parsed.engineCc && (parsed.engineCc / 1000).toFixed(1), parsed.engine?.toUpperCase()].filter(Boolean).join(' '),
+    parsed.fuel && t.fuel[parsed.fuel],
     parsed.condition && t.condition[parsed.condition],
     parsed.reference && `${t.shop.ref} ${parsed.reference}`,
+    parsed.oe && `${t.shop.oe} ${parsed.oe}`,
   ].filter(Boolean)
 
   const summary =
@@ -65,7 +69,13 @@ function AnswerView({ answer }: { answer: AssistantAnswer }) {
             const compat = first.compatibility[0]
             return (
               <li key={first.group_key ?? first.id} className="assistant-result">
-                {first.image && <img className="assistant-result-image" src={first.image} alt="" loading="lazy" />}
+                {first.image ? (
+                  <img className="assistant-result-image" src={first.image} alt="" loading="lazy" />
+                ) : (
+                  <div className="assistant-result-image">
+                    <ProductIllustration categorySlug={first.category?.slug} size="sm" />
+                  </div>
+                )}
                 <div className="assistant-result-head">
                   <strong>{localized(first.name, first.name_i18n, lang)}</strong>
                   {first.is_demo && <DemoBadge />}

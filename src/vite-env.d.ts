@@ -10,8 +10,11 @@ interface ImportMetaEnv {
   /** Public WhatsApp business numbers per country, international format, digits only. */
   readonly VITE_WHATSAPP_PT?: string
   readonly VITE_WHATSAPP_ES?: string
-  /** 'external' = licensed catalogue via the catalog-external Edge Function (falls back to local). */
-  readonly VITE_CATALOG_PROVIDER?: 'local' | 'external'
+  /**
+   * auto (default) = licensed catalogue only while a live source is enabled in Admin → Providers;
+   * external = always try the catalog-external Edge Function first; local = never. Falls back to local.
+   */
+  readonly VITE_CATALOG_PROVIDER?: 'auto' | 'local' | 'external'
   /** 'external' = AI provider via the ai-assistant Edge Function (falls back to local). */
   readonly VITE_AI_PROVIDER?: 'local' | 'external'
 }

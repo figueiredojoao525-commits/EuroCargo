@@ -56,7 +56,7 @@ export function ProductPage() {
       {p.is_demo && <Alert tone="warning">{t.shop.demoProductNotice}</Alert>}
 
       <div className="product-main">
-        <ProductGallery images={p.product_images} name={name} />
+        <ProductGallery images={p.product_images} name={name} categorySlug={p.category?.slug} />
 
         <div className="product-info">
           <div className="product-badges">
@@ -90,12 +90,6 @@ export function ProductPage() {
               <>
                 <dt>{t.shop.oe}</dt>
                 <dd className="mono">{p.oe_numbers.join(', ')}</dd>
-              </>
-            )}
-            {p.stock_quantity !== null && p.availability === 'in_stock' && (
-              <>
-                <dt>{t.shop.stock}</dt>
-                <dd>{p.stock_quantity}</dd>
               </>
             )}
           </dl>
@@ -201,8 +195,7 @@ export function ProductPage() {
             </dl>
           )}
           <p className="muted small">
-            {t.shop.dataSource}: {p.data_source} · {t.shop.updated}{' '}
-            {formatDate(p.source_updated_at ?? p.updated_at, lang)}
+            {t.shop.updated} {formatDate(p.updated_at, lang)}
           </p>
         </section>
       </div>

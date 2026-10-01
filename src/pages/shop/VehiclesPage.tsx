@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Icon } from '../../components/Icon'
 import { Spinner } from '../../components/Spinner'
 import { EMPTY_VEHICLE } from '../../components/shop/vehicle'
+import { VehicleLookup } from '../../components/shop/VehicleLookup'
 import { VehicleSelector } from '../../components/shop/VehicleSelector'
 import { useAsync } from '../../hooks/useAsync'
 import { useI18n } from '../../i18n/context'
@@ -21,6 +22,7 @@ export function VehiclesPage() {
     const params = new URLSearchParams()
     if (vehicle.makeId) params.set('make', vehicle.makeId)
     if (vehicle.modelId) params.set('model', vehicle.modelId)
+    if (vehicle.variantId) params.set('variant', vehicle.variantId)
     if (vehicle.year) params.set('year', vehicle.year)
     navigate(`/pecas?${params.toString()}`)
   }
@@ -39,7 +41,7 @@ export function VehiclesPage() {
           {t.vehicles.showParts}
           <Icon name="arrowRight" size={18} />
         </button>
-        <p className="muted small">{t.vehicles.vinHint}</p>
+        <VehicleLookup />
       </section>
 
       <h2 className="mt">{t.vehicles.browse}</h2>

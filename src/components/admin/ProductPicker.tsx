@@ -25,7 +25,7 @@ export function ProductPicker({ onPick }: { onPick: (item: CatalogItem) => void 
     setBusy(true)
     setError('')
     try {
-      const result = await catalogProvider.search({ query, reference: query, limit: 10 })
+      const result = await catalogProvider.searchProducts({ query, reference: query, limit: 10 })
       setItems(result.items)
     } catch (err) {
       setError(getErrorMessage(err, t))

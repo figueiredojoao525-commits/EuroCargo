@@ -38,6 +38,11 @@ const AdminProductEditPage = lazyPage(() => import('./pages/admin/AdminProductEd
 const AdminBrandsPage = lazyPage(() => import('./pages/admin/AdminBrandsPage'), 'AdminBrandsPage')
 const AdminSuppliersPage = lazyPage(() => import('./pages/admin/AdminSuppliersPage'), 'AdminSuppliersPage')
 const AdminCatalogPage = lazyPage(() => import('./pages/admin/AdminCatalogPage'), 'AdminCatalogPage')
+const AdminCatalogImportPage = lazyPage(() => import('./pages/admin/AdminCatalogImportPage'), 'AdminCatalogImportPage')
+const AdminCatalogProvidersPage = lazyPage(
+  () => import('./pages/admin/AdminCatalogProvidersPage'),
+  'AdminCatalogProvidersPage',
+)
 const AdminPricingPage = lazyPage(() => import('./pages/admin/AdminPricingPage'), 'AdminPricingPage')
 const AdminCustomersPage = lazyPage(() => import('./pages/admin/AdminCustomersPage'), 'AdminCustomersPage')
 const AdminOrdersPage = lazyPage(() => import('./pages/admin/AdminOrdersPage'), 'AdminOrdersPage')
@@ -100,6 +105,8 @@ export default function App() {
             <Route path="brands" element={<AdminBrandsPage />} />
             <Route path="suppliers" element={<AdminSuppliersPage />} />
             <Route path="catalog" element={<AdminCatalogPage />} />
+            <Route path="catalog/import" element={<AdminCatalogImportPage />} />
+            <Route path="catalog/providers" element={<AdminCatalogProvidersPage />} />
             <Route path="pricing" element={<AdminPricingPage />} />
             <Route path="ai" element={<AdminAiPage />} />
           </Route>

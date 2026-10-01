@@ -27,6 +27,7 @@ export function ShopPage() {
   const vehicle: VehicleValue = {
     makeId: params.get('make') ?? '',
     modelId: params.get('model') ?? '',
+    variantId: params.get('variant') ?? '',
     year: params.get('year') ?? '',
   }
   const condition = params.get('condition')
@@ -39,10 +40,11 @@ export function ShopPage() {
   const categories = useAsync(() => catalogProvider.listCategories(), [])
   const results = useAsync(
     () =>
-      catalogProvider.search({
+      catalogProvider.searchProducts({
         query,
         makeId: vehicle.makeId || undefined,
         modelId: vehicle.modelId || undefined,
+        variantId: vehicle.variantId || undefined,
         year: vehicle.year ? Number(vehicle.year) : undefined,
         categoryId: filters.categoryId || undefined,
         condition: filters.condition || undefined,
@@ -51,7 +53,16 @@ export function ShopPage() {
         limit: PAGE_SIZE,
         offset: page * PAGE_SIZE,
       }),
-    [query, vehicle.makeId, vehicle.modelId, vehicle.year, filters.categoryId, filters.condition, page],
+    [
+      query,
+      vehicle.makeId,
+      vehicle.modelId,
+      vehicle.variantId,
+      vehicle.year,
+      filters.categoryId,
+      filters.condition,
+      page,
+    ],
   )
 
   function update(next: Record<string, string>) {
@@ -80,7 +91,7 @@ export function ShopPage() {
           <h2 className="card-title">{t.shop.vehicle}</h2>
           <VehicleSelector
             value={vehicle}
-            onChange={(v) => update({ make: v.makeId, model: v.modelId, year: v.year })}
+            onChange={(v) => update({ make: v.makeId, model: v.modelId, variant: v.variantId, year: v.year })}
           />
           <h2 className="card-title">{t.shop.filters}</h2>
           <ProductFilters
@@ -103,7 +114,11 @@ export function ShopPage() {
           {results.loading && !data && <Spinner />}
           {data && (
             <>
-              <p className="muted results-count">{interpolate(t.shop.resultsCount, { count: String(data.total) })}</p>
+              <p className="muted results-count">
+                {interpolate(t.shop.resultsCount, {
+                  count: data.total_capped ? `${data.total}+` : String(data.total),
+                })}
+              </p>
               {data.items.length === 0 ? (
                 <div className="card empty">
                   <p>{t.shop.noResults}</p>

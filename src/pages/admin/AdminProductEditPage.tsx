@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Alert } from '../../components/Alert'
 import { CrudManager, type CrudField } from '../../components/admin/CrudManager'
+import { ProductOffersPanel } from '../../components/admin/ProductOffersPanel'
 import { Field } from '../../components/Field'
 import { Icon } from '../../components/Icon'
 import { Spinner } from '../../components/Spinner'
@@ -23,6 +24,8 @@ import {
   recalculatePrice,
   saveCompatibility,
   saveImage,
+  setPrimaryImage,
+  withoutEmpty,
   saveProduct,
   saveSupplierProduct,
   uploadProductImage,
@@ -33,6 +36,7 @@ import {
   type CompatibilityWithNames,
   type PriceCalculation,
   type Product,
+  type ProductImage,
   type SupplierProduct,
 } from '../../types'
 import { formatYears } from '../../utils/catalog'
@@ -158,6 +162,7 @@ export function AdminProductEditPage() {
         <div className="stack mt">
           <ImagesSection productId={id!} images={bundle.data.images} onChanged={bundle.reload} />
           <CompatibilitySection productId={id!} rows={bundle.data.compatibility} onChanged={bundle.reload} />
+          <ProductOffersPanel productId={id!} version={bundle.data} />
           <SuppliersSection productId={id!} rows={bundle.data.supplierProducts} onChanged={bundle.reload} />
           <PricingSection productId={id!} onApplied={bundle.reload} />
           <section className="card">
@@ -414,12 +419,15 @@ function ImagesSection({
   onChanged,
 }: {
   productId: string
-  images: { id: string; url: string; alt: string | null; source: string | null; position: number }[]
+  images: ProductImage[]
   onChanged: () => void
 }) {
   const { t } = useI18n()
   const [url, setUrl] = useState('')
   const [source, setSource] = useState('')
+  const [license, setLicense] = useState('')
+  // Columns added by migration 20261002 (only used once it is applied).
+  const hasImageExtras = images.length === 0 || 'is_primary' in images[0]
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
 
@@ -427,7 +435,13 @@ function ImagesSection({
     setBusy(true)
     setError('')
     try {
-      await saveImage({ product_id: productId, url: imageUrl, source: source.trim() || null, position: images.length })
+      await saveImage({
+        product_id: productId,
+        url: imageUrl,
+        source: source.trim() || null,
+        position: images.length,
+        ...(license.trim() ? { license: license.trim() } : {}),
+      })
       setUrl('')
       onChanged()
     } catch (err) {
@@ -463,7 +477,22 @@ function ImagesSection({
           <figure key={image.id}>
             <img src={image.url} alt={image.alt ?? ''} loading="lazy" />
             <figcaption>
-              {image.source && <span className="muted small">{image.source}</span>}
+              {image.is_primary && <span className="badge badge-delivered">{t.adminProducts.primaryImage}</span>}
+              {(image.source || image.license) && (
+                <span className="muted small">{[image.source, image.license].filter(Boolean).join(' · ')}</span>
+              )}
+              {hasImageExtras && !image.is_primary && 'is_primary' in image && (
+                <button
+                  type="button"
+                  className="btn btn-ghost btn-sm"
+                  onClick={async () => {
+                    await setPrimaryImage(productId, image.id).catch((e) => setError(getErrorMessage(e, t)))
+                    onChanged()
+                  }}
+                >
+                  {t.adminProducts.setPrimary}
+                </button>
+              )}
               <button
                 type="button"
                 className="btn btn-ghost btn-sm"
@@ -483,6 +512,11 @@ function ImagesSection({
         <Field label={t.adminProducts.imageSource} htmlFor="img-source" hint={t.adminProducts.imageSourceHint}>
           <input id="img-source" maxLength={200} value={source} onChange={(e) => setSource(e.target.value)} />
         </Field>
+        {hasImageExtras && (
+          <Field label={t.adminProviders.imageLicense} htmlFor="img-license">
+            <input id="img-license" maxLength={200} value={license} onChange={(e) => setLicense(e.target.value)} />
+          </Field>
+        )}
         <Field label={t.adminProducts.upload} htmlFor="img-file">
           <input
             id="img-file"
@@ -578,7 +612,6 @@ function CompatibilitySection({
       hint: t.adminProducts.positionHint,
     },
     { key: 'notes', label: t.adminCommon.notes, maxLength: 500 },
-    { key: 'source', label: t.shop.dataSource, maxLength: 60, initial: 'manual' },
     { key: 'verified', label: t.shop.verified, type: 'checkbox', column: true },
   ]
 
@@ -646,6 +679,7 @@ function SuppliersSection({
       column: true,
       options: AVAILABILITIES.map((a) => ({ value: a, label: t.availability[a] })),
     },
+    { key: 'source_url', label: t.adminImport.fields.supplier_url, type: 'url', maxLength: 500 },
     { key: 'active', label: t.adminCommon.active, type: 'checkbox', initial: true, column: true },
   ]
   return (
@@ -657,7 +691,11 @@ function SuppliersSection({
         fields={fields}
         onSave={(row, id) =>
           saveSupplierProduct(
-            { ...row, product_id: productId, currency: String(row.currency ?? 'EUR').toUpperCase() },
+            {
+              ...withoutEmpty(row, 'source_url'),
+              product_id: productId,
+              currency: String(row.currency ?? 'EUR').toUpperCase(),
+            },
             id,
           )
         }

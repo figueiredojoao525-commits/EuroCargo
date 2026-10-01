@@ -1,37 +1,70 @@
+import type { CatalogCapability } from '../../types'
+import { clearPublicConfig, hasLiveSource } from './config'
 import { externalCatalogProvider } from './externalCatalogProvider'
-import { localCatalogProvider } from './localCatalogProvider'
+import { clearCatalogCache as clearLocalCache, localCatalogProvider } from './localCatalogProvider'
 import { CatalogNotConfiguredError, type CatalogProvider } from './types'
 
-export { clearCatalogCache } from './localCatalogProvider'
-export { CatalogNotConfiguredError, type CatalogProvider } from './types'
+export { CatalogNotConfiguredError, type CatalogProvider, type SearchOptions } from './types'
+export { loadPublicConfig } from './config'
 
-/**
- * VITE_CATALOG_PROVIDER=external uses the licensed catalogue first and falls back to
- * the local one while it is not configured. Default: local.
- */
-function withFallback(primary: CatalogProvider, fallback: CatalogProvider): CatalogProvider {
-  const attempt =
-    <A extends unknown[], R>(pick: (p: CatalogProvider) => (...args: A) => Promise<R>) =>
-    async (...args: A): Promise<R> => {
-      try {
-        return await pick(primary)(...args)
-      } catch (error) {
-        if (error instanceof CatalogNotConfiguredError) return pick(fallback)(...args)
-        throw error
-      }
-    }
-  return {
-    name: `${primary.name}+${fallback.name}`,
-    search: attempt((p) => p.search),
-    getProduct: attempt((p) => p.getProduct),
-    getAlternatives: attempt((p) => p.getAlternatives),
-    listCategories: attempt((p) => p.listCategories),
-    listMakes: attempt((p) => p.listMakes),
-    listModels: attempt((p) => p.listModels),
-  }
+/** Clears cached reference lists, searches and provider configuration (after admin edits / imports). */
+export function clearCatalogCache() {
+  clearLocalCache()
+  clearPublicConfig()
 }
 
-export const catalogProvider: CatalogProvider =
-  import.meta.env.VITE_CATALOG_PROVIDER === 'external'
-    ? withFallback(externalCatalogProvider, localCatalogProvider)
-    : localCatalogProvider
+/**
+ * Picks the provider for each call:
+ * - VITE_CATALOG_PROVIDER=local    → always the local catalogue;
+ * - VITE_CATALOG_PROVIDER=external → the licensed catalogue first;
+ * - unset / auto (default)         → the licensed catalogue only while an admin has a live
+ *   source enabled in Admin → Catálogo → Providers (no rebuild needed).
+ * Whenever the external side is not configured, the local catalogue answers instead.
+ */
+const mode = import.meta.env.VITE_CATALOG_PROVIDER ?? 'auto'
+
+async function externalEnabled(): Promise<boolean> {
+  if (mode === 'local') return false
+  if (mode === 'external') return true
+  return hasLiveSource()
+}
+
+type Method = Exclude<keyof CatalogProvider, 'name' | 'capabilities'>
+
+function routed<K extends Method>(method: K): CatalogProvider[K] {
+  const call = async (...args: unknown[]) => {
+    const local = localCatalogProvider[method] as (...a: unknown[]) => Promise<unknown>
+    if (!(await externalEnabled())) return local(...args)
+    try {
+      return await (externalCatalogProvider[method] as (...a: unknown[]) => Promise<unknown>)(...args)
+    } catch (error) {
+      if (error instanceof CatalogNotConfiguredError) return local(...args)
+      throw error
+    }
+  }
+  return call as CatalogProvider[K]
+}
+
+export const catalogProvider: CatalogProvider = {
+  name: mode === 'local' ? 'local' : 'external+local',
+  async capabilities() {
+    const all = new Set<CatalogCapability>(await localCatalogProvider.capabilities())
+    if (await externalEnabled()) for (const c of await externalCatalogProvider.capabilities()) all.add(c)
+    return all
+  },
+  searchProducts: routed('searchProducts'),
+  getProduct: routed('getProduct'),
+  searchByReference: routed('searchByReference'),
+  searchByOE: routed('searchByOE'),
+  searchByVehicle: routed('searchByVehicle'),
+  searchByVIN: routed('searchByVIN'),
+  searchByPlate: routed('searchByPlate'),
+  getVehicle: routed('getVehicle'),
+  getCompatibility: routed('getCompatibility'),
+  getProductImages: routed('getProductImages'),
+  getAlternatives: routed('getAlternatives'),
+  listCategories: routed('listCategories'),
+  listMakes: routed('listMakes'),
+  listModels: routed('listModels'),
+  listVariants: routed('listVariants'),
+}

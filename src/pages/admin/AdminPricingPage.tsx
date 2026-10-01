@@ -8,12 +8,17 @@ import { interpolate } from '../../i18n'
 import { useI18n } from '../../i18n/context'
 import {
   deletePriceRule,
+  getOfferStrategy,
   listCategoriesAdmin,
   listPriceRules,
   listSuppliers,
+  OFFER_STRATEGIES,
   purgeDemoData,
   recalculateAllPrices,
+  refreshAllOffers,
+  saveOfferStrategy,
   savePriceRule,
+  type OfferStrategy,
 } from '../../services/adminCatalog'
 import { getErrorMessage } from '../../services/errors'
 import { PRICE_RULE_SCOPES, type PriceRule } from '../../types'
@@ -24,6 +29,7 @@ export function AdminPricingPage() {
   const rules = useAsync(listPriceRules, [])
   const suppliers = useAsync(listSuppliers, [])
   const categories = useAsync(listCategoriesAdmin, [])
+  const strategy = useAsync(getOfferStrategy, [])
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState<{ tone: 'success' | 'error'; text: string } | null>(null)
   const [confirmPurge, setConfirmPurge] = useState(false)
@@ -130,6 +136,52 @@ export function AdminPricingPage() {
         <p>{t.adminPricing.howText}</p>
         <p className="muted small">{t.adminPricing.privacy}</p>
       </section>
+
+      {strategy.data !== undefined && (
+        <section className="card mt">
+          <h2 className="card-title">{t.adminOffers.strategy}</h2>
+          {strategy.data === null ? (
+            <p className="muted">{t.adminOffers.migrationMissing}</p>
+          ) : (
+            <>
+              <p className="muted small">{t.adminOffers.strategyHint}</p>
+              <div className="inline-actions">
+                <select
+                  aria-label={t.adminOffers.strategy}
+                  value={strategy.data}
+                  disabled={busy}
+                  onChange={(e) =>
+                    run(async () => {
+                      await saveOfferStrategy(e.target.value as OfferStrategy)
+                      strategy.reload()
+                      return t.adminOffers.saved
+                    })
+                  }
+                >
+                  {OFFER_STRATEGIES.map((s) => (
+                    <option key={s} value={s}>
+                      {t.adminOffers.strategies[s]}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  className="btn btn-outline"
+                  disabled={busy}
+                  onClick={() =>
+                    run(async () => {
+                      const r = await refreshAllOffers()
+                      return interpolate(t.adminOffers.refreshed, { count: String(r.products) })
+                    })
+                  }
+                >
+                  {t.adminOffers.refreshAll}
+                </button>
+              </div>
+            </>
+          )}
+        </section>
+      )}
 
       <div className="form-actions mt">
         <button

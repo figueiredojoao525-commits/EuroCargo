@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Alert } from '../../components/Alert'
 import { CrudManager, type CrudField } from '../../components/admin/CrudManager'
 import { Spinner } from '../../components/Spinner'
@@ -16,6 +17,7 @@ import {
   saveMake,
   saveModel,
   saveVariant,
+  withoutEmpty,
 } from '../../services/adminCatalog'
 import { getErrorMessage } from '../../services/errors'
 import type { PartCategory, VehicleMake, VehicleModel, VehicleVariant } from '../../types'
@@ -29,8 +31,11 @@ export function AdminCatalogPage() {
   const { t } = useI18n()
   const categories = useAsync(listCategoriesAdmin, [])
   const makes = useAsync(listMakesAdmin, [])
-  const models = useAsync(listModelsAdmin, [])
-  const variants = useAsync(listVariantsAdmin, [])
+  // The vehicle tree can be large (imports): models are listed per make, variants per model.
+  const [makeFilter, setMakeFilter] = useState('')
+  const [modelFilter, setModelFilter] = useState('')
+  const models = useAsync(() => listModelsAdmin(makeFilter || undefined), [makeFilter])
+  const variants = useAsync(() => listVariantsAdmin(modelFilter || undefined), [modelFilter])
 
   const error = categories.error ?? makes.error ?? models.error ?? variants.error
   const makeName = (id: string) => makes.data?.find((m) => m.id === id)?.name ?? ''
@@ -68,6 +73,7 @@ export function AdminCatalogPage() {
     },
     { key: 'name', label: t.adminCommon.name, required: true, maxLength: 80, column: true },
     { key: 'slug', label: t.adminCommon.slug, hint: t.adminCommon.slugHint, maxLength: 80 },
+    { key: 'generation', label: t.adminImport.fields.vehicle_generation, maxLength: 80, column: true },
     { key: 'body_type', label: t.adminCatalog.bodyType, maxLength: 40 },
     {
       key: 'year_from',
@@ -91,6 +97,7 @@ export function AdminCatalogPage() {
       options: FUELS.map((f) => ({ value: f, label: t.fuel[f] })),
     },
     { key: 'power_kw', label: t.adminCatalog.powerKw, type: 'number' },
+    { key: 'power_hp', label: t.adminImport.fields.vehicle_power_hp, type: 'number' },
     { key: 'engine_cc', label: t.adminCatalog.engineCc, type: 'number' },
     {
       key: 'year_from',
@@ -128,19 +135,42 @@ export function AdminCatalogPage() {
           onDelete={deleteMake}
           onChanged={makes.reload}
         />
+        <select
+          aria-label={t.vehicles.make}
+          value={makeFilter}
+          onChange={(e) => {
+            setMakeFilter(e.target.value)
+            setModelFilter('')
+          }}
+        >
+          <option value="">{t.vehicles.anyMake}</option>
+          {makes.data.map((m) => (
+            <option key={m.id} value={m.id}>
+              {m.name}
+            </option>
+          ))}
+        </select>
         <CrudManager
           title={t.adminCatalog.models}
           rows={models.data}
           fields={modelFields}
-          onSave={(row, id) => saveModel(withSlug(row), id)}
+          onSave={(row, id) => saveModel(withoutEmpty(withSlug(row), 'generation'), id)}
           onDelete={deleteModel}
           onChanged={models.reload}
         />
+        <select aria-label={t.vehicles.model} value={modelFilter} onChange={(e) => setModelFilter(e.target.value)}>
+          <option value="">{t.vehicles.anyModel}</option>
+          {modelOptions.map((m) => (
+            <option key={m.value} value={m.value}>
+              {m.label}
+            </option>
+          ))}
+        </select>
         <CrudManager
           title={t.adminCatalog.variants}
           rows={variants.data}
           fields={variantFields}
-          onSave={saveVariant}
+          onSave={(row, id) => saveVariant(withoutEmpty(row, 'power_hp'), id)}
           onDelete={deleteVariant}
           onChanged={variants.reload}
         />

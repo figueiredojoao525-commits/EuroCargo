@@ -1,4 +1,5 @@
 import { getSupabase } from '../lib/supabase'
+import { PRODUCT_COLUMNS } from './catalog/columns'
 import type { Order, OrderEvent, OrderItem, PartRequestItem, Product, ShippingAddress } from '../types'
 
 export interface PartRequestInput {
@@ -61,7 +62,7 @@ export async function getMyOrder(id: string): Promise<OrderBundle | null> {
 /** Current public data of the products in the basket (inactive ones are simply missing). */
 export async function getProductsByIds(ids: string[]): Promise<Product[]> {
   if (ids.length === 0) return []
-  const { data, error } = await getSupabase().from('products').select('*').in('id', ids)
+  const { data, error } = await getSupabase().from('products').select(PRODUCT_COLUMNS).in('id', ids)
   if (error) throw error
-  return data as Product[]
+  return data as unknown as Product[]
 }

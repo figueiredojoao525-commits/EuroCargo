@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
 import { useI18n } from '../../i18n/context'
 import type { ProductCardData } from '../../utils/catalog'
-import { Icon } from '../Icon'
 import { AvailabilityBadge, ConditionBadge, DemoBadge, PriceDisplay } from './Badges'
+import { ProductIllustration } from './ProductIllustration'
 
 export function ProductCard({ product }: { product: ProductCardData }) {
   const { t } = useI18n()
@@ -13,9 +13,7 @@ export function ProductCard({ product }: { product: ProductCardData }) {
           {product.image ? (
             <img src={product.image} alt="" loading="lazy" decoding="async" />
           ) : (
-            <span className="product-card-placeholder" aria-hidden="true">
-              <Icon name="wrench" size={34} />
-            </span>
+            <ProductIllustration categorySlug={product.categorySlug} />
           )}
           <div className="product-card-badges">
             <ConditionBadge condition={product.condition} />

@@ -16,10 +16,44 @@ const CATEGORY_ICONS: Record<string, IconName> = {
   car: 'car',
   bolt: 'bolt',
   cooling: 'cooling',
+  gear: 'gear',
+  clutch: 'clutch',
+  snow: 'snow',
+  steering: 'steering',
+  exhaust: 'exhaust',
+  drop: 'drop',
+  star: 'star',
 }
 
 export function categoryIcon(icon: string | null | undefined): IconName {
   return (icon && CATEGORY_ICONS[icon]) || 'wrench'
+}
+
+// Main categories → illustration icon and colour (search results carry the category slug only).
+const SLUG_ILLUSTRATION: Record<string, [IconName, number]> = {
+  travagem: ['brake', 4],
+  filtros: ['filter', 140],
+  suspensao: ['suspension', 28],
+  motor: ['engine', 215],
+  iluminacao: ['bulb', 46],
+  carrocaria: ['car', 200],
+  transmissao: ['gear', 260],
+  embraiagem: ['clutch', 300],
+  eletrico: ['bolt', 52],
+  'ar-condicionado': ['snow', 190],
+  refrigeracao: ['cooling', 180],
+  direcao: ['steering', 330],
+  escape: ['exhaust', 15],
+  consumiveis: ['drop', 165],
+  acessorios: ['star', 240],
+}
+
+export function categoryIconBySlug(slug: string | null | undefined): IconName {
+  return (slug && SLUG_ILLUSTRATION[slug]?.[0]) || 'wrench'
+}
+
+export function categoryHue(slug: string | null | undefined): number {
+  return (slug ? SLUG_ILLUSTRATION[slug]?.[1] : undefined) ?? 220
 }
 
 export function formatYears(from: number | null, to: number | null): string {
@@ -54,6 +88,8 @@ export interface ProductCardData {
   availability: CatalogItem['availability']
   leadTimeDays: number | null
   image: string | null
+  /** For the illustrative image when there is no photo. */
+  categorySlug: string | null
   isDemo: boolean
   compatibility: string | null
 }
@@ -70,6 +106,7 @@ export function cardFromItem(item: CatalogItem, lang: Language): ProductCardData
     availability: item.availability,
     leadTimeDays: item.lead_time_days,
     image: item.image,
+    categorySlug: item.category?.slug ?? null,
     isDemo: item.is_demo,
     compatibility: item.compatibility[0] ? compatibilityLabel(item.compatibility[0]) : null,
   }
@@ -88,6 +125,7 @@ export function cardFromProduct(product: ProductDetail, lang: Language): Product
     availability: product.availability,
     leadTimeDays: product.lead_time_days,
     image: product.product_images[0]?.url ?? null,
+    categorySlug: product.category?.slug ?? null,
     isDemo: product.is_demo,
     compatibility: c
       ? compatibilityLabel({
