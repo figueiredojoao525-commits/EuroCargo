@@ -25,6 +25,13 @@ Admin → **Catálogo → Importação** (`/admin/catalog/import`) ou, para fich
 
 Voltar a importar o mesmo ficheiro (ou uma versão atualizada) **atualiza** os produtos — nunca duplica.
 
+**Feed completo** (opção na página, modo "Criar e atualizar"): os produtos desta fonte que não constam do
+ficheiro são **desativados** (não apagados) e as ofertas do fornecedor da fonte que não vieram no ficheiro
+também. Use só com ficheiros que contêm o catálogo inteiro do fornecedor.
+
+**DEMO**: Admin → Preços → "Ocultar DEMO da loja" esconde todos os produtos DEMO sem os apagar ("Mostrar DEMO
+na loja" volta a mostrá-los); "Apagar dados de demonstração" remove-os definitivamente.
+
 ## Regras
 
 - **Nada é inventado.** Um valor em falta fica vazio; um valor que não se percebe é assinalado e ignorado

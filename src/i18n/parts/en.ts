@@ -75,6 +75,15 @@ export const enParts: PartsDictionary = {
     gallery: 'Image gallery',
     image: 'Image',
     illustrative: 'Illustrative image',
+    interpreted: 'Search understood as:',
+    searchTextOnly: 'Search the text only',
+    exactCount: '{count} exact match(es)',
+    approxHeading: 'Approximate results — check compatibility',
+    noExact: 'We found no exact match. The results below are approximate.',
+    requestPart: 'Ask EuroCargo for this part',
+    requestPartHint: 'Can’t find it? Send us the request: EuroCargo sources the part and replies with price and lead time.',
+    askAssistant: 'Ask the assistant',
+    requestPartMessage: 'I am looking for: {query}',
   },
   vehicles: {
     eyebrow: 'Vehicles',
@@ -125,6 +134,9 @@ export const enParts: PartsDictionary = {
     disclaimer:
       'The assistant never invents prices, stock, references or compatibility: it only shows what is in the catalogue.',
     notConfigured: 'The external assistant is not configured yet.',
+    externalUnavailable: 'The advanced assistant is temporarily unavailable. Showing catalogue search results.',
+    newConversation: 'New conversation',
+    questions: { whichVehicle: 'Which vehicle is it for? Give the make, model and year (and engine, if you know it) so we can confirm compatibility.', whichPart: 'Which part are you looking for on this vehicle? E.g. brake pads, oil filter, left headlight.' },
   },
   specialist: {
     talk: 'Talk to a specialist',
@@ -382,6 +394,10 @@ export const enParts: PartsDictionary = {
     purged: 'Demo data deleted ({products} products).',
     noSupplierCost: 'No active supplier cost for this product.',
     noRule: 'No pricing rule applies to this product.',
+    demoHide: 'Hide DEMO from the shop',
+    demoShow: 'Show DEMO in the shop',
+    demoHidden: '{count} DEMO products hidden.',
+    demoShown: '{count} DEMO products visible.',
   },
   adminAi: {
     assistant: 'Assistant',
@@ -525,6 +541,8 @@ export const enParts: PartsDictionary = {
       vehicle_without_make: 'Vehicle without make',
       ambiguous_condition: 'Same reference exists new and used: give the condition',
     },
+    deactivateMissing: 'Complete feed: deactivate this source’s products that are not in the file (not deleted)',
+    deactivated: '{count} products deactivated (not in the file).',
   },
   adminProviders: {
     intro: 'Enable or disable catalogue sources without changing the website. Credentials are never stored here: they are Supabase secrets.',

@@ -3449,3 +3449,40 @@ tbody tr:hover {
 .offer-selected td {
   background: var(--success-bg);
 }
+
+/* ─────────────── Search: interpretation, exact vs approximate ─────────────── */
+.btn-link {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--blue-600);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.search-understood {
+  margin: 0 0 6px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--info-bg);
+  color: var(--info);
+}
+.results-divider {
+  grid-column: 1 / -1;
+  margin: 8px 0 0;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+.assistant-question {
+  margin: 8px 0;
+  padding: 8px 12px;
+  border-left: 3px solid var(--accent);
+  background: var(--warning-bg);
+  border-radius: var(--radius-sm);
+}
+.assistant-option-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}

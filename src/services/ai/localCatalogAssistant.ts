@@ -1,7 +1,7 @@
 import { getSupabase } from '../../lib/supabase'
-import type { CatalogItem, CatalogSearchParams, VehicleModel } from '../../types'
+import type { CatalogItem, CatalogSearchParams } from '../../types'
 import { catalogProvider } from '../catalog'
-import { parseQuery, type ParsedQuery } from './queryParser'
+import { understand } from './understand'
 import type { AiProvider, AnswerKind, AskOptions, AssistantAnswer } from './types'
 
 const MAX_RESULTS = 8
@@ -42,19 +42,6 @@ export function logExchange(query: string, answer: AssistantAnswer): Promise<str
     ({ data }) => (typeof data === 'string' ? data : null),
     () => null,
   )
-}
-
-/**
- * Two passes: the make first, then only that make's models (a large vehicle tree is
- * never loaded whole into the browser).
- */
-async function understand(query: string): Promise<ParsedQuery> {
-  const makes = await catalogProvider.listMakes()
-  const first = parseQuery(query, makes, [])
-  let models: VehicleModel[]
-  if (first.make) models = await catalogProvider.listModels(first.make.id)
-  else models = await catalogProvider.listModels()
-  return parseQuery(query, makes, models)
 }
 
 /**
@@ -116,6 +103,23 @@ export const localCatalogAssistant: AiProvider = {
     const kind: AnswerKind = result.items.length === 0 ? 'none' : confirmed ? 'confirmed' : 'related'
     const items = confirmed ? result.items.filter((item) => isFullMatch(item, result.terms)) : result.items
 
-    return { kind, items, parsed, vehicleRelaxed, provider: this.name, conversationId: options.conversationId ?? null }
+    // Ask instead of guessing when essential information is missing.
+    const hasPart = Boolean(parsed.text || parsed.reference || parsed.oe)
+    const makesInResults = new Set(items.flatMap((item) => item.compatibility.map((c) => c.make)))
+    const question: AssistantAnswer['question'] = !hasPart
+      ? 'whichPart'
+      : !parsed.make && !parsed.reference && !parsed.oe && makesInResults.size > 1
+        ? 'whichVehicle'
+        : undefined
+
+    return {
+      kind,
+      items,
+      parsed,
+      vehicleRelaxed,
+      provider: this.name,
+      conversationId: options.conversationId ?? null,
+      question,
+    }
   },
 }

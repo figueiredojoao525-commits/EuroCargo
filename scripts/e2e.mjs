@@ -19,11 +19,22 @@ if (!CHROME) {
   console.log('Chrome/Edge not found: set CHROME_PATH')
   process.exit(1)
 }
-const browser = await puppeteer.launch({
+// Chrome's background updater can kill a headless instance mid-run: disable background work and,
+// if the browser still dies, relaunch it (reported in the summary - never hidden).
+const LAUNCH = {
   executablePath: CHROME,
   headless: true,
-  args: ['--no-first-run', '--disable-gpu'],
-})
+  args: ['--no-first-run', '--disable-gpu', '--disable-component-update', '--disable-background-networking'],
+}
+let browser = await puppeteer.launch(LAUNCH)
+let restarts = 0
+async function liveBrowser() {
+  if (!browser.connected) {
+    restarts++
+    browser = await puppeteer.launch(LAUNCH)
+  }
+  return browser
+}
 let passed = 0
 let failed = 0
 const problems = []
@@ -42,7 +53,7 @@ function assert(cond, msg) {
 }
 
 async function newPage(viewport = { width: 1280, height: 900 }) {
-  const page = await browser.newPage()
+  const page = await (await liveBrowser()).newPage()
   await page.setViewport(viewport)
   page.errors = []
   page.on('pageerror', (e) => page.errors.push(`pageerror: ${e.message}`))
@@ -59,9 +70,17 @@ async function newPage(viewport = { width: 1280, height: 900 }) {
   return page
 }
 const text = (page) => page.evaluate(() => document.body.innerText)
+// One retry: a slow network request should not fail the run (a broken page fails both times).
 async function go(page, path) {
-  await page.goto(BASE + path, { waitUntil: 'networkidle0', timeout: 30000 })
-  await new Promise((r) => setTimeout(r, 400))
+  for (let attempt = 1; ; attempt++) {
+    try {
+      await page.goto(BASE + path, { waitUntil: 'networkidle2', timeout: 45000 })
+      break
+    } catch (error) {
+      if (attempt >= 2 || !/timeout/i.test(String(error.message))) throw error
+    }
+  }
+  await new Promise((r) => setTimeout(r, 800))
 }
 const clean = (page, label) => {
   const errs = page.errors.filter((e) => !/favicon/.test(e))
@@ -94,8 +113,18 @@ await test('internal links all resolve (no 404) from home, shop, footer', async 
     const hrefs = await page.$$eval('a[href^="/"]', (as) => as.map((a) => a.getAttribute('href')))
     for (const h of hrefs) if (!h.startsWith('/admin') && !h.startsWith('/pecas/')) seen.add(h.split('#')[0])
   }
+  // Every route, plus at most 3 query variants per route (vehicle / category links multiply with the catalogue).
+  const perRoute = new Map()
+  for (const h of seen) {
+    const path = h.split('?')[0]
+    perRoute.set(path, [...(perRoute.get(path) ?? []), h])
+  }
+  const sample = [...perRoute.values()].flatMap((links) => links.slice(0, 3))
+  seen.clear()
+  sample.forEach((h) => seen.add(h))
   const broken = []
   for (const h of seen) {
+    if (process.env.E2E_DEBUG) console.log('      →', h)
     await go(page, h)
     if (/Página não encontrada/i.test(await text(page))) broken.push(h)
   }
@@ -127,8 +156,10 @@ await test('search + filters: text, category, condition, vehicle selector', asyn
 await test('product page: price, availability, compatibility, illustrative image, no internal data', async () => {
   const page = await newPage()
   await go(page, '/pecas?q=ótica esquerda')
+  await page.waitForSelector('a[href^="/pecas/"]', { timeout: 30000 })
   const href = await page.$eval('a[href^="/pecas/"]', (a) => a.getAttribute('href'))
   await go(page, href)
+  await page.waitForSelector('.product-main', { timeout: 30000 })
   const t = await text(page)
   assert(/€/.test(t) && /Compatibilidade/.test(t), 'missing price / compatibility')
   assert(/Disponível|Sob consulta|Indisponível|encomenda/.test(t), 'missing availability label')
@@ -140,8 +171,10 @@ await test('product page: price, availability, compatibility, illustrative image
 await test('cart: add product, see it in the request, change quantity, remove', async () => {
   const page = await newPage()
   await go(page, '/pecas?q=filtro')
+  await page.waitForSelector('a[href^="/pecas/"]', { timeout: 30000 })
   const href = await page.$eval('a[href^="/pecas/"]', (a) => a.getAttribute('href'))
   await go(page, href)
+  await page.waitForSelector('.product-actions .btn-accent', { timeout: 30000 })
   const btn = await page.$('.product-actions .btn-accent')
   assert(btn, 'no add button')
   await btn.click()
@@ -171,6 +204,7 @@ await test('cart: add product, see it in the request, change quantity, remove', 
 await test('cart → sending a request requires an account (redirect / prompt to log in)', async () => {
   const page = await newPage()
   await go(page, '/pecas?q=filtro')
+  await page.waitForSelector('a[href^="/pecas/"]', { timeout: 30000 })
   const href = await page.$eval('a[href^="/pecas/"]', (a) => a.getAttribute('href'))
   await go(page, href)
   await (await page.$('.product-actions .btn-accent')).click()
@@ -195,6 +229,58 @@ await test('parts assistant answers from the catalogue (and says so when nothing
   assert(/Não encontrámos uma correspondência confirmada/i.test(t), 'missing no-match message')
   assert(!/Fornecedor|custo|margem/i.test(t), 'assistant leaked internal data')
   clean(page, 'assistant')
+  await page.close()
+})
+
+await test('interpreted search: "pastilhas peugeot 307 2005" → vehicle filters + only pads', async () => {
+  const page = await newPage()
+  await go(page, '/pecas?q=' + encodeURIComponent('pastilhas peugeot 307 2005'))
+  await page.waitForSelector('.search-understood', { timeout: 30000 })
+  await page.waitForSelector('.product-card-title', { timeout: 30000 })
+  const t = await text(page)
+  assert(/Pesquisa interpretada/.test(t) && /Peugeot/.test(t) && /2005/.test(t), 'no interpretation shown')
+  const names = await page.$$eval('.product-card-title', (els) => els.map((e) => e.textContent))
+  assert(names.length > 0 && names.every((n) => /Pastilhas/i.test(n)), `unexpected results: ${names.join(' | ')}`)
+  clean(page, 'interpreted search')
+  await page.close()
+})
+
+await test('nothing found → "Peça esta peça à EuroCargo" opens the request prefilled with the search', async () => {
+  const page = await newPage()
+  await go(page, '/pecas?q=' + encodeURIComponent('peça inexistente xyzq 98765'))
+  await page.waitForSelector('a.btn-accent[href^="/carrinho?"]', { timeout: 30000 }).catch(() => null)
+  const link = await page.$('a.btn-accent[href^="/carrinho?"]')
+  assert(link, 'no request-part button')
+  await link.click()
+  await page.waitForNetworkIdle()
+  const message = await page.$eval('textarea', (el) => el.value)
+  assert(/inexistente xyzq 98765/.test(message), `request not prefilled: ${message}`)
+  await page.close()
+})
+
+await test('assistant asks for the vehicle when the part fits many, and adds a result to the request', async () => {
+  const page = await newPage()
+  await go(page, '/pecas')
+  await page.evaluate(() => {
+    sessionStorage.clear()
+    localStorage.removeItem('eurocargo_cart')
+  })
+  await page.type('#assistant-input', 'pastilhas de travão')
+  await page.keyboard.press('Enter')
+  await page.waitForFunction(() => document.querySelectorAll('.assistant-answer').length > 0, { timeout: 20000 })
+  const t = await page.$eval('.assistant-log', (el) => el.innerText)
+  assert(/Para que veículo/.test(t), 'no follow-up question')
+  const add = await page.$('.assistant-option-row button')
+  assert(add, 'no add-to-request button')
+  const productId = await add.evaluate((btn) => btn.parentElement.querySelector('a').getAttribute('href').split('/').pop())
+  await add.click()
+  const cart = await page.evaluate(() => JSON.parse(localStorage.getItem('eurocargo_cart') ?? '[]'))
+  assert(cart.some((l) => l.productId === productId), 'not added to the request')
+  // History survives navigation during the visit.
+  await go(page, '/categorias')
+  await go(page, '/pecas')
+  assert(/pastilhas de travão/.test(await page.$eval('.assistant-log', (el) => el.innerText)), 'history lost')
+  await page.evaluate(() => localStorage.removeItem('eurocargo_cart'))
   await page.close()
 })
 
@@ -247,7 +333,7 @@ for (const width of [360, 414, 768]) {
   })
 }
 
-await browser.close()
-console.log(`\n${passed} passed, ${failed} failed`)
+if (browser.connected) await browser.close()
+console.log(`\n${passed} passed, ${failed} failed${restarts ? ` (browser restarted ${restarts}x)` : ''}`)
 if (problems.length) console.log('\nProblems:\n' + problems.join('\n'))
 process.exit(failed ? 1 : 0)

@@ -75,6 +75,15 @@ export const itParts: PartsDictionary = {
     gallery: 'Galleria immagini',
     image: 'Immagine',
     illustrative: 'Immagine illustrativa',
+    interpreted: 'Ricerca interpretata:',
+    searchTextOnly: 'Cerca solo il testo',
+    exactCount: '{count} corrispondenza/e esatta/e',
+    approxHeading: 'Risultati simili — verifica la compatibilità',
+    noExact: 'Nessuna corrispondenza esatta. I risultati seguenti sono simili.',
+    requestPart: 'Chiedi questo ricambio a EuroCargo',
+    requestPartHint: 'Non lo trovi? Inviaci la richiesta: EuroCargo cerca il ricambio e risponde con prezzo e tempi.',
+    askAssistant: 'Chiedi all’assistente',
+    requestPartMessage: 'Cerco: {query}',
   },
   vehicles: {
     eyebrow: 'Veicoli',
@@ -124,6 +133,9 @@ export const itParts: PartsDictionary = {
     disclaimer:
       'L’assistente non inventa prezzi, disponibilità, codici o compatibilità: mostra solo ciò che esiste nel catalogo.',
     notConfigured: 'L’assistente esterno non è ancora configurato.',
+    externalUnavailable: 'L’assistente avanzato è temporaneamente non disponibile. Mostriamo i risultati della ricerca nel catalogo.',
+    newConversation: 'Nuova conversazione',
+    questions: { whichVehicle: 'Per quale veicolo? Indica marca, modello e anno (e motore, se lo sai) per confermare la compatibilità.', whichPart: 'Quale ricambio cerchi per questo veicolo? Es.: pastiglie freno, filtro olio, faro sinistro.' },
   },
   specialist: {
     talk: 'Parla con uno specialista',
@@ -382,6 +394,10 @@ export const itParts: PartsDictionary = {
     purged: 'Dati dimostrativi eliminati ({products} prodotti).',
     noSupplierCost: 'Nessun costo fornitore attivo per questo prodotto.',
     noRule: 'Nessuna regola di prezzo si applica a questo prodotto.',
+    demoHide: 'Nascondi DEMO dal negozio',
+    demoShow: 'Mostra DEMO nel negozio',
+    demoHidden: '{count} prodotti DEMO nascosti.',
+    demoShown: '{count} prodotti DEMO visibili.',
   },
   adminAi: {
     assistant: 'Assistente',
@@ -525,6 +541,8 @@ export const itParts: PartsDictionary = {
       vehicle_without_make: 'Veicolo senza marca',
       ambiguous_condition: 'Lo stesso riferimento esiste nuovo e usato: indica la condizione',
     },
+    deactivateMissing: 'Feed completo: disattiva i prodotti di questa fonte assenti dal file (non vengono eliminati)',
+    deactivated: '{count} prodotti disattivati (assenti dal file).',
   },
   adminProviders: {
     intro: 'Attiva o disattiva le fonti del catalogo senza modificare il sito. Le credenziali non vengono mai salvate qui: sono secrets di Supabase.',

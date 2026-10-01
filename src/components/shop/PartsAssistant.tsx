@@ -1,8 +1,9 @@
-import { useRef, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { interpolate } from '../../i18n'
 import { useI18n } from '../../i18n/context'
 import { aiProvider, type AssistantAnswer } from '../../services/ai'
+import { cart } from '../../services/cart'
 import { getErrorMessage } from '../../services/errors'
 import type { CatalogItem } from '../../types'
 import { compatibilityLabel, localized } from '../../utils/catalog'
@@ -28,9 +29,23 @@ function groupItems(items: CatalogItem[]): CatalogItem[][] {
   return [...groups.values()].map((group) => group.sort((a, b) => rank(a) - rank(b)))
 }
 
+// The conversation survives page changes during the visit (product → back to the shop).
+const HISTORY_KEY = 'eurocargo_assistant'
+
+function loadHistory(): { messages: Message[]; conversationId: string | null } {
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(HISTORY_KEY) ?? 'null')
+    if (saved && Array.isArray(saved.messages)) return { messages: saved.messages.slice(-30), conversationId: saved.conversationId ?? null }
+  } catch {
+    // Unavailable storage: start empty.
+  }
+  return { messages: [], conversationId: null }
+}
+
 function AnswerView({ answer }: { answer: AssistantAnswer }) {
   const { t, lang } = useI18n()
   const { parsed } = answer
+  const [added, setAdded] = useState<string | null>(null)
   const vehicle = [parsed.make?.name, parsed.model?.name].filter(Boolean).join(' ')
   const understood = [
     parsed.text,
@@ -59,8 +74,10 @@ function AnswerView({ answer }: { answer: AssistantAnswer }) {
           <strong>{t.assistant.understood}</strong> {understood.join(' · ')}
         </p>
       )}
+      {answer.notice === 'externalUnavailable' && <Alert tone="info">{t.assistant.externalUnavailable}</Alert>}
       {parsed.unsupported && <Alert tone="info">{t.assistant.unsupported[parsed.unsupported]}</Alert>}
       <p>{summary}</p>
+      {answer.question && <p className="assistant-question">{t.assistant.questions[answer.question]}</p>}
 
       {answer.items.length > 0 && (
         <ul className="assistant-results">
@@ -85,16 +102,36 @@ function AnswerView({ answer }: { answer: AssistantAnswer }) {
                 </p>
                 <div className="assistant-options">
                   {group.map((item) => (
-                    <Link key={item.id} to={`/pecas/${item.id}`} className="assistant-option">
-                      <ConditionBadge condition={item.condition} />
-                      <PriceDisplay price={item.price} currency={item.currency} isDemo={item.is_demo} />
-                      <AvailabilityBadge availability={item.availability} leadTimeDays={item.lead_time_days} />
-                      {item.part_number && (
-                        <span className="muted small mono">
-                          {t.shop.ref} {item.part_number}
-                        </span>
+                    <div key={item.id} className="assistant-option-row">
+                      <Link to={`/pecas/${item.id}`} className="assistant-option">
+                        <ConditionBadge condition={item.condition} />
+                        <PriceDisplay price={item.price} currency={item.currency} isDemo={item.is_demo} />
+                        <AvailabilityBadge availability={item.availability} leadTimeDays={item.lead_time_days} />
+                        {item.part_number && (
+                          <span className="muted small mono">
+                            {t.shop.ref} {item.part_number}
+                          </span>
+                        )}
+                      </Link>
+                      {item.availability !== 'out_of_stock' && (
+                        <button
+                          type="button"
+                          className="btn btn-outline btn-sm"
+                          onClick={() => {
+                            cart.add(item.id, 1)
+                            setAdded(item.id)
+                          }}
+                        >
+                          <Icon name="cart" size={14} />
+                          {item.price === null ? t.shop.requestQuote : t.shop.addToRequest}
+                        </button>
                       )}
-                    </Link>
+                      {added === item.id && (
+                        <Link to="/carrinho" className="small">
+                          {t.shop.viewRequest}
+                        </Link>
+                      )}
+                    </div>
                   ))}
                 </div>
               </li>
@@ -103,6 +140,18 @@ function AnswerView({ answer }: { answer: AssistantAnswer }) {
         </ul>
       )}
 
+      {answer.kind !== 'confirmed' && (
+        <p className="small">
+          <Link
+            to={`/carrinho?${new URLSearchParams({
+              message: interpolate(t.shop.requestPartMessage, { query: parsed.original }),
+              ...(vehicle ? { vehicle: [vehicle, parsed.year].filter(Boolean).join(' ') } : {}),
+            }).toString()}`}
+          >
+            {t.shop.requestPart}
+          </Link>
+        </p>
+      )}
       {answer.kind !== 'confirmed' && (
         <ContactSpecialist
           compact
@@ -122,11 +171,27 @@ function AnswerView({ answer }: { answer: AssistantAnswer }) {
 
 export function PartsAssistant() {
   const { t, lang } = useI18n()
-  const [messages, setMessages] = useState<Message[]>([])
+  const [initial] = useState(loadHistory)
+  const [messages, setMessages] = useState<Message[]>(initial.messages)
   const [input, setInput] = useState('')
   const [busy, setBusy] = useState(false)
-  const conversationId = useRef<string | null>(null)
-  const nextId = useRef(1)
+  const conversationId = useRef<string | null>(initial.conversationId)
+  const nextId = useRef(initial.messages.reduce((max, m) => Math.max(max, m.id), 0) + 1)
+
+  useEffect(() => {
+    try {
+      // Only what the answers need to be shown again (no promises).
+      const clean = messages.map((m) => (m.role === 'assistant' ? { ...m, answer: { ...m.answer, logged: undefined } } : m))
+      sessionStorage.setItem(HISTORY_KEY, JSON.stringify({ messages: clean, conversationId: conversationId.current }))
+    } catch {
+      // Storage unavailable: history lasts for this page view only.
+    }
+  }, [messages])
+
+  function reset() {
+    setMessages([])
+    conversationId.current = null
+  }
   const logRef = useRef<HTMLDivElement>(null)
 
   async function ask(text: string) {
@@ -225,7 +290,17 @@ export function PartsAssistant() {
           <Icon name="send" size={18} />
         </button>
       </form>
-      <p className="assistant-disclaimer">{t.assistant.disclaimer}</p>
+      <p className="assistant-disclaimer">
+        {t.assistant.disclaimer}
+        {messages.length > 0 && (
+          <>
+            {' '}
+            <button type="button" className="btn-link" onClick={reset} disabled={busy}>
+              {t.assistant.newConversation}
+            </button>
+          </>
+        )}
+      </p>
     </section>
   )
 }

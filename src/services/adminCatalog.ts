@@ -241,6 +241,14 @@ export async function purgeDemoData(): Promise<{ products: number; suppliers: nu
   return data as { products: number; suppliers: number; rules: number; brands: number }
 }
 
+/** Hide / show every DEMO product in the shop without deleting it (20261005). */
+export async function setDemoVisibility(visible: boolean): Promise<{ products: number }> {
+  const { data, error } = await getSupabase().rpc('admin_set_demo_visibility', { p_visible: visible })
+  if (error) throw error
+  clearCatalogCache()
+  return data as { products: number }
+}
+
 // ── Assistant logs ──
 export async function listAiLogs(
   onlyUnmatched: boolean,

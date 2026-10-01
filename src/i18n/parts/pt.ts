@@ -75,6 +75,15 @@ export const ptParts = {
     gallery: 'Galeria de imagens',
     image: 'Imagem',
     illustrative: 'Imagem ilustrativa',
+    interpreted: 'Pesquisa interpretada:',
+    searchTextOnly: 'Pesquisar só o texto',
+    exactCount: '{count} correspondência(s) exata(s)',
+    approxHeading: 'Resultados aproximados — confirme a compatibilidade',
+    noExact: 'Não encontrámos uma correspondência exata. Os resultados abaixo são aproximados.',
+    requestPart: 'Peça esta peça à EuroCargo',
+    requestPartHint: 'Não encontrou o que procura? Envie-nos o pedido: a EuroCargo procura a peça e responde com preço e prazo.',
+    askAssistant: 'Perguntar ao assistente',
+    requestPartMessage: 'Procuro: {query}',
   },
   vehicles: {
     eyebrow: 'Veículos',
@@ -129,6 +138,9 @@ export const ptParts = {
     disclaimer:
       'O assistente não inventa preços, stock, referências ou compatibilidades: mostra apenas o que existe no catálogo.',
     notConfigured: 'O assistente externo ainda não está configurado.',
+    externalUnavailable: 'O assistente avançado está temporariamente indisponível. Mostramos os resultados da pesquisa no catálogo.',
+    newConversation: 'Nova conversa',
+    questions: { whichVehicle: 'Para que veículo é? Indique a marca, o modelo e o ano (e o motor, se souber) para confirmarmos a compatibilidade.', whichPart: 'Que peça procura para este veículo? Ex.: pastilhas de travão, filtro de óleo, farol esquerdo.' },
   },
   specialist: {
     talk: 'Falar com especialista',
@@ -387,6 +399,10 @@ export const ptParts = {
     purged: 'Dados de demonstração apagados ({products} produtos).',
     noSupplierCost: 'Sem custo de fornecedor ativo para este produto.',
     noRule: 'Nenhuma regra de preço se aplica a este produto.',
+    demoHide: 'Ocultar DEMO da loja',
+    demoShow: 'Mostrar DEMO na loja',
+    demoHidden: '{count} produtos DEMO ocultados da loja.',
+    demoShown: '{count} produtos DEMO visíveis na loja.',
   },
   adminAi: {
     assistant: 'Assistente',
@@ -530,6 +546,8 @@ export const ptParts = {
       vehicle_without_make: 'Veículo sem marca',
       ambiguous_condition: 'Mesma referência existe nova e usada: indique o estado',
     },
+    deactivateMissing: 'Feed completo: desativar os produtos desta fonte que não constam do ficheiro (não são apagados)',
+    deactivated: '{count} produtos desativados por não constarem do ficheiro.',
   },
   adminProviders: {
     intro: 'Ative ou desative fontes de catálogo sem alterar o site. As credenciais nunca ficam aqui: definem-se como secrets no Supabase.',

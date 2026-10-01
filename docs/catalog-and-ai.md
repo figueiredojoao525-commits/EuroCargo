@@ -100,6 +100,15 @@ Em todos os casos, se `catalog-external` não estiver publicada/configurada (HTT
 
 ## Pesquisa
 
+A loja interpreta a pesquisa escrita ("pastilhas Peugeot 307 1.6 HDI 2005") e aplica os filtros
+correspondentes (veículo, ano, motor, combustível, referência, OE), mostrando "Pesquisa interpretada" com a
+opção "Pesquisar só o texto". Ordenação (20261005): referência exata › OE / referência cruzada › todos os
+termos › termos no **nome** da peça › veículo mais específico (motor › modelo › marca) › preço. Cada resultado
+diz como correspondeu e a loja separa **correspondências exatas** de **resultados aproximados**. Sem
+resultados (ou só aproximados), o cliente pode **pedir a peça à EuroCargo** (pedido pré-preenchido com a
+pesquisa) ou perguntar ao assistente: a equipa procura a peça junto dos fornecedores e responde com preço e
+prazo — a venda é sempre da EuroCargo. A loja não faz scraping de outras lojas.
+
 `catalog_search(p_params jsonb)`:
 
 1. termos normalizados (sem acentos, minúsculas), com **stems** PT/ES (`pastilhas`→`pastilh`,
@@ -139,6 +148,18 @@ stock, estado, disponibilidade, prazo, URL interna/origem, última atualização
 O preço público: preço da fonte, ou regras de margem (produto › fornecedor › categoria › estado › faixa de
 custo › geral) sobre o custo do fornecedor mais barato com stock (`catalog_compute_price`, mesmo cálculo de
 `admin_recalculate_price`). Histórico em `product_price_history`.
+
+## Assistente com IA (Claude)
+
+- Sem IA configurada, o assistente usa a interpretação local (regras) + a pesquisa do catálogo.
+- Com IA: `supabase secrets set AI_PROVIDER=anthropic AI_API_KEY=<chave Anthropic> [AI_MODEL=claude-opus-5-5]`,
+  `supabase functions deploy ai-assistant` e `VITE_AI_PROVIDER=external` (novo build). A IA (Claude, via SDK
+  oficial no servidor, saída estruturada JSON, esforço `low`, *fallback* automático em caso de recusa) só
+  transforma o pedido em campos de pesquisa; produtos, preços e compatibilidades vêm sempre da base de dados.
+- Se a IA falhar, o site responde com a pesquisa do catálogo e avisa o cliente ("assistente avançado
+  indisponível").
+- O assistente faz perguntas quando falta informação (veículo ou peça), permite adicionar resultados ao pedido
+  e mantém o histórico durante a visita.
 
 ## Onde ficam as credenciais (nunca no frontend)
 

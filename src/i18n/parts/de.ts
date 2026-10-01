@@ -82,6 +82,15 @@ export const deParts: PartsDictionary = {
     gallery: 'Bildergalerie',
     image: 'Bild',
     illustrative: 'Symbolbild',
+    interpreted: 'Suche verstanden als:',
+    searchTextOnly: 'Nur den Text suchen',
+    exactCount: '{count} exakte(r) Treffer',
+    approxHeading: 'Ähnliche Ergebnisse — Kompatibilität prüfen',
+    noExact: 'Kein exakter Treffer. Die Ergebnisse unten sind ähnlich.',
+    requestPart: 'Dieses Teil bei EuroCargo anfragen',
+    requestPartHint: 'Nicht gefunden? Senden Sie uns die Anfrage: EuroCargo beschafft das Teil und antwortet mit Preis und Lieferzeit.',
+    askAssistant: 'Assistenten fragen',
+    requestPartMessage: 'Ich suche: {query}',
   },
   vehicles: {
     eyebrow: 'Fahrzeuge',
@@ -133,6 +142,9 @@ export const deParts: PartsDictionary = {
     disclaimer:
       'Der Assistent erfindet keine Preise, Bestände, Teilenummern oder Zuordnungen: Er zeigt nur, was im Katalog steht.',
     notConfigured: 'Der externe Assistent ist noch nicht konfiguriert.',
+    externalUnavailable: 'Der erweiterte Assistent ist vorübergehend nicht verfügbar. Hier die Ergebnisse der Katalogsuche.',
+    newConversation: 'Neues Gespräch',
+    questions: { whichVehicle: 'Für welches Fahrzeug? Nennen Sie Marke, Modell und Baujahr (und den Motor, falls bekannt), damit wir die Kompatibilität bestätigen können.', whichPart: 'Welches Teil suchen Sie für dieses Fahrzeug? Z. B. Bremsbeläge, Ölfilter, Scheinwerfer links.' },
   },
   specialist: {
     talk: 'Mit einem Experten sprechen',
@@ -392,6 +404,10 @@ export const deParts: PartsDictionary = {
     purged: 'Demodaten gelöscht ({products} Produkte).',
     noSupplierCost: 'Kein aktiver Einkaufspreis für dieses Produkt.',
     noRule: 'Für dieses Produkt gilt keine Preisregel.',
+    demoHide: 'DEMO im Shop ausblenden',
+    demoShow: 'DEMO im Shop anzeigen',
+    demoHidden: '{count} DEMO-Produkte ausgeblendet.',
+    demoShown: '{count} DEMO-Produkte sichtbar.',
   },
   adminAi: {
     assistant: 'Assistent',
@@ -535,6 +551,8 @@ export const deParts: PartsDictionary = {
       vehicle_without_make: 'Fahrzeug ohne Marke',
       ambiguous_condition: 'Gleiche Nummer neu und gebraucht vorhanden: Zustand angeben',
     },
+    deactivateMissing: 'Vollständiger Feed: Produkte dieser Quelle, die nicht in der Datei sind, deaktivieren (nicht löschen)',
+    deactivated: '{count} Produkte deaktiviert (nicht in der Datei).',
   },
   adminProviders: {
     intro: 'Katalogquellen ohne Änderung der Website aktivieren oder deaktivieren. Zugangsdaten werden hier nie gespeichert: es sind Supabase-Secrets.',

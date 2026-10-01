@@ -96,6 +96,8 @@ export interface RunImportOptions {
   fileName: string
   mode: ImportMode
   createReferenceData: boolean
+  /** Complete feed: deactivate this source's products that are not in the file (20261005). */
+  deactivateMissing?: boolean
   onProgress?: (progress: ImportProgress) => void
   /** Checked between chunks; true stops the import (rows already sent stay imported). */
   isCancelled?: () => boolean
@@ -109,7 +111,10 @@ export async function runImport(rows: ImportRow[], options: RunImportOptions): P
     p_format: options.format,
     p_file_name: options.fileName.slice(0, 200),
     p_mode: options.mode,
-    p_options: { create_reference_data: options.createReferenceData },
+    p_options: {
+      create_reference_data: options.createReferenceData,
+      ...(options.deactivateMissing ? { deactivate_missing: true } : {}),
+    },
   })
   if (startError) throw startError
 

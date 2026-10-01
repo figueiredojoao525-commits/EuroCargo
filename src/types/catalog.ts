@@ -206,6 +206,8 @@ export interface CatalogItem {
   /** How many of the search terms this product matched. */
   matched_terms: number
   ref_match: boolean
+  /** How it matched (20261005): exact part number / OE, every term, some terms, or a plain listing. */
+  match?: 'reference' | 'oe' | 'exact' | 'partial' | 'listing'
 }
 
 export interface CatalogSearchParams {
@@ -241,6 +243,8 @@ export interface CatalogSearchResult {
   /** Matches (capped at 1000 by catalog_search when total_capped is true). */
   total: number
   total_capped?: boolean
+  /** Results matching every term or a reference (20261005); the rest are approximate. */
+  exact_total?: number
   /** Normalised search terms the database used. */
   terms: string[]
   items: CatalogItem[]
@@ -377,6 +381,8 @@ export interface ImportBatch {
   skipped: number
   failed: number
   errors: { row: number; error: string }[]
+  /** create_reference_data, deactivate_missing; after finishing: deactivated (count). */
+  options?: { create_reference_data?: boolean; deactivate_missing?: boolean; deactivated?: number }
   started_at: string
   finished_at: string | null
 }

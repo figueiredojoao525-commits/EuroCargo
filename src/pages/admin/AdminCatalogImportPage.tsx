@@ -62,6 +62,7 @@ export function AdminCatalogImportPage() {
   const [sourceId, setSourceId] = useState('')
   const [mode, setMode] = useState<ImportMode>('upsert')
   const [createReferenceData, setCreateReferenceData] = useState(true)
+  const [deactivateMissing, setDeactivateMissing] = useState(false)
   const [recordTag, setRecordTag] = useState('')
   const [rawText, setRawText] = useState<{ name: string; text: string } | null>(null)
   const [file, setFile] = useState<LoadedFile | null>(null)
@@ -128,6 +129,7 @@ export function AdminCatalogImportPage() {
         fileName: file.name,
         mode,
         createReferenceData,
+        deactivateMissing: deactivateMissing && mode === 'upsert',
         onProgress: setProgress,
         isCancelled: () => cancelRef.current,
       })
@@ -248,6 +250,18 @@ export function AdminCatalogImportPage() {
           />
           {t.adminImport.createReferenceData}
         </label>
+        {mode === 'upsert' && (
+          <label className="checkbox" htmlFor="import-deactivate">
+            <input
+              id="import-deactivate"
+              type="checkbox"
+              checked={deactivateMissing}
+              disabled={running}
+              onChange={(e) => setDeactivateMissing(e.target.checked)}
+            />
+            {t.adminImport.deactivateMissing}
+          </label>
+        )}
         {error && <Alert tone="error">{error}</Alert>}
       </section>
 
@@ -390,6 +404,9 @@ export function AdminCatalogImportPage() {
                 skipped: String(finished.skipped),
                 failed: String(finished.failed),
               })}
+              {(finished.options?.deactivated ?? 0) > 0 && (
+                <> {interpolate(t.adminImport.deactivated, { count: String(finished.options?.deactivated) })}</>
+              )}
             </Alert>
           )}
           {progress && (progress.errors.length > 0 || progress.warnings.length > 0) && (

@@ -18,6 +18,13 @@ export interface AssistantAnswer {
   vehicleRelaxed: boolean
   provider: string
   conversationId: string | null
+  /**
+   * Objective follow-up when essential information is missing:
+   * whichVehicle — the part fits several vehicles; whichPart — only a vehicle was given.
+   */
+  question?: 'whichVehicle' | 'whichPart'
+  /** The external AI failed: this answer comes from the catalogue search alone. */
+  notice?: 'externalUnavailable'
   /** Resolves once the exchange is logged, with the (possibly new) conversation id. */
   logged?: Promise<string | null>
 }

@@ -58,6 +58,9 @@ const sellerModel = [401, 403].includes(internalProbe.status)
 check(sellerModel, 'seller model (20261004000000): internal product columns are not readable by visitors',
   `products.data_source is readable (HTTP ${internalProbe.status}) — apply 20261004000000_eurocargo_seller_model`)
 
+if (probe.body && 'exact_total' in probe.body) ok('search relevance (20261005000000) applied: exact vs approximate results')
+else info('search relevance (20261005000000) not applied yet — apply apply_20261005_transaction.sql (the site works without it)')
+
 console.log('\n2. Products and DEMO data')
 const total = await count('/rest/v1/products?select=id')
 ok(`${total} active product(s) visible to visitors`)

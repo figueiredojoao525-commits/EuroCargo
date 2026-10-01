@@ -19,8 +19,9 @@ export const aiProvider: AiProvider = {
       try {
         answer = await externalAiProvider.ask(query, options)
       } catch (error) {
-        if (!(error instanceof AiNotConfiguredError)) throw error
+        // Not configured → silently local. Any other failure → local too, but the customer is told.
         answer = await localCatalogAssistant.ask(query, options)
+        if (!(error instanceof AiNotConfiguredError)) answer.notice = 'externalUnavailable'
       }
     } else {
       answer = await localCatalogAssistant.ask(query, options)

@@ -75,6 +75,15 @@ export const esParts: PartsDictionary = {
     gallery: 'Galería de imágenes',
     image: 'Imagen',
     illustrative: 'Imagen ilustrativa',
+    interpreted: 'Búsqueda interpretada:',
+    searchTextOnly: 'Buscar solo el texto',
+    exactCount: '{count} coincidencia(s) exacta(s)',
+    approxHeading: 'Resultados aproximados — confirme la compatibilidad',
+    noExact: 'No hemos encontrado una coincidencia exacta. Los resultados siguientes son aproximados.',
+    requestPart: 'Pida esta pieza a EuroCargo',
+    requestPartHint: '¿No encuentra lo que busca? Envíenos la solicitud: EuroCargo busca la pieza y responde con precio y plazo.',
+    askAssistant: 'Preguntar al asistente',
+    requestPartMessage: 'Busco: {query}',
   },
   vehicles: {
     eyebrow: 'Vehículos',
@@ -129,6 +138,9 @@ export const esParts: PartsDictionary = {
     disclaimer:
       'El asistente no inventa precios, stock, referencias ni compatibilidades: solo muestra lo que existe en el catálogo.',
     notConfigured: 'El asistente externo aún no está configurado.',
+    externalUnavailable: 'El asistente avanzado no está disponible temporalmente. Mostramos los resultados de la búsqueda en el catálogo.',
+    newConversation: 'Nueva conversación',
+    questions: { whichVehicle: '¿Para qué vehículo es? Indique la marca, el modelo y el año (y el motor, si lo sabe) para confirmar la compatibilidad.', whichPart: '¿Qué pieza busca para este vehículo? Ej.: pastillas de freno, filtro de aceite, faro izquierdo.' },
   },
   specialist: {
     talk: 'Hablar con un especialista',
@@ -388,6 +400,10 @@ export const esParts: PartsDictionary = {
     purged: 'Datos de demostración borrados ({products} productos).',
     noSupplierCost: 'No hay coste de proveedor activo para este producto.',
     noRule: 'Ninguna regla de precio se aplica a este producto.',
+    demoHide: 'Ocultar DEMO de la tienda',
+    demoShow: 'Mostrar DEMO en la tienda',
+    demoHidden: '{count} productos DEMO ocultados.',
+    demoShown: '{count} productos DEMO visibles.',
   },
   adminAi: {
     assistant: 'Asistente',
@@ -531,6 +547,8 @@ export const esParts: PartsDictionary = {
       vehicle_without_make: 'Vehículo sin marca',
       ambiguous_condition: 'La misma referencia existe nueva y usada: indique el estado',
     },
+    deactivateMissing: 'Feed completo: desactivar los productos de esta fuente que no estén en el archivo (no se borran)',
+    deactivated: '{count} productos desactivados por no estar en el archivo.',
   },
   adminProviders: {
     intro: 'Active o desactive fuentes de catálogo sin modificar la web. Las credenciales nunca se guardan aquí: se definen como secrets en Supabase.',

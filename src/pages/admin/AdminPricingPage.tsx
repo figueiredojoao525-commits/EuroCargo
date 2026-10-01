@@ -15,6 +15,7 @@ import {
   OFFER_STRATEGIES,
   purgeDemoData,
   recalculateAllPrices,
+  setDemoVisibility,
   refreshAllOffers,
   saveOfferStrategy,
   savePriceRule,
@@ -199,6 +200,32 @@ export function AdminPricingPage() {
           }
         >
           {t.adminPricing.recalculateAll}
+        </button>
+        <button
+          type="button"
+          className="btn btn-outline"
+          disabled={busy}
+          onClick={() =>
+            run(async () => {
+              const r = await setDemoVisibility(false)
+              return interpolate(t.adminPricing.demoHidden, { count: String(r.products) })
+            })
+          }
+        >
+          {t.adminPricing.demoHide}
+        </button>
+        <button
+          type="button"
+          className="btn btn-ghost"
+          disabled={busy}
+          onClick={() =>
+            run(async () => {
+              const r = await setDemoVisibility(true)
+              return interpolate(t.adminPricing.demoShown, { count: String(r.products) })
+            })
+          }
+        >
+          {t.adminPricing.demoShow}
         </button>
         {confirmPurge ? (
           <>

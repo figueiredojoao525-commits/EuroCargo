@@ -75,6 +75,15 @@ export const frParts: PartsDictionary = {
     gallery: 'Galerie d’images',
     image: 'Image',
     illustrative: 'Image d’illustration',
+    interpreted: 'Recherche interprétée :',
+    searchTextOnly: 'Rechercher le texte seul',
+    exactCount: '{count} correspondance(s) exacte(s)',
+    approxHeading: 'Résultats approchants — vérifiez la compatibilité',
+    noExact: 'Aucune correspondance exacte. Les résultats ci-dessous sont approchants.',
+    requestPart: 'Demander cette pièce à EuroCargo',
+    requestPartHint: 'Vous ne trouvez pas ? Envoyez-nous la demande : EuroCargo recherche la pièce et répond avec prix et délai.',
+    askAssistant: 'Demander à l’assistant',
+    requestPartMessage: 'Je cherche : {query}',
   },
   vehicles: {
     eyebrow: 'Véhicules',
@@ -130,6 +139,9 @@ export const frParts: PartsDictionary = {
     disclaimer:
       'L’assistant n’invente ni prix, ni stock, ni références, ni compatibilités : il montre seulement ce qui existe dans le catalogue.',
     notConfigured: 'L’assistant externe n’est pas encore configuré.',
+    externalUnavailable: 'L’assistant avancé est momentanément indisponible. Voici les résultats de la recherche dans le catalogue.',
+    newConversation: 'Nouvelle conversation',
+    questions: { whichVehicle: 'Pour quel véhicule ? Indiquez la marque, le modèle et l’année (et le moteur, si vous le savez) pour confirmer la compatibilité.', whichPart: 'Quelle pièce cherchez-vous pour ce véhicule ? Ex. : plaquettes de frein, filtre à huile, phare gauche.' },
   },
   specialist: {
     talk: 'Parler à un spécialiste',
@@ -390,6 +402,10 @@ export const frParts: PartsDictionary = {
     purged: 'Données de démonstration supprimées ({products} produits).',
     noSupplierCost: 'Aucun coût fournisseur actif pour ce produit.',
     noRule: 'Aucune règle de prix ne s’applique à ce produit.',
+    demoHide: 'Masquer la DEMO',
+    demoShow: 'Afficher la DEMO',
+    demoHidden: '{count} produits DEMO masqués.',
+    demoShown: '{count} produits DEMO visibles.',
   },
   adminAi: {
     assistant: 'Assistant',
@@ -534,6 +550,8 @@ export const frParts: PartsDictionary = {
       vehicle_without_make: 'Véhicule sans marque',
       ambiguous_condition: 'La même référence existe neuve et d’occasion : indiquez l’état',
     },
+    deactivateMissing: 'Flux complet : désactiver les produits de cette source absents du fichier (non supprimés)',
+    deactivated: '{count} produits désactivés (absents du fichier).',
   },
   adminProviders: {
     intro: 'Activez ou désactivez des sources de catalogue sans modifier le site. Les identifiants ne sont jamais stockés ici : ce sont des secrets Supabase.',
