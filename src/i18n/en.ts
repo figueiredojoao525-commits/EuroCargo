@@ -116,6 +116,7 @@ export const en: Dictionary = {
     terms: 'Terms and conditions',
     privacy: 'Privacy policy',
     rights: 'All rights reserved.',
+    vehicleData: 'Vehicle data: European Environment Agency (EEA), CC BY 4.0.',
   },
   auth: {
     loginTitle: 'Sign in',

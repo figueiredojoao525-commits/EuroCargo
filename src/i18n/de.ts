@@ -116,6 +116,7 @@ export const de: Dictionary = {
     terms: 'Allgemeine Geschäftsbedingungen',
     privacy: 'Datenschutzerklärung',
     rights: 'Alle Rechte vorbehalten.',
+    vehicleData: 'Fahrzeugdaten: Europäische Umweltagentur (EUA), CC BY 4.0.',
   },
   auth: {
     loginTitle: 'Anmelden',

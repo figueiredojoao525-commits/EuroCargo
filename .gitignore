@@ -31,3 +31,6 @@ dist-ssr
 # Supabase local
 supabase/.temp
 supabase/.branches
+
+# EEA downloads for scripts/vehicle-reference (regenerated with --fetch)
+scripts/vehicle-reference/cache/

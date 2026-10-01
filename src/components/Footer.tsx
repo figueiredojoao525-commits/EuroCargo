@@ -45,6 +45,11 @@ export function Footer() {
       </div>
       <div className="container footer-bottom">
         © {YEAR} EuroCargo. {t.footer.rights}
+        <span className="footer-credit">
+          <a href="https://www.eea.europa.eu/en/datahub" target="_blank" rel="noopener noreferrer">
+            {t.footer.vehicleData}
+          </a>
+        </span>
       </div>
     </footer>
   )

@@ -115,6 +115,7 @@ export const pt = {
     terms: 'Termos e condições',
     privacy: 'Política de privacidade',
     rights: 'Todos os direitos reservados.',
+    vehicleData: 'Dados de veículos: Agência Europeia do Ambiente (EEA), CC BY 4.0.',
   },
   auth: {
     loginTitle: 'Entrar',

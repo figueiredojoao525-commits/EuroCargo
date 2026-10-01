@@ -32,6 +32,21 @@ também. Use só com ficheiros que contêm o catálogo inteiro do fornecedor.
 **DEMO**: Admin → Preços → "Ocultar DEMO da loja" esconde todos os produtos DEMO sem os apagar ("Mostrar DEMO
 na loja" volta a mostrá-los); "Apagar dados de demonstração" remove-os definitivamente.
 
+## Veículos de referência (dados reais)
+
+A migração `20261006000000_vehicle_reference_eea` carrega **39 marcas, 447 modelos e 3 181 motorizações**
+(combustível, cilindrada, potência) a partir dos dados abertos da **Agência Europeia do Ambiente** — carros
+novos matriculados na UE de 2010 a 2022 (licença CC BY 4.0, creditada no rodapé do site). São apenas
+veículos (o seletor da loja e a ligação automática das peças importadas): não há produtos, preços nem stock.
+
+- Um modelo entra com ≥ 20 000 matrículas na UE; uma motorização com ≥ 2 000 (e ≥ 1 % do modelo).
+- Anos = primeiro / último ano com matrículas reais. Vazio no início = já à venda antes de 2010; vazio no
+  fim = ainda à venda no fim dos dados. Nada é inventado; gerações (ex.: "Golf VII") não existem nesta fonte.
+- Ao importar, as peças com `marca` + `modelo` ligam-se a estes veículos (mesmo nome); modelos que não
+  existam continuam a ser criados como antes.
+- Regenerar (por exemplo com dados mais recentes da EEA): `npm run vehicles:generate -- --fetch`. As regras de
+  normalização dos nomes estão em `scripts/vehicle-reference/normalize.mjs`.
+
 ## Regras
 
 - **Nada é inventado.** Um valor em falta fica vazio; um valor que não se percebe é assinalado e ignorado

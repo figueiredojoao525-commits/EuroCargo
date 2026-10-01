@@ -3367,6 +3367,12 @@ tbody tr:hover {
   padding-bottom: 24px;
   font-size: 0.85rem;
 }
+.footer-credit {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
 
 /* ─────────────── Catalogue import / providers / vehicle lookup ─────────────── */
 .text-error {

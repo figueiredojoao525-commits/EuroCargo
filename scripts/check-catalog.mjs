@@ -60,6 +60,10 @@ check(sellerModel, 'seller model (20261004000000): internal product columns are 
 
 if (probe.body && 'exact_total' in probe.body) ok('search relevance (20261005000000) applied: exact vs approximate results')
 else info('search relevance (20261005000000) not applied yet — apply apply_20261005_transaction.sql (the site works without it)')
+const makesTotal = await count('/rest/v1/vehicle_makes?select=id')
+const modelsTotal = await count('/rest/v1/vehicle_models?select=id')
+if (makesTotal >= 39 && modelsTotal >= 447) ok(`vehicle reference (20261006000000): ${makesTotal} makes, ${modelsTotal} models`)
+else info(`vehicle reference (20261006000000) not applied yet — ${makesTotal} makes, ${modelsTotal} models (apply apply_20261006_transaction.sql)`)
 
 console.log('\n2. Products and DEMO data')
 const total = await count('/rest/v1/products?select=id')
