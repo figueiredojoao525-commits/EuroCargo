@@ -34,6 +34,7 @@ test('illustrative photo: part type first, then the category, else none', () => 
   // A type without its own photo uses a photo of the same category (still labelled illustrative).
   const fallback = illustrativeKey('motor', 'Bomba de água')
   assert.ok(fallback && fallback !== 'water-pump')
+  assert.equal(illustrativeKey('refrigeracao', 'Radiador do motor'), 'radiator-fan')
   assert.equal(illustrativeKey('categoria-inexistente', 'X'), null)
   const image = illustrativeImage('brake-pads')!
   assert.equal(image.src, '/images/illustrative/brake-pads-800.webp')

@@ -114,8 +114,10 @@ pasta e volte a importar.
      `images-work/illustrative/sheet-*.html` no browser e escolha;
   2. ponha o título (`File:…`) em `illustrative-selection.json`;
   3. `npm run images:illustrative -- build`, confirme as imagens em `public/images/illustrative/` e publique.
-- Tipos ainda sem foto livre adequada (usam a foto da categoria): bomba de direção assistida, rótula, rolamento de
-  roda, bomba de água, correia de acessórios, junta da tampa das válvulas, radiador, condensador de A/C.
+- Um tipo sem foto pode indicar um tipo semelhante (`similar` em `partTypes.ts`, ex.: radiador → ventilador do
+  radiador, condensador de A/C → compressor de A/C); senão usa a primeira foto da categoria.
+- Tipos ainda sem foto livre adequada: bomba de direção assistida, rótula, rolamento de roda, bomba de água,
+  correia de acessórios, junta da tampa das válvulas, radiador, condensador de A/C.
 
 ## Armazenamento, tráfego e custos
 

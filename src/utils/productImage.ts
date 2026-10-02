@@ -53,6 +53,7 @@ function build(key: string): IllustrativeImage | null {
 export function illustrativeKey(categorySlug: string | null | undefined, canonicalName: string): string | null {
   const type = partTypeOf(categorySlug, canonicalName)
   if (type && DATA[type.key]) return type.key
+  if (type?.similar && DATA[type.similar]) return type.similar
   return PART_TYPES.find((t) => t.category === categorySlug && DATA[t.key])?.key ?? null
 }
 

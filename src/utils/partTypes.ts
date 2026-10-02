@@ -11,6 +11,8 @@ export interface PartType {
   /** Matched against the accent-free, lower-case product name. */
   match: RegExp
   search: string
+  /** Closest other type whose photo to use while this one has none (before any photo of the category). */
+  similar?: string
 }
 
 export const PART_TYPES: PartType[] = [
@@ -48,7 +50,7 @@ export const PART_TYPES: PartType[] = [
   // refrigeracao
   { key: 'thermostat', category: 'refrigeracao', match: /termostato/, search: 'engine thermostat' },
   { key: 'radiator-fan', category: 'refrigeracao', match: /ventilador/, search: 'radiator cooling fan' },
-  { key: 'radiator', category: 'refrigeracao', match: /radiador/, search: 'radiator automobile cooling' },
+  { key: 'radiator', category: 'refrigeracao', match: /radiador/, search: 'radiator automobile cooling', similar: 'radiator-fan' },
   // eletrico
   { key: 'alternator', category: 'eletrico', match: /alternador/, search: 'alternator' },
   { key: 'starter-motor', category: 'eletrico', match: /arranque/, search: 'starter motor' },
@@ -63,7 +65,7 @@ export const PART_TYPES: PartType[] = [
   { key: 'lambda-sensor', category: 'escape', match: /lambda/, search: 'oxygen sensor lambda' },
   // ar-condicionado
   { key: 'ac-compressor', category: 'ar-condicionado', match: /compressor/, search: 'Klimakompressor' },
-  { key: 'ac-condenser', category: 'ar-condicionado', match: /condensador/, search: 'Klimakondensator' },
+  { key: 'ac-condenser', category: 'ar-condicionado', match: /condensador/, search: 'Klimakondensator', similar: 'ac-compressor' },
   // carrocaria
   { key: 'wiper-blades', category: 'carrocaria', match: /escova|limpa/, search: 'wiper blade' },
   { key: 'bumper-grille', category: 'carrocaria', match: /grelha/, search: 'radiator grille' },
