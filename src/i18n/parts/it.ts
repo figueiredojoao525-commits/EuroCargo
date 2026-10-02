@@ -114,6 +114,8 @@ export const itParts: PartsDictionary = {
     title: 'Categorie di ricambi',
     subtitle: 'Esplora il catalogo per tipo di ricambio.',
     empty: 'Non ci sono ancora categorie.',
+    componentsTitle: 'Componenti per categoria',
+    componentsHint: 'Foto illustrative di ogni tipo di ricambio: non sono i ricambi esatti in vendita. Tocca un componente per cercarlo nel catalogo o chiederlo a EuroCargo.',
   },
   assistant: {
     title: 'Assistente ricambi',

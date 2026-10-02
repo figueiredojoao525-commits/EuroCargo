@@ -114,6 +114,8 @@ export const ptParts = {
     title: 'Categorias de peças',
     subtitle: 'Explore o catálogo por tipo de peça.',
     empty: 'Ainda não existem categorias.',
+    componentsTitle: 'Componentes por categoria',
+    componentsHint: 'Fotografias ilustrativas de cada tipo de peça — não são as peças exatas à venda. Toque num componente para o procurar no catálogo ou pedir à EuroCargo.',
   },
   assistant: {
     title: 'Assistente de peças',

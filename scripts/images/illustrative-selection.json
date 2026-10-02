@@ -10,10 +10,16 @@
   "accessory-belt": [
     "File:Keilrippenriemen Servopumpe Spannrollen VW T4 IMG 20160922 135213.jpg"
   ],
-  "air-filter": "File:Ram air cleaner.jpg",
+  "air-filter": [
+    "File:Ram air cleaner.jpg",
+    "File:2014 Filtr powietrza DEMCiflex.jpg"
+  ],
   "alternator": [
     "File:Automotive alternator. Terminals.jpg",
-    "File:Alternador 005.JPG"
+    "File:Alternador 005.JPG",
+    "File:Lichtmaschine PKW.jpg",
+    "File:AlternoBMWV6.JPG",
+    "File:Automotive alternator.jpg"
   ],
   "ball-joint": [
     "File:New upper and lower ball joints, tie rod ends, boots, shocks and brake pads. (3517829024).jpg",
@@ -21,26 +27,44 @@
   ],
   "battery": [
     "File:Starterbatterie Blei-Calcium.jpg",
-    "File:Lead-acid automotive battery, 55 Ah.jpg"
+    "File:Lead-acid automotive battery, 55 Ah.jpg",
+    "File:Disconnect negative battery cable (4144787843).jpg"
   ],
+  "bonnet": "File:2008-04-19 Yellow hood.jpg",
   "brake-caliper": [
     "File:Disk brake dsc03682.jpg",
-    "File:2020 Chevrolet Bolt EV front disc brake 2.jpg"
+    "File:2020 Chevrolet Bolt EV front disc brake 2.jpg",
+    "File:Brake caliper honda jazz.jpg",
+    "File:Japan-Mobility-Show-2025-RuinDig 0161.jpg",
+    "File:Automobile DSC 0112 (5459975181).jpg"
   ],
   "brake-disc": [
     "File:Ventilated 2-Piece Floating Disc Curved Drilled & Slotted Brake Rotor.jpg",
     "File:Ventilated Plain (Smooth) Brake Rotor.jpg",
-    "File:Bremsanlage.jpg"
+    "File:Bremsanlage.jpg",
+    "File:Brake Discs.jpg",
+    "File:Automobile brake pad.jpg"
+  ],
+  "brake-drum": [
+    "File:Trabant 601 duplex brake.jpg",
+    "File:Drum brake.jpg",
+    "File:Rear wheel drum brake.jpg"
   ],
   "brake-fluid": [
     "File:Brake fluid reservoir in Škoda Fabia I.jpg",
     "File:Brake fluid (5049376195).jpg"
   ],
+  "brake-master-cylinder": [
+    "File:Hydraulischer Bremskraftverstärker & Hauptbremszylinder von Audi 200 Typ 44 turbo.jpg",
+    "File:Brake master cylinder and reservoir.JPG",
+    "File:Pompa freno auto (diagonale) cropped.jpg"
+  ],
   "brake-pads": "File:Brake pads fitted with spring anchor.jpg",
   "bulb": "File:045 Replacing car headlight bulb - HIR2 type 12V halogen lightbulb for Toyota Auris.jpg",
   "bumper": [
     "File:Paraurti auto abbandonato nel Parco Alto Milanese - Legnano (MI), Lombardy, Italy - 2020-11-02.jpg",
-    "File:Moscow, lost bumper, Jan 2026 01.jpg"
+    "File:Moscow, lost bumper, Jan 2026 01.jpg",
+    "File:Bumpers (4982843667).jpg"
   ],
   "bumper-grille": "File:Dülmen, Wiesmann Sports Cars, Wiesmann Spyder Concept -- 2018 -- 9614.jpg",
   "cabin-filter": [
@@ -48,10 +72,19 @@
     "File:A dirty cabin filter.jpg",
     "File:Mercedes E500 Cabin Filters.jpg"
   ],
+  "catalytic-converter": [
+    "File:Pot catalytique vue de la structure.jpg",
+    "File:Metall-Katalysator.JPG",
+    "File:Bmw-catalytic-converters.jpg",
+    "File:Keramik-Katalysator.JPG"
+  ],
   "clutch-bearing": "File:M5OD transmission, input.jpg",
   "clutch-kit": [
     "File:Close-up view of a worn clutch disc among automotive tools in a workshop.jpg",
-    "File:Clutch disc.JPG"
+    "File:Clutch disc.JPG",
+    "File:Pull type clutch.jpg",
+    "File:Clutch (5177966386).jpg",
+    "File:Cutch cover.JPG"
   ],
   "coil-spring": [
     "File:Double wishbone suspension.jpg",
@@ -59,54 +92,117 @@
   ],
   "control-arm": [
     "File:Bras de suspension droit Citroën C15D.jpg",
-    "File:Basic Construction of Single Wishbone Suspension System.jpg"
+    "File:Basic Construction of Single Wishbone Suspension System.jpg",
+    "File:Control Arm Fahrwerk.JPG",
+    "File:Silenblock audi brasdirection.jpg"
   ],
   "coolant": "File:Antifreeze in the radiator.jpg",
   "cv-joint": [
     "File:CV Joint with broken tone ring.JPG",
     "File:ШРУСы автомобилей УАЗ в магазине ф2.jpg",
-    "File:2008-04-23 Cracked CV boot.jpg"
+    "File:2008-04-23 Cracked CV boot.jpg",
+    "File:Gelenk-liegend.jpg",
+    "File:Gelenk-welle.jpg"
+  ],
+  "differential": [
+    "File:Ring&Pinion Pattern Coast.jpg",
+    "File:Hammasülekanne.jpg"
+  ],
+  "door": [
+    "File:2006 Subaru Outback XT 366A7196 (14714248911).jpg",
+    "File:Audi Q8 Monrepos 2018 IMG 0104.jpg"
+  ],
+  "door-handle": [
+    "File:Alfa 159 - Flickr - David Villarreal Fernández (12).jpg",
+    "File:1964 Imperial door handle.jpg",
+    "File:Classic car face (17868576221).jpg"
   ],
   "drive-shaft": [
     "File:CV joint half axle.jpg",
-    "File:Fahrzeugtechnik Vorderachse.jpg"
+    "File:Fahrzeugtechnik Vorderachse.jpg",
+    "File:2008-04-23 Axle splines.jpg"
   ],
   "engine-oil": [
     "File:SIGAUS aceite.jpg",
     "File:Motor oil refill with funnel.JPG",
-    "File:Motor oil.JPG"
+    "File:Motor oil.JPG",
+    "File:Mobil 1 motor oil.jpg"
+  ],
+  "fender": [
+    "File:1964 Rambler Classic 770 red-white two-door hardtop FL-10.jpg",
+    "File:1955 Nash Ambassador Custom sedan six-cylinder LeMans sedan at 2015 AACA Eastern Regional Fall Meet 09of17.jpg"
   ],
   "first-aid-kit": [
     "File:Erste Hilfe 003 2026 02 17.jpg",
-    "File:Kit pronto soccorso moto (aperto).JPG"
+    "File:Kit pronto soccorso moto (aperto).JPG",
+    "File:Erste Hilfe Kasten mit Pflaster.jpg",
+    "File:Contenuto kit pronto soccorso moto.JPG"
   ],
   "floor-mats": [
     "File:Tailored-rubber-mats-moulded-car-mats.jpg",
     "File:Fitted-rubber-car-mats-image.jpg",
-    "File:Eva Car Mats.jpg"
+    "File:Eva Car Mats.jpg",
+    "File:Car mats fitted.jpg"
   ],
   "flywheel": "File:Zweimassenschwungrad und kupplung aufgeschnitten.jpg",
   "fuel-filter": [
     "File:Fuel filter.jpg",
     "File:Dieselfilter PKW VAG.jpg",
-    "File:Car fuel pre-filter.jpg"
+    "File:Car fuel pre-filter.jpg",
+    "File:Fuelfilter open.jpg",
+    "File:Just a fuel filter... (22493933238).jpg"
+  ],
+  "fuel-injector": [
+    "File:LPI 001.JPG"
+  ],
+  "fuse": [
+    "File:Bezpieczniki samochodowe.jpg",
+    "File:Fuse255.jpg",
+    "File:Car fuse box.jpg",
+    "File:Closeup of the car fuses.jpg"
+  ],
+  "gearbox": [
+    "File:M5OD transmission.jpg",
+    "File:2010 FPV GT (FG) Boss 335 sedan (2010-10-16) 06.jpg",
+    "File:Land Rover Series III gearbox.JPG"
+  ],
+  "glow-plug": [
+    "File:Glow plug.JPG",
+    "File:Gluehkerze (fcm).jpg",
+    "File:Glühkerzen Diesel Direkteinspritzer PKW.jpg"
   ],
   "headlight": [
     "File:Headlight of a Soviet car.jpg",
     "File:Close view of a car headlight with condensation on a black vehicle parked.jpg",
-    "File:Vintage car headlight. (Unsplash).jpg"
+    "File:Vintage car headlight. (Unsplash).jpg",
+    "File:\" 12 - ITALY - LANCIA DELTA headlamps.jpg",
+    "File:\" 12 - ITALY - Headlamp.jpg"
+  ],
+  "horn": [
+    "File:Hella Supertones 85115 horns front.jpeg",
+    "File:Bosch Europa black grille dual-tone Supertone horns rear.jpeg"
+  ],
+  "ignition-coil": [
+    "File:Bobine.jpg",
+    "File:Ignition coil.jpg",
+    "File:Bobina a scarica persa.jpg"
   ],
   "lambda-sensor": [
     "File:Lambda sond till volvo240 etc.jpg",
-    "File:New vs old oxygen sensors (4144783963).jpg"
+    "File:New vs old oxygen sensors (4144783963).jpg",
+    "File:Oxygen sensor IMG 0488.JPG"
   ],
   "muffler": [
     "File:Oldrich-Jelinek-catalytic-silencer-1964.jpg",
-    "File:Silencer 001.JPG"
+    "File:Silencer 001.JPG",
+    "File:2010 FPV GT (FG) Boss 335 sedan (2010-10-16) 05.jpg"
   ],
   "oil-filter": [
     "File:Olejový filtr s těsněním.jpg",
-    "File:Engine oil filter cutaway.JPG"
+    "File:Engine oil filter cutaway.JPG",
+    "File:Installiert Ölfilter in einem Automatikgetriebe IMG 6756.JPG",
+    "File:Filtro olio avvitabile.JPG",
+    "File:Oilfilter Automotive Internal.png"
   ],
   "radiator": [
     "File:Radiateur de voiture.jpg",
@@ -114,27 +210,50 @@
   ],
   "radiator-fan": [
     "File:Radiator fans installed.jpg",
-    "File:Mismatched fans.jpg"
+    "File:Mismatched fans.jpg",
+    "File:Thermo Visco fan.JPG"
+  ],
+  "relay": [
+    "File:Socket for automotive relays.jpg",
+    "File:VAG car relay.jpg"
   ],
   "roof-bars": "File:Mjukt takräcke Northrack.jpg",
   "shock-absorber": [
     "File:Dülmen, Wiesmann Sports Cars, Wiesmann Spyder Concept -- 2018 -- 9574.jpg",
-    "File:Ford RS200 engine.jpg"
+    "File:Ford RS200 engine.jpg",
+    "File:NISSAN FUGA Y50 front shock absorber.jpg",
+    "File:Ein-&Zweirohrstoßdämpfer.jpg",
+    "File:Rialzi4x4 desert spare parts.jpg"
   ],
   "side-mirror": [
     "File:Car-SideMirror.jpg",
     "File:Wing mirror.jpg",
     "File:Outer rear-view mirror 001.JPG"
   ],
+  "spark-plug": [
+    "File:Bougie.jpg",
+    "File:Bougie2.jpg",
+    "File:Bujía Bosch Yttrium Super Plus.JPG",
+    "File:Candele d'accensione confronto.jpg"
+  ],
   "stabilizer-link": [
     "File:Aygo C1 Stabilisatorkoppelstange IMG 20161112 173104126.jpg",
-    "File:Stabilisatorkoppelstange mit Kugelgelenken BWCM IMG 20160202 1602.jpg"
+    "File:Stabilisatorkoppelstange mit Kugelgelenken BWCM IMG 20160202 1602.jpg",
+    "File:Alfetta front suspension antiroll.jpg"
   ],
-  "starter-motor": "File:Automobile starter.JPG",
+  "starter-motor": [
+    "File:Automobile starter.JPG",
+    "File:Cma1clip.jpg",
+    "File:PowerEdge 39PE 12V Starter Sonoma 2026.jpg",
+    "File:Startér motoru cs.jpg"
+  ],
+  "steering-wheel": "File:2020 Toyota Land Cruiser V8 Speedometer.jpg",
   "tail-light": [
     "File:Red car tail light (Unsplash).jpg",
     "File:Hillman Avenger tail light (9073314699).jpg",
-    "File:Damaged car tail light seen in a junkyard.jpg"
+    "File:Damaged car tail light seen in a junkyard.jpg",
+    "File:\" 12 - ITALY - rear light.jpg",
+    "File:11-08-07 Alfa Romeo Spider 2006 in Porto Recanati rear lights 02.jpg"
   ],
   "thermostat": [
     "File:Replacement Thermostat.jpg",
@@ -143,26 +262,50 @@
   "tie-rod-end": "File:Tie rod end.jpeg",
   "timing-kit": [
     "File:Zahnriemenantriebe.jpg",
-    "File:Toothed rubber timing belt.jpg"
+    "File:Toothed rubber timing belt.jpg",
+    "File:Cinghia distribuzione.JPG",
+    "File:2001 honda accord timing belt-terabass.jpg"
+  ],
+  "turbocharger": [
+    "File:TurboBMW.JPG",
+    "File:Turbo charger with wastegate.jpg",
+    "File:Turbocompresseur.jpg"
+  ],
+  "tyre": [
+    "File:Tire tread.jpg",
+    "File:Studless tire 2.jpg",
+    "File:2008-05-01 Tyre.jpg",
+    "File:All Season tire tread and code.JPG"
   ],
   "warning-triangle": [
     "File:Triangle de présignalisation.JPG",
     "File:Red triangle of a car.jpg",
-    "File:三角表示板.jpg"
+    "File:三角表示板.jpg",
+    "File:Warndreieck2 fexx.jpg",
+    "File:Broken Down Volvo 2013 S60 T5.jpg"
   ],
   "washer-fluid": [
     "File:Windshield washer fluid can.jpg",
-    "File:Man pouring windshield washer fluid.jpg"
+    "File:Man pouring windshield washer fluid.jpg",
+    "File:Auffuellen von Scheibenwaschanlage 001.JPG",
+    "File:Love’s Windshield Wash Fluid.jpg"
   ],
   "water-pump": [
     "File:Kuehlmittelpumpe Suzuki G10A.jpg"
   ],
   "wheel-bearing": [
-    "File:Wheel assembly cross section-Bearings Spacer installed into hub with axle-Inline skates-Persp view-Bearings Preloaded-IMG 7794-bg-FRD.png"
+    "File:Wheel assembly cross section-Bearings Spacer installed into hub with axle-Inline skates-Persp view-Bearings Preloaded-IMG 7794-bg-FRD.png",
+    "File:Wheel hub assembly.jpg"
+  ],
+  "wheel-rim": [
+    "File:Mini Wheels Close Up (2337994172).jpg",
+    "File:BMW mule, Berlin (P1032429).jpg",
+    "File:Subaru original aluminum wheel JWL mark.jpg"
   ],
   "wiper-blades": [
     "File:Used Michelin 8019 windshield wiper blade tip.jpg",
     "File:Windshield Wiper 2.jpg",
-    "File:Windshield Wiper 1.jpg"
+    "File:Windshield Wiper 1.jpg",
+    "File:2008-04-24 Windshield wiper parts.jpg"
   ]
 }

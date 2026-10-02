@@ -122,6 +122,8 @@ export const deParts: PartsDictionary = {
     title: 'Teilekategorien',
     subtitle: 'Durchsuchen Sie den Katalog nach Teiletyp.',
     empty: 'Noch keine Kategorien vorhanden.',
+    componentsTitle: 'Bauteile nach Kategorie',
+    componentsHint: 'Symbolbilder der einzelnen Teiletypen — nicht die genauen angebotenen Teile. Tippen Sie auf ein Bauteil, um es im Katalog zu suchen oder bei EuroCargo anzufragen.',
   },
   assistant: {
     title: 'Teile-Assistent',

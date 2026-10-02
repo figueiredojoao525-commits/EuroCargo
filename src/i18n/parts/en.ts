@@ -114,6 +114,8 @@ export const enParts: PartsDictionary = {
     title: 'Part categories',
     subtitle: 'Browse the catalogue by type of part.',
     empty: 'There are no categories yet.',
+    componentsTitle: 'Components by category',
+    componentsHint: 'Illustrative photos of each type of part — not the exact parts for sale. Tap a component to search the catalogue or ask EuroCargo for it.',
   },
   assistant: {
     title: 'Parts assistant',

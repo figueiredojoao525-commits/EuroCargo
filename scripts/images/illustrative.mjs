@@ -48,11 +48,26 @@ async function candidates(only, source) {
     const chosen = new Set(list(selection[type.key]))
     const seen = new Set()
     const approved = []
-    const queries = [['en', type.search], ...Object.entries(type.terms ?? {})].filter(([lang]) => LANGS.includes(lang))
+    const queries = [
+      // Curated Commons categories first (Commons only), then free search in the five languages.
+      ...(source === 'commons' ? (type.commons ?? []).map((c) => ['categoria', c]) : []),
+      ...[['en', type.search], ...Object.entries(type.terms ?? {})].filter(([lang]) => LANGS.includes(lang)),
+    ]
     for (const [lang, query] of queries) {
       let found = []
       try {
-        if (source === 'commons') {
+        if (source === 'commons' && lang === 'categoria') {
+          const data = await api({
+            action: 'query',
+            generator: 'categorymembers',
+            gcmtitle: `Category:${query}`,
+            gcmtype: 'file',
+            gcmlimit: '50',
+            iiurlwidth: '320',
+            ...IMAGE_PROPS,
+          })
+          found = (data.query?.pages ?? []).map((p) => ({ ...describe(p), source: 'Wikimedia Commons' }))
+        } else if (source === 'commons') {
           const data = await api({
             action: 'query',
             generator: 'search',
@@ -72,6 +87,7 @@ async function candidates(only, source) {
         if (/chave|Acesso recusado/.test(error.message)) return
         continue
       }
+      await new Promise((r) => setTimeout(r, 500)) // gentle pace (Wikimedia asks clients to limit requests)
       for (const c of found) {
         const status = chosen.has(c.title) ? 'já selecionada' : verdict(c, seen)
         seen.add(c.title)
@@ -79,8 +95,8 @@ async function candidates(only, source) {
         if (status.startsWith('aprovada')) approved.push(c)
       }
     }
-    out[type.key] = approved.slice(0, 20)
-    console.log(`${type.key.padEnd(22)} ${String(approved.length).padStart(3)} aprovadas pela licença (${queries.length} línguas)`)
+    out[type.key] = approved.slice(0, 30)
+    console.log(`${type.key.padEnd(22)} ${String(approved.length).padStart(3)} aprovadas pela licença (${queries.length} pesquisas)`)
   }
   writeJson(join(WORK, 'illustrative/candidates.json'), out)
   writeFileSync(join(WORK, 'illustrative/candidates-report.csv'), csv(report, ['type', 'lang', 'query', 'status', 'license', 'author', 'title', 'page']))

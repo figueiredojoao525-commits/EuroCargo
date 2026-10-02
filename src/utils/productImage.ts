@@ -98,6 +98,14 @@ export function categoryImage(categorySlug: string | null | undefined): Illustra
   return type ? illustrativeImage(type.key) : null
 }
 
+/** Part types of a category that have photos, each with its main photo (categories page). */
+export function categoryTypes(categorySlug: string | null | undefined): { type: (typeof PART_TYPES)[number]; image: IllustrativeImage }[] {
+  return PART_TYPES.filter((t) => t.category === categorySlug && BY_TYPE.has(t.key)).map((type) => ({
+    type,
+    image: illustrativeImage(type.key)!,
+  }))
+}
+
 /** Number of illustrative photos available. */
 export const illustrativeCount = Object.keys(DATA).length
 

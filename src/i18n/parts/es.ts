@@ -114,6 +114,8 @@ export const esParts: PartsDictionary = {
     title: 'Categorías de piezas',
     subtitle: 'Explore el catálogo por tipo de pieza.',
     empty: 'Aún no hay categorías.',
+    componentsTitle: 'Componentes por categoría',
+    componentsHint: 'Fotografías ilustrativas de cada tipo de pieza: no son las piezas exactas a la venta. Toque un componente para buscarlo en el catálogo o pedirlo a EuroCargo.',
   },
   assistant: {
     title: 'Asistente de piezas',

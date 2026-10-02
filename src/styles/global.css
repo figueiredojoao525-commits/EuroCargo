@@ -3569,3 +3569,59 @@ tbody tr:hover {
   height: 100%;
   object-fit: cover;
 }
+
+/* Categories page: components (part types) with an illustrative photo */
+.components {
+  margin-top: 48px;
+}
+.components h2 {
+  margin-bottom: 4px;
+}
+.components-group h3 {
+  margin: 24px 0 10px;
+  font-size: 1.05rem;
+}
+.components-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.component-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  padding: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--navy-900);
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.component-card:hover {
+  box-shadow: 0 6px 18px rgb(15 23 42 / 0.08);
+}
+.component-card figure {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f1f5fc, #e6edf9);
+}
+.component-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media (max-width: 480px) {
+  .components-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -107,7 +107,9 @@ pasta e volte a importar.
   **várias fotos**: cada produto mostra sempre a mesma (escolhida pelo id do produto), por isso produtos do mesmo
   tipo não aparecem todos com a mesma imagem; a página do produto mostra todas as fotos do tipo, cada uma com o seu
   crédito. Se o tipo não tiver foto, usa um tipo semelhante (`similar`) e depois a primeira foto da categoria; se a
-  categoria não tiver nenhuma, mostra o desenho. A página Categorias mostra uma foto ilustrativa por categoria.
+  categoria não tiver nenhuma, mostra o desenho. A página Categorias mostra uma foto ilustrativa por categoria e,
+  em «Componentes por categoria», uma foto de cada tipo de peça (também os tipos que ainda não têm produtos — o
+  clique abre a pesquisa da loja, onde o cliente pode pedir a peça à EuroCargo).
 - Escolhas em `scripts/images/illustrative-selection.json` (tipo → um título ou uma lista: `"File:…"` do Commons,
   `"pexels:<id>"`, `"pixabay:<id>"`); créditos (autor, licença, página de origem, fonte, data de importação, SHA-256)
   em `src/data/illustrative-images.json`, mostrados no site.
@@ -115,15 +117,19 @@ pasta e volte a importar.
   A licença é verificada de novo em cada `build`. Excluem-se também, na revisão visual, fotos de outros veículos
   (comboios, motos, bicicletas) e fotos em que uma marca comercial aparece em destaque.
 - Para acrescentar ou trocar fotos:
-  1. `npm run images:illustrative -- candidates [--only brake-pads,oil-filter]` — pesquisa em **pt, en, es, fr e de**
-     (termos em `partTypes.ts`) e escreve em `images-work/illustrative/`:
+  1. `npm run images:illustrative -- candidates [--only brake-pads,oil-filter]` — pesquisa primeiro nas **categorias
+     do Commons** indicadas em `commons` (ex.: `Brake pads`, `Spark plugs`) e depois em **pt, en, es, fr e de**
+     (termos em `partTypes.ts`), com pausas entre pedidos, e escreve em `images-work/illustrative/`:
      `candidates-report.csv` (cada ficheiro encontrado: aprovado pela licença, rejeitado e porquê, duplicado,
      já selecionado) e `sheet-*.html` (folhas de contacto para escolher a olho);
   2. acrescente os títulos escolhidos à lista do tipo em `illustrative-selection.json`;
   3. `npm run images:illustrative -- build` (só descarrega o que é novo; pedidos às APIs ficam em cache 24 h em
      `images-work/cache/`), confirme as imagens em `public/images/illustrative/` e publique.
-- Tipos ainda sem foto livre adequada: bomba de direção assistida (usa a foto da categoria Direção), condensador de
-  A/C (usa a do compressor), junta da tampa das válvulas (usa a da categoria Motor).
+- Tipos ainda sem foto livre adequada (usam a foto de um tipo semelhante ou da categoria): bomba de direção assistida,
+  condensador de A/C, junta da tampa das válvulas, tubo de travão, polia, vaso de expansão (no Commons só havia
+  vasos de canalização doméstica).
+- Para acrescentar um tipo de peça novo: uma linha em `PART_TYPES` (`partTypes.ts`) com `label` nas 6 línguas,
+  `category` (slug da categoria da loja), `match` (palavras do nome do produto), `search`/`terms` e `commons`.
 
 ### Pexels e Pixabay (opcional, chaves gratuitas)
 
@@ -149,6 +155,10 @@ só descarrega as fotos escolhidas — nunca cópias em massa.
 - **VehiclesDB** (CC BY 4.0, ~4 900 modelos de automóveis de 14 países) — pode complementar as marcas/modelos da EEA
   com uma migração gerada como a da EEA; não foi aplicado porque obriga a SQL novo e a EEA já cobre a Europa.
 - **CarAPI** (MIT) — fotos de automóveis inteiros via Wikimedia/Wikidata, não de peças; não integrado.
+- **FAPI** (fapi.iisis.ru, especificação Apache 2.0) — catálogo de peças com referências cruzadas e aplicações, mas
+  o acesso público é uma chave de demonstração partilhada e rotativa ("not for production"); uso real exige chave
+  pessoal pedida ao fornecedor. Não integrado. auto-parts-catalog.apiprofile.com — documentação de outra API
+  comercial com chave; não integrada.
 
 ## Armazenamento, tráfego e custos
 
@@ -157,7 +167,7 @@ Preços verificados a 2026-10-02 (confirme em supabase.com/pricing e vercel.com/
 | Serviço | Gratuito | Uso atual |
 |---|---|---|
 | Supabase Storage (plano Free) | 1 GB de ficheiros, 5 GB/mês de tráfego (+5 GB em cache); **sem transformações de imagem** (por isso as fotos são otimizadas antes de carregar). No plano Free não há cobrança: se a quota for ultrapassada, o serviço é restringido | 0 fotos próprias |
-| Vercel (fotos ilustrativas) | 100 GB/mês de transferência no plano Hobby | 92 fotos (184 ficheiros), 5,8 MB no total (~10–40 KB por miniatura) |
+| Vercel (fotos ilustrativas) | 100 GB/mês de transferência no plano Hobby | 195 fotos (390 ficheiros), 12 MB no total (~10–40 KB por miniatura) |
 
 Estimativas: cada foto própria ocupa ~150–470 KB (as duas versões) → **1 GB ≈ 2 000–6 000 fotos**. Uma página
 da loja carrega 12 miniaturas de ~20–55 KB (~0,3–0,7 MB) → 5 GB/mês ≈ 7 000–15 000 páginas da loja vistas.

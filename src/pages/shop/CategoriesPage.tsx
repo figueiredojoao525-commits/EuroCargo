@@ -8,7 +8,7 @@ import { useI18n } from '../../i18n/context'
 import { catalogProvider } from '../../services/catalog'
 import { getErrorMessage } from '../../services/errors'
 import { categoryIcon, localized } from '../../utils/catalog'
-import { categoryImage } from '../../utils/productImage'
+import { categoryImage, categoryTypes } from '../../utils/productImage'
 
 /** Illustrative photo of the category (labelled; nothing when the category has no photo). */
 function CategoryPhoto({ slug }: { slug: string }) {
@@ -60,6 +60,45 @@ export function CategoriesPage() {
         ))}
       </div>
       {categories.data && top.length === 0 && <p className="card empty">{t.categories.empty}</p>}
+
+      {top.some((c) => categoryTypes(c.slug).length > 0) && (
+        <section className="components" aria-labelledby="components-title">
+          <h2 id="components-title">{t.categories.componentsTitle}</h2>
+          <p className="muted">{t.categories.componentsHint}</p>
+          {top.map((category) => {
+            const types = categoryTypes(category.slug)
+            if (types.length === 0) return null
+            return (
+              <div key={category.id} className="components-group">
+                <h3>{localized(category.name, category.name_i18n, lang)}</h3>
+                <ul className="components-grid">
+                  {types.map(({ type, image }) => (
+                    <li key={type.key}>
+                      <Link
+                        to={`/pecas?${new URLSearchParams({ q: type.terms?.pt ?? type.label.pt, category: category.id })}`}
+                        className="component-card"
+                      >
+                        <figure className="product-image-illustrative">
+                          <img
+                            src={image.src.replace(/-800\.webp$/, '-400.webp')}
+                            width={image.width}
+                            height={image.height}
+                            alt={`${type.label[lang]} — ${t.shop.illustrative}`}
+                            loading="lazy"
+                            decoding="async"
+                          />
+                          <figcaption className="product-image-tag">{t.shop.illustrative}</figcaption>
+                        </figure>
+                        <span>{type.label[lang]}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )
+          })}
+        </section>
+      )}
     </div>
   )
 }
