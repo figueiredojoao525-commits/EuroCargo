@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { useI18n } from '../../i18n/context'
 import type { ProductCardData } from '../../utils/catalog'
 import { AvailabilityBadge, ConditionBadge, DemoBadge, PriceDisplay } from './Badges'
-import { ProductIllustration } from './ProductIllustration'
+import { ProductImage } from './ProductImage'
 
 export function ProductCard({ product }: { product: ProductCardData }) {
   const { t } = useI18n()
@@ -10,11 +10,12 @@ export function ProductCard({ product }: { product: ProductCardData }) {
     <article className="product-card">
       <Link to={`/pecas/${product.id}`} className="product-card-link">
         <div className="product-card-media">
-          {product.image ? (
-            <img src={product.image} alt="" loading="lazy" decoding="async" />
-          ) : (
-            <ProductIllustration categorySlug={product.categorySlug} />
-          )}
+          <ProductImage
+            url={product.image}
+            illustrativeKey={product.illustrativeKey}
+            categorySlug={product.categorySlug}
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 280px"
+          />
           <div className="product-card-badges">
             <ConditionBadge condition={product.condition} />
             {product.isDemo && <DemoBadge />}

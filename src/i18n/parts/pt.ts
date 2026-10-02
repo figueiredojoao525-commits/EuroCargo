@@ -75,6 +75,8 @@ export const ptParts = {
     gallery: 'Galeria de imagens',
     image: 'Imagem',
     illustrative: 'Imagem ilustrativa',
+    illustrativeHint: 'Imagem ilustrativa do tipo de peça — não é a fotografia do produto exato.',
+    photoBy: 'Foto:',
     interpreted: 'Pesquisa interpretada:',
     searchTextOnly: 'Pesquisar só o texto',
     exactCount: '{count} correspondência(s) exata(s)',

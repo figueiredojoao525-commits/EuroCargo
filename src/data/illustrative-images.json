@@ -1,0 +1,422 @@
+{
+  "abs-sensor": {
+    "width": 800,
+    "height": 600,
+    "title": "ABS Sensor VAG IMG 0562.JPG",
+    "author": "Hans Haase",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:ABS_Sensor_VAG_IMG_0562.JPG",
+    "sha256": "abc5bae37f0885383381aa5e101433fbf892e8872470c474827225dfb2618563"
+  },
+  "ac-compressor": {
+    "width": 800,
+    "height": 600,
+    "title": "Taumelscheibenverdichter-Schnitt.JPG",
+    "author": "Cschirp",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Taumelscheibenverdichter-Schnitt.JPG",
+    "sha256": "af6e7d624b36c3b49a906c5c70d7196ee91720a6401b1ffe718b3cbd9560cfcc"
+  },
+  "air-filter": {
+    "width": 800,
+    "height": 600,
+    "title": "Ram air cleaner.jpg",
+    "author": "Enginedesigner",
+    "license": "Public domain",
+    "licenseUrl": "",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ram_air_cleaner.jpg",
+    "sha256": "418aaae01d5745addb962be5a5554f182b33ceed45ce3c45ec2b10ad14ab1eea"
+  },
+  "alternator": {
+    "width": 800,
+    "height": 600,
+    "title": "Automotive alternator. Terminals.jpg",
+    "author": "Zinnsoldat",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Automotive_alternator._Terminals.jpg",
+    "sha256": "1a9f9152195936d1f2d2097ccf857946a9246233077ba91c1f33d7fb858d1023"
+  },
+  "battery": {
+    "width": 800,
+    "height": 600,
+    "title": "Starterbatterie Blei-Calcium.jpg",
+    "author": "Rainer Kamenz",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Starterbatterie_Blei-Calcium.jpg",
+    "sha256": "cb1e17f5bbf0acce016732f155883dab0f0d3b297b492e2e097ce80b1b8782f6"
+  },
+  "brake-caliper": {
+    "width": 800,
+    "height": 600,
+    "title": "Disk brake dsc03682.jpg",
+    "author": "Wikimedia Commons",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Disk_brake_dsc03682.jpg",
+    "sha256": "f7c08ade608f3adb264d335a0ae0d40f01b2f0fedd83585d574bd1b698363e2a"
+  },
+  "brake-disc": {
+    "width": 800,
+    "height": 600,
+    "title": "Ventilated 2-Piece Floating Disc Curved Drilled & Slotted Brake Rotor.jpg",
+    "author": "Atharv Chandel",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ventilated_2-Piece_Floating_Disc_Curved_Drilled_%26_Slotted_Brake_Rotor.jpg",
+    "sha256": "96c563b9b6e0a3035cd7752be6f74ba1020125c31cff29fcf380ceb2d0c91299"
+  },
+  "brake-fluid": {
+    "width": 800,
+    "height": 600,
+    "title": "Brake fluid reservoir in Škoda Fabia I.jpg",
+    "author": "Frettie",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Brake_fluid_reservoir_in_%C5%A0koda_Fabia_I.jpg",
+    "sha256": "3d6c1e8bab8a07632a4251a0efa73fe08d807d5e29b32259f130ba3c11ce208c"
+  },
+  "brake-pads": {
+    "width": 800,
+    "height": 600,
+    "title": "Brake pads fitted with spring anchor.jpg",
+    "author": "A7N8X",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Brake_pads_fitted_with_spring_anchor.jpg",
+    "sha256": "b097c4ea3862da9fd4b8d4521cdff8eaf459d13bc261548d97df92ae5143a026"
+  },
+  "bulb": {
+    "width": 800,
+    "height": 600,
+    "title": "045 Replacing car headlight bulb - HIR2 type 12V halogen lightbulb for Toyota Auris.jpg",
+    "author": "Marek Ślusarczyk (Tupungato) Photo portfolio",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:045_Replacing_car_headlight_bulb_-_HIR2_type_12V_halogen_lightbulb_for_Toyota_Auris.jpg",
+    "sha256": "8e8767aedc0c4fb08cace7bab73d3d0f6bdca6333e3c133f717b4dc9e72a98a4"
+  },
+  "bumper": {
+    "width": 800,
+    "height": 600,
+    "title": "Paraurti auto abbandonato nel Parco Alto Milanese - Legnano (MI), Lombardy, Italy - 2020-11-02.jpg",
+    "author": "Mænsard vokser",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Paraurti_auto_abbandonato_nel_Parco_Alto_Milanese_-_Legnano_(MI),_Lombardy,_Italy_-_2020-11-02.jpg",
+    "sha256": "e4d7d7c3c309f578d2499724298f7fcfdf87eebbdb694fd70b652f23449d6cd1"
+  },
+  "bumper-grille": {
+    "width": 800,
+    "height": 600,
+    "title": "Dülmen, Wiesmann Sports Cars, Wiesmann Spyder Concept -- 2018 -- 9614.jpg",
+    "author": "Dietmar Rabich",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_Wiesmann_Sports_Cars,_Wiesmann_Spyder_Concept_--_2018_--_9614.jpg",
+    "sha256": "acf0ab5c03b5f5ce2702078977f4ab07cac3220547c2fa7f064570fb05cf8957"
+  },
+  "cabin-filter": {
+    "width": 800,
+    "height": 600,
+    "title": "Autobacs Pro Air conditioner filter H-0001.jpg",
+    "author": "Qurren",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Autobacs_Pro_Air_conditioner_filter_H-0001.jpg",
+    "sha256": "ff947b0829854216323e71a46a2f598b64aaa2cfba183b355475ac141fd70cfa"
+  },
+  "clutch-bearing": {
+    "width": 800,
+    "height": 600,
+    "title": "M5OD transmission, input.jpg",
+    "author": "J.C. Fields",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:M5OD_transmission,_input.jpg",
+    "sha256": "aab3aa1366a542711dd53206f81995b1e81fdeb738f3772056eccc635b07c7f3"
+  },
+  "clutch-kit": {
+    "width": 800,
+    "height": 600,
+    "title": "Close-up view of a worn clutch disc among automotive tools in a workshop.jpg",
+    "author": "Shixart1985",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Close-up_view_of_a_worn_clutch_disc_among_automotive_tools_in_a_workshop.jpg",
+    "sha256": "8764b9888b2c1214e61a0e4af4cbf9cccc6717fe55ef573404444802e868b8ab"
+  },
+  "coil-spring": {
+    "width": 800,
+    "height": 600,
+    "title": "Double wishbone suspension.jpg",
+    "author": "RB30DE",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Double_wishbone_suspension.jpg",
+    "sha256": "22fd6dc56d766540bd361c56683d70f8a88efdbcf665c05edc8ffa06d43c3541"
+  },
+  "control-arm": {
+    "width": 800,
+    "height": 600,
+    "title": "Double wishbone suspension.jpg",
+    "author": "RB30DE",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Double_wishbone_suspension.jpg",
+    "sha256": "22fd6dc56d766540bd361c56683d70f8a88efdbcf665c05edc8ffa06d43c3541"
+  },
+  "coolant": {
+    "width": 800,
+    "height": 600,
+    "title": "Antifreeze in the radiator.jpg",
+    "author": "EvelynGiggles",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Antifreeze_in_the_radiator.jpg",
+    "sha256": "aba307d898fc206d03aa7b785b31b3f5d0b146a365f03251b1f1314f05d149c1"
+  },
+  "cv-joint": {
+    "width": 800,
+    "height": 600,
+    "title": "CV Joint with broken tone ring.JPG",
+    "author": "Kiwiev",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:CV_Joint_with_broken_tone_ring.JPG",
+    "sha256": "0892777d767bd1d5dda13b29e0542e56e489c414660caddc0e5de94feb081020"
+  },
+  "drive-shaft": {
+    "width": 800,
+    "height": 600,
+    "title": "CV joint half axle.jpg",
+    "author": "BiH",
+    "license": "Public domain",
+    "licenseUrl": "",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:CV_joint_half_axle.jpg",
+    "sha256": "086c1b8673e63e1054c97198572e843cbf74c25841c341390168eaf6bd921482"
+  },
+  "engine-oil": {
+    "width": 800,
+    "height": 600,
+    "title": "SIGAUS aceite.jpg",
+    "author": "SIGAUS",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:SIGAUS_aceite.jpg",
+    "sha256": "12738a4edfa72087432c5fd4798b679415f09eff36aa8dc611372f71ffd45bb1"
+  },
+  "first-aid-kit": {
+    "width": 800,
+    "height": 600,
+    "title": "Erste Hilfe 003 2026 02 17.jpg",
+    "author": "Friedrich Haag",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Erste_Hilfe_003_2026_02_17.jpg",
+    "sha256": "d20e5bd4108b3cc15e9f3f202225ef209536bc61cbae190e96f2cd2e62e881b2"
+  },
+  "floor-mats": {
+    "width": 800,
+    "height": 600,
+    "title": "Tailored-rubber-mats-moulded-car-mats.jpg",
+    "author": "Keystones",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tailored-rubber-mats-moulded-car-mats.jpg",
+    "sha256": "3a0f7f165edf666cfed8f4b9377dfaa04d5b083b8951a165ef5fe32905c69498"
+  },
+  "flywheel": {
+    "width": 800,
+    "height": 600,
+    "title": "Zweimassenschwungrad und kupplung aufgeschnitten.jpg",
+    "author": "Cschirp",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Zweimassenschwungrad_und_kupplung_aufgeschnitten.jpg",
+    "sha256": "3697ebc03b92f620e148666fd4b50340f04123f974a83463374f67c8279e4078"
+  },
+  "fuel-filter": {
+    "width": 800,
+    "height": 600,
+    "title": "Fuel filter.jpg",
+    "author": "http://en.wikipedia.org/wiki/User:Phasmatisnox",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fuel_filter.jpg",
+    "sha256": "35cb0ceb3fe9d6885d584df92dfe0dad6e0f5823ca15312651b080fd4be7dd4f"
+  },
+  "headlight": {
+    "width": 800,
+    "height": 600,
+    "title": "Headlight of a Soviet car.jpg",
+    "author": "Dmitry Makeev",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Headlight_of_a_Soviet_car.jpg",
+    "sha256": "96ebcad36b4cafd161806931f34c85ca72fb45cc411cc789bd3643e10b62a575"
+  },
+  "lambda-sensor": {
+    "width": 800,
+    "height": 600,
+    "title": "Lambda sond till volvo240 etc.jpg",
+    "author": "Martin Olsson (username 'mnemo' on en/sv wikipedia and commons, martin@minimum.se).",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Lambda_sond_till_volvo240_etc.jpg",
+    "sha256": "3f47c79d8495a03da9188f9e8d27396ea0cda285f65f4efce04d04ba63501ebc"
+  },
+  "muffler": {
+    "width": 800,
+    "height": 600,
+    "title": "Oldrich-Jelinek-catalytic-silencer-1964.jpg",
+    "author": "Luboš Jelínek",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Oldrich-Jelinek-catalytic-silencer-1964.jpg",
+    "sha256": "2d0d1830e18fcbeec4bbb5dd3a6f0cfed2effd1e33d612013b049b525483ce3a"
+  },
+  "oil-filter": {
+    "width": 800,
+    "height": 600,
+    "title": "Olejový filtr s těsněním.jpg",
+    "author": "Voton.cz autodíly",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Olejov%C3%BD_filtr_s_t%C4%9Bsn%C4%9Bn%C3%ADm.jpg",
+    "sha256": "fc779daecadf06172460eb521929ea290c11d40fd4b13631f416b1fbb6ce39f5"
+  },
+  "radiator-fan": {
+    "width": 800,
+    "height": 600,
+    "title": "Radiator fans installed.jpg",
+    "author": "simonov",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Radiator_fans_installed.jpg",
+    "sha256": "bf503c1d96911c14254b94f4b3318417a1d991fd8d93f7c19fbae09fa091687e"
+  },
+  "roof-bars": {
+    "width": 800,
+    "height": 600,
+    "title": "Mjukt takräcke Northrack.jpg",
+    "author": "Magknip.nu",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mjukt_takr%C3%A4cke_Northrack.jpg",
+    "sha256": "2d07caf0b35d7f10b4defa50956a1952d3797b1c144d10b002d2f2a262ab333a"
+  },
+  "shock-absorber": {
+    "width": 800,
+    "height": 600,
+    "title": "Dülmen, Wiesmann Sports Cars, Wiesmann Spyder Concept -- 2018 -- 9574.jpg",
+    "author": "Dietmar Rabich",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_Wiesmann_Sports_Cars,_Wiesmann_Spyder_Concept_--_2018_--_9574.jpg",
+    "sha256": "962c58c3c360bc6e7061659edccf7d7880bbf548369d151138709b5a5e6aaeb7"
+  },
+  "side-mirror": {
+    "width": 800,
+    "height": 600,
+    "title": "Car-SideMirror.jpg",
+    "author": "Johan",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Car-SideMirror.jpg",
+    "sha256": "dccefa6ee8aee77064facb11a310a0052c55c02d73702a98439017373a9fc941"
+  },
+  "stabilizer-link": {
+    "width": 800,
+    "height": 600,
+    "title": "Aygo C1 Stabilisatorkoppelstange IMG 20161112 173104126.jpg",
+    "author": "Hans Haase",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aygo_C1_Stabilisatorkoppelstange_IMG_20161112_173104126.jpg",
+    "sha256": "7824b38c4dc27e95f488ae13850899dc9ccc4f39cad639530ac3b856a867b1fe"
+  },
+  "starter-motor": {
+    "width": 800,
+    "height": 600,
+    "title": "Automobile starter.JPG",
+    "author": "Willdre",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Automobile_starter.JPG",
+    "sha256": "420e0674b6e0821a1b140067d747e28b1f46d54607cfb9d8d2ed7c3bddc6275c"
+  },
+  "tail-light": {
+    "width": 800,
+    "height": 600,
+    "title": "Red car tail light (Unsplash).jpg",
+    "author": "chuttersnap chuttersnap",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Red_car_tail_light_(Unsplash).jpg",
+    "sha256": "fc64aa0774c4b8b266e2f27685613eca5ca25601e6b1912f926f863ba2741e58"
+  },
+  "thermostat": {
+    "width": 800,
+    "height": 600,
+    "title": "Replacement Thermostat.jpg",
+    "author": "Hoikka1",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Replacement_Thermostat.jpg",
+    "sha256": "0147bbde595134d5ba73d10acaa9d1cfbed8f6f72603ca42ba0f762e16cf4859"
+  },
+  "tie-rod-end": {
+    "width": 800,
+    "height": 600,
+    "title": "Tie rod end.jpeg",
+    "author": "Craig Howell",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tie_rod_end.jpeg",
+    "sha256": "f9ee55b6e16eb0d54ad0349d93bf74e5353eddb023f3b8c51f1dc97b731e5ee7"
+  },
+  "timing-kit": {
+    "width": 800,
+    "height": 600,
+    "title": "Zahnriemenantriebe.jpg",
+    "author": "Walther Flender",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Zahnriemenantriebe.jpg",
+    "sha256": "9f35c5e227733884bccc2076635aa2133674ca0e867a3d1ab831662bb3aba04f"
+  },
+  "warning-triangle": {
+    "width": 800,
+    "height": 600,
+    "title": "Triangle de présignalisation.JPG",
+    "author": "Roulex 45",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Triangle_de_pr%C3%A9signalisation.JPG",
+    "sha256": "0973d2c5cdb9e5d312bf0fda5afb71a954bc557208209d4d89b46310be84fee8"
+  },
+  "washer-fluid": {
+    "width": 800,
+    "height": 600,
+    "title": "Windshield washer fluid can.jpg",
+    "author": "Santeri Viinamäki",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Windshield_washer_fluid_can.jpg",
+    "sha256": "931cf65524650fb4e4f10a98a97fc95719209d520e80b93ec111ad033d8775ef"
+  },
+  "wiper-blades": {
+    "width": 800,
+    "height": 600,
+    "title": "Used Michelin 8019 windshield wiper blade tip.jpg",
+    "author": "Jacek Rużyczka",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Used_Michelin_8019_windshield_wiper_blade_tip.jpg",
+    "sha256": "b8622005ee8a4a5cf1fada731c909813c1ab568ce4271364c86fb2a892b39f74"
+  }
+}

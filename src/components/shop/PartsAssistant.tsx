@@ -7,11 +7,12 @@ import { cart } from '../../services/cart'
 import { getErrorMessage } from '../../services/errors'
 import type { CatalogItem } from '../../types'
 import { compatibilityLabel, localized } from '../../utils/catalog'
+import { illustrativeKey } from '../../utils/productImage'
 import { Alert } from '../Alert'
 import { Icon } from '../Icon'
 import { AvailabilityBadge, ConditionBadge, DemoBadge, PriceDisplay } from './Badges'
 import { ContactSpecialist } from './ContactSpecialist'
-import { ProductIllustration } from './ProductIllustration'
+import { ProductImage } from './ProductImage'
 
 type Message =
   | { id: number; role: 'user'; text: string }
@@ -116,13 +117,15 @@ function AnswerView({ answer }: { answer: AssistantAnswer }) {
             const compat = first.compatibility[0]
             return (
               <li key={first.group_key ?? first.id} className="assistant-result">
-                {first.image ? (
-                  <img className="assistant-result-image" src={first.image} alt="" loading="lazy" />
-                ) : (
-                  <div className="assistant-result-image">
-                    <ProductIllustration categorySlug={first.category?.slug} size="sm" />
-                  </div>
-                )}
+                <div className="assistant-result-image">
+                  <ProductImage
+                    url={first.image}
+                    illustrativeKey={illustrativeKey(first.category?.slug, first.name)}
+                    categorySlug={first.category?.slug}
+                    size="sm"
+                    sizes="64px"
+                  />
+                </div>
                 <div className="assistant-result-head">
                   <strong>{localized(first.name, first.name_i18n, lang)}</strong>
                   {first.is_demo && <DemoBadge />}

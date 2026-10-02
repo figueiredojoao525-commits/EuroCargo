@@ -9,6 +9,7 @@ import { ProductCard } from '../../components/shop/ProductCard'
 import { ProductGallery } from '../../components/shop/ProductGallery'
 import { useAsync } from '../../hooks/useAsync'
 import { useI18n } from '../../i18n/context'
+import { illustrativeKey } from '../../utils/productImage'
 import { cart } from '../../services/cart'
 import { catalogProvider } from '../../services/catalog'
 import { getErrorMessage } from '../../services/errors'
@@ -56,7 +57,12 @@ export function ProductPage() {
       {p.is_demo && <Alert tone="warning">{t.shop.demoProductNotice}</Alert>}
 
       <div className="product-main">
-        <ProductGallery images={p.product_images} name={name} categorySlug={p.category?.slug} />
+        <ProductGallery
+          images={p.product_images}
+          name={name}
+          categorySlug={p.category?.slug}
+          illustrativeKey={illustrativeKey(p.category?.slug, p.name)}
+        />
 
         <div className="product-info">
           <div className="product-badges">

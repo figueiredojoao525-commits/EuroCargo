@@ -75,6 +75,8 @@ export const esParts: PartsDictionary = {
     gallery: 'Galería de imágenes',
     image: 'Imagen',
     illustrative: 'Imagen ilustrativa',
+    illustrativeHint: 'Imagen ilustrativa del tipo de pieza: no es la fotografía del producto exacto.',
+    photoBy: 'Foto:',
     interpreted: 'Búsqueda interpretada:',
     searchTextOnly: 'Buscar solo el texto',
     exactCount: '{count} coincidencia(s) exacta(s)',

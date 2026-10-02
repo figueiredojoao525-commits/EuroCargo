@@ -1,6 +1,7 @@
 import type { IconName } from '../components/Icon'
 import type { Language } from '../i18n'
 import type { CatalogItem, I18nText, ProductDetail } from '../types'
+import { illustrativeKey } from './productImage'
 
 /** Database text in the current language, falling back to the default (Portuguese) value. */
 export function localized(fallback: string, translations: I18nText | null | undefined, lang: Language): string {
@@ -90,6 +91,8 @@ export interface ProductCardData {
   image: string | null
   /** For the illustrative image when there is no photo. */
   categorySlug: string | null
+  /** Illustrative photo of the part type (src/utils/productImage.ts). */
+  illustrativeKey: string | null
   isDemo: boolean
   compatibility: string | null
 }
@@ -107,6 +110,7 @@ export function cardFromItem(item: CatalogItem, lang: Language): ProductCardData
     leadTimeDays: item.lead_time_days,
     image: item.image,
     categorySlug: item.category?.slug ?? null,
+    illustrativeKey: illustrativeKey(item.category?.slug, item.name),
     isDemo: item.is_demo,
     compatibility: item.compatibility[0] ? compatibilityLabel(item.compatibility[0]) : null,
   }
@@ -126,6 +130,7 @@ export function cardFromProduct(product: ProductDetail, lang: Language): Product
     leadTimeDays: product.lead_time_days,
     image: product.product_images[0]?.url ?? null,
     categorySlug: product.category?.slug ?? null,
+    illustrativeKey: illustrativeKey(product.category?.slug, product.name),
     isDemo: product.is_demo,
     compatibility: c
       ? compatibilityLabel({

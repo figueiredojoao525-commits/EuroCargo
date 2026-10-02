@@ -129,6 +129,9 @@ desconhecidos ficam como aviso (o produto é importado sem essa ligação).
 Combustível aceite: gasolina, gasóleo/diesel, híbrido, elétrico, GPL (e equivalentes noutras línguas).
 Anos: `2004-2008`, `05/2004 - 12/2008`, `2010-` (desde), `-1999` (até).
 
+Fotografias sem URL no ficheiro do fornecedor (fotos próprias, pastas de imagens com o nome da referência):
+`npm run images:import` — ver [images.md](images.md).
+
 ## Formato exato aceite
 
 - **Cabeçalho obrigatório** (CSV) — uma linha com os nomes das colunas. A ordem é livre; colunas desconhecidas

@@ -75,6 +75,8 @@ export const enParts: PartsDictionary = {
     gallery: 'Image gallery',
     image: 'Image',
     illustrative: 'Illustrative image',
+    illustrativeHint: 'Illustrative image of the part type — not a photo of the exact product.',
+    photoBy: 'Photo:',
     interpreted: 'Search understood as:',
     searchTextOnly: 'Search the text only',
     exactCount: '{count} exact match(es)',

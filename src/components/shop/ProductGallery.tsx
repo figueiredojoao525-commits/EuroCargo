@@ -1,17 +1,20 @@
 import { useState } from 'react'
 import { useI18n } from '../../i18n/context'
 import type { ProductImage } from '../../types'
-import { ProductIllustration } from './ProductIllustration'
+import { responsive } from '../../utils/productImage'
+import { IllustrativeCredit, ProductImage as ProductPhoto } from './ProductImage'
 
 export function ProductGallery({
   images,
   name,
   categorySlug,
+  illustrativeKey,
 }: {
   images: ProductImage[]
   name: string
   /** Illustrative image when there is no photo. */
   categorySlug?: string | null
+  illustrativeKey?: string | null
 }) {
   const { t } = useI18n()
   const [index, setIndex] = useState(0)
@@ -21,8 +24,17 @@ export function ProductGallery({
     return (
       <div className="gallery">
         <div className="gallery-main">
-          <ProductIllustration categorySlug={categorySlug} size="lg" />
+          <ProductPhoto
+            url={null}
+            illustrativeKey={illustrativeKey}
+            categorySlug={categorySlug}
+            alt={name}
+            size="lg"
+            sizes="(max-width: 900px) 100vw, 560px"
+            eager
+          />
         </div>
+        <IllustrativeCredit illustrativeKey={illustrativeKey} />
       </div>
     )
   }
@@ -30,7 +42,16 @@ export function ProductGallery({
   return (
     <div className="gallery">
       <div className="gallery-main">
-        <img src={current.url} alt={current.alt || name} decoding="async" />
+        <ProductPhoto
+          key={current.id}
+          url={current.url}
+          illustrativeKey={illustrativeKey}
+          categorySlug={categorySlug}
+          alt={current.alt || name}
+          size="lg"
+          sizes="(max-width: 900px) 100vw, 560px"
+          eager
+        />
       </div>
       {(current.source || current.license) && (
         <p className="gallery-credit">{[current.source, current.license].filter(Boolean).join(' · ')}</p>
@@ -46,7 +67,7 @@ export function ProductGallery({
               aria-label={`${t.shop.image} ${i + 1}`}
               onClick={() => setIndex(i)}
             >
-              <img src={image.url} alt="" loading="lazy" />
+              <img src={responsive(image.url).srcSet?.split(' ')[0] ?? image.url} alt="" loading="lazy" />
             </button>
           ))}
         </div>

@@ -82,6 +82,8 @@ export const deParts: PartsDictionary = {
     gallery: 'Bildergalerie',
     image: 'Bild',
     illustrative: 'Symbolbild',
+    illustrativeHint: 'Symbolbild des Teiletyps — kein Foto des genauen Produkts.',
+    photoBy: 'Foto:',
     interpreted: 'Suche verstanden als:',
     searchTextOnly: 'Nur den Text suchen',
     exactCount: '{count} exakte(r) Treffer',

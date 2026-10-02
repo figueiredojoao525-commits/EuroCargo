@@ -34,3 +34,7 @@ supabase/.branches
 
 # EEA downloads for scripts/vehicle-reference (regenerated with --fetch)
 scripts/vehicle-reference/cache/
+
+# Image tools: downloads, manifests and reports (scripts/images)
+images-work/
+.env.local

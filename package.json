@@ -14,7 +14,11 @@
     "check:catalog": "node scripts/check-catalog.mjs",
     "import:catalog": "node scripts/import-catalog.mjs",
     "vehicles:generate": "node scripts/vehicle-reference/generate.mjs",
-    "test:e2e": "node scripts/e2e.mjs"
+    "test:e2e": "node scripts/e2e.mjs",
+    "images:report": "node scripts/images/report.mjs",
+    "images:import": "node scripts/images/import.mjs",
+    "images:find": "node scripts/images/find.mjs",
+    "images:illustrative": "node scripts/images/illustrative.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2",
@@ -29,6 +33,7 @@
     "@vitejs/plugin-react": "^6.1.1",
     "oxlint": "^1.81.0",
     "puppeteer-core": "^23.11.1",
+    "sharp": "^0.35.5",
     "typescript": "~6.0.2",
     "vite": "^8.3.0"
   }
