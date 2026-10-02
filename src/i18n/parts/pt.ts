@@ -115,11 +115,12 @@ export const ptParts = {
     title: 'Assistente de peças',
     subtitle: 'Responde apenas com dados do catálogo EuroCargo.',
     intro:
-      'Descreva a peça e o veículo. Eu procuro no catálogo e mostro o que existe — com preço, estado e disponibilidade reais.',
+      'Descreva a peça e o veículo. Eu procuro no catálogo e mostro o que existe — com o preço, o estado e a disponibilidade registados no catálogo.',
     examples: [
       'Ótica dianteira esquerda Peugeot 307 SW 2003',
       'Pastilhas de travão Golf V',
       'Filtro de óleo Clio III usado',
+      'Os preços e o stock são reais?',
     ],
     placeholder: 'Ex.: ótica dianteira esquerda Peugeot 307 SW 2003',
     send: 'Enviar',
@@ -141,6 +142,17 @@ export const ptParts = {
     externalUnavailable: 'O assistente avançado está temporariamente indisponível. Mostramos os resultados da pesquisa no catálogo.',
     newConversation: 'Nova conversa',
     questions: { whichVehicle: 'Para que veículo é? Indique a marca, o modelo e o ano (e o motor, se souber) para confirmarmos a compatibilidade.', whichPart: 'Que peça procura para este veículo? Ex.: pastilhas de travão, filtro de óleo, farol esquerdo.' },
+    info: {
+      allDemo: 'Neste momento, todos os {demo} produtos do catálogo são de demonstração (DEMO) e servem para testar a loja: os preços são ilustrativos, a disponibilidade não corresponde a stock real e não são ofertas reais.',
+      mixed: 'O catálogo tem {real} produto(s) reais e {demo} de demonstração. Os de demonstração têm o selo DEMO e a nota «preço de demonstração»: não são ofertas reais.',
+      noDemo: 'Não há produtos de demonstração à vista: os {real} produtos do catálogo são ofertas da EuroCargo.',
+      empty: 'O catálogo ainda não tem produtos à venda. Diga-nos que peça procura e a EuroCargo procura-a por si.',
+      unknown: 'Os produtos com o selo DEMO são de demonstração: o preço é ilustrativo e não são ofertas reais.',
+      prices: 'Nos produtos DEMO o preço é apenas ilustrativo. Nos restantes, o preço apresentado é indicativo: a EuroCargo confirma o preço final, a disponibilidade e os portes antes de qualquer pagamento. As peças sem preço aparecem como «Preço sob consulta».',
+      availability: 'A disponibilidade de cada peça é a registada no catálogo; nos produtos DEMO não corresponde a stock real. A EuroCargo confirma sempre a disponibilidade e o prazo antes de qualquer pagamento.',
+      orders: 'Para encomendar, adicione as peças ao pedido e envie-o (precisa de uma conta). A EuroCargo confirma o preço final, a disponibilidade, os portes e o prazo antes de qualquer pagamento, e pode acompanhar o pedido na sua área. Se não encontrar a peça, use «Peça esta peça à EuroCargo».',
+      searchHint: 'Para procurar uma peça, descreva-a com o veículo — por exemplo: pastilhas de travão Golf V 2006.',
+    },
   },
   specialist: {
     talk: 'Falar com especialista',

@@ -134,6 +134,27 @@ O assistente transforma a pergunta em filtros (`src/services/ai/queryParser.ts`)
 Se não houver correspondência confirmada: "Não encontrámos uma correspondência confirmada no nosso catálogo.
 Contacte um especialista." (com os botões de contacto/WhatsApp).
 
+### Perguntas sobre a loja (preços, stock, DEMO, encomendas)
+
+`src/services/ai/shopQuestions.ts` reconhece, nos seis idiomas, perguntas sobre a própria loja — "os preços
+são reais?", "têm stock?", "como faço uma encomenda?" — e o assistente responde-lhes **antes** de qualquer
+pesquisa, com textos fixos (`assistant.info` nos dicionários) e nunca com preços, stock ou prazos inventados:
+
+- **estado do catálogo**: contagem real de produtos ativos DEMO / não DEMO visíveis ao cliente (consulta só de
+  leitura a `products`). Mostrado quando a pergunta é "é real?"/DEMO e sempre que não há produtos reais à venda
+  ("Neste momento, todos os N produtos do catálogo são de demonstração…"). Desconhecido (texto genérico) quando
+  a pesquisa usa um catálogo externo;
+- **preços**: DEMO = ilustrativo; restantes = indicativo, confirmado pela EuroCargo antes de qualquer pagamento;
+- **disponibilidade/stock**: a registada no catálogo; DEMO não é stock real; confirmada antes do pagamento;
+- **encomendas**: pedido → confirmação de preço, disponibilidade, portes e prazo pela EuroCargo → pagamento.
+
+Uma palavra de tema sozinha não chega ("preço pastilhas Golf" continua a ser uma pesquisa): é preciso "?",
+uma palavra interrogativa, "real/verdadeiro" ou nada mais para pesquisar. Se a pergunta também nomeia uma peça
+("Qual é o preço das pastilhas Golf V?"), a resposta fixa vem primeiro e a pesquisa corre com as palavras que
+sobram; só se mostram correspondências exatas (ou aproximadas quando há veículo/referência), para que palavras
+da pergunta não tragam resultados soltos. Referências (`DEMO-307-HL-L-N`, `0986494`) nunca são tratadas como
+palavras da pergunta. Estas perguntas são sempre respondidas localmente, mesmo com `VITE_AI_PROVIDER=external`.
+
 ## Veículos
 
 Marca → Modelo (+ geração) → Versão/motor (nome, código do motor, combustível, cilindrada, kW, cv, anos) →

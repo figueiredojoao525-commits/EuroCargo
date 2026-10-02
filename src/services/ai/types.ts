@@ -1,6 +1,7 @@
 import type { Language } from '../../i18n'
 import type { CatalogItem } from '../../types'
 import type { ParsedQuery } from './queryParser'
+import type { CatalogStatus, ShopTopic } from './shopQuestions'
 
 /**
  * - confirmed: every search term matched (or the exact reference) and, when a
@@ -23,6 +24,12 @@ export interface AssistantAnswer {
    * whichVehicle — the part fits several vehicles; whichPart — only a vehicle was given.
    */
   question?: 'whichVehicle' | 'whichPart'
+  /**
+   * The customer asked about the shop (prices, stock, DEMO data, orders): answered with
+   * fixed texts and the real catalogue counts. `searched` is false when there was no part
+   * to look for, so no search summary is shown.
+   */
+  info?: { topics: ShopTopic[]; catalog: CatalogStatus | null; searched: boolean }
   /** The external AI failed: this answer comes from the catalogue search alone. */
   notice?: 'externalUnavailable'
   /** Resolves once the exchange is logged, with the (possibly new) conversation id. */

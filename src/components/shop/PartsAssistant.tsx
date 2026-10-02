@@ -42,6 +42,33 @@ function loadHistory(): { messages: Message[]; conversationId: string | null } {
   return { messages: [], conversationId: null }
 }
 
+/** Fixed, true answers to questions about the shop (prices, stock, DEMO data, orders). */
+function InfoView({ info }: { info: NonNullable<AssistantAnswer['info']> }) {
+  const { t } = useI18n()
+  const { catalog, topics } = info
+  const counts = catalog && { real: String(catalog.real), demo: String(catalog.demo) }
+  // The catalogue status answers "is it real?"; it is also shown whenever nothing real is on sale.
+  const status =
+    !catalog
+      ? t.assistant.info.unknown
+      : catalog.real === 0
+        ? catalog.demo > 0
+          ? interpolate(t.assistant.info.allDemo, counts!)
+          : t.assistant.info.empty
+        : catalog.demo > 0
+          ? interpolate(t.assistant.info.mixed, counts!)
+          : interpolate(t.assistant.info.noDemo, counts!)
+  const showStatus = topics.includes('demo') || (catalog !== null && catalog.real === 0)
+  return (
+    <div className="assistant-info">
+      {showStatus && <p>{status}</p>}
+      {topics.includes('prices') && <p>{t.assistant.info.prices}</p>}
+      {topics.includes('availability') && <p>{t.assistant.info.availability}</p>}
+      {topics.includes('orders') && <p>{t.assistant.info.orders}</p>}
+    </div>
+  )
+}
+
 function AnswerView({ answer }: { answer: AssistantAnswer }) {
   const { t, lang } = useI18n()
   const { parsed } = answer
@@ -58,6 +85,8 @@ function AnswerView({ answer }: { answer: AssistantAnswer }) {
     parsed.oe && `${t.shop.oe} ${parsed.oe}`,
   ].filter(Boolean)
 
+  // A question about the shop with no part to look for: no search summary or part request.
+  const infoOnly = Boolean(answer.info && !answer.info.searched)
   const summary =
     answer.kind === 'confirmed'
       ? interpolate(t.assistant.confirmed, { count: String(answer.items.length) })
@@ -69,14 +98,15 @@ function AnswerView({ answer }: { answer: AssistantAnswer }) {
 
   return (
     <div className="assistant-answer">
-      {understood.length > 0 && (
+      {understood.length > 0 && !infoOnly && (
         <p className="assistant-understood">
           <strong>{t.assistant.understood}</strong> {understood.join(' · ')}
         </p>
       )}
       {answer.notice === 'externalUnavailable' && <Alert tone="info">{t.assistant.externalUnavailable}</Alert>}
       {parsed.unsupported && <Alert tone="info">{t.assistant.unsupported[parsed.unsupported]}</Alert>}
-      <p>{summary}</p>
+      {answer.info && <InfoView info={answer.info} />}
+      {infoOnly ? <p className="muted small">{t.assistant.info.searchHint}</p> : <p>{summary}</p>}
       {answer.question && <p className="assistant-question">{t.assistant.questions[answer.question]}</p>}
 
       {answer.items.length > 0 && (
@@ -140,7 +170,7 @@ function AnswerView({ answer }: { answer: AssistantAnswer }) {
         </ul>
       )}
 
-      {answer.kind !== 'confirmed' && (
+      {answer.kind !== 'confirmed' && !infoOnly && (
         <p className="small">
           <Link
             to={`/carrinho?${new URLSearchParams({

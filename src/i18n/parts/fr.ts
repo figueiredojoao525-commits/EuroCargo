@@ -116,11 +116,12 @@ export const frParts: PartsDictionary = {
     title: 'Assistant pièces',
     subtitle: 'Répond uniquement avec les données du catalogue EuroCargo.',
     intro:
-      'Décrivez la pièce et le véhicule. Je cherche dans le catalogue et je montre ce qui existe — avec prix, état et disponibilité réels.',
+      'Décrivez la pièce et le véhicule. Je cherche dans le catalogue et je montre ce qui existe — avec le prix, l’état et la disponibilité enregistrés dans le catalogue.',
     examples: [
       'Phare avant gauche Peugeot 307 SW 2003',
       'Plaquettes de frein Golf V',
       'Filtre à huile Clio III occasion',
+      'Les prix et le stock sont-ils réels ?',
     ],
     placeholder: 'Ex. : phare avant gauche Peugeot 307 SW 2003',
     send: 'Envoyer',
@@ -142,6 +143,17 @@ export const frParts: PartsDictionary = {
     externalUnavailable: 'L’assistant avancé est momentanément indisponible. Voici les résultats de la recherche dans le catalogue.',
     newConversation: 'Nouvelle conversation',
     questions: { whichVehicle: 'Pour quel véhicule ? Indiquez la marque, le modèle et l’année (et le moteur, si vous le savez) pour confirmer la compatibilité.', whichPart: 'Quelle pièce cherchez-vous pour ce véhicule ? Ex. : plaquettes de frein, filtre à huile, phare gauche.' },
+    info: {
+      allDemo: 'Pour l’instant, les {demo} produits du catalogue sont des produits de démonstration (DEMO) qui servent à tester la boutique : les prix sont indicatifs, la disponibilité ne correspond pas à un stock réel et ce ne sont pas de vraies offres.',
+      mixed: 'Le catalogue contient {real} produit(s) réel(s) et {demo} de démonstration. Ceux de démonstration portent le badge DEMO et la mention « prix de démonstration » : ce ne sont pas de vraies offres.',
+      noDemo: 'Aucun produit de démonstration n’est affiché : les {real} produits du catalogue sont des offres EuroCargo.',
+      empty: 'Le catalogue n’a pas encore de produits en vente. Dites-nous quelle pièce vous cherchez et EuroCargo la cherchera pour vous.',
+      unknown: 'Les produits avec le badge DEMO sont des produits de démonstration : le prix est indicatif et ce ne sont pas de vraies offres.',
+      prices: 'Le prix des produits DEMO est seulement illustratif. Pour les autres, le prix affiché est indicatif : EuroCargo confirme le prix final, la disponibilité et les frais de port avant tout paiement. Les pièces sans prix affichent « Prix sur demande ».',
+      availability: 'La disponibilité de chaque pièce est celle enregistrée dans le catalogue ; pour les produits DEMO, ce n’est pas un stock réel. EuroCargo confirme toujours la disponibilité et le délai avant tout paiement.',
+      orders: 'Pour commander, ajoutez les pièces à votre demande et envoyez-la (un compte est nécessaire). EuroCargo confirme le prix final, la disponibilité, les frais de port et le délai avant tout paiement, et vous pouvez suivre la demande dans votre espace. Si vous ne trouvez pas la pièce, utilisez « Demander cette pièce à EuroCargo ».',
+      searchHint: 'Pour chercher une pièce, décrivez-la avec le véhicule — par exemple : plaquettes de frein Golf V 2006.',
+    },
   },
   specialist: {
     talk: 'Parler à un spécialiste',

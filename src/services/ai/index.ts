@@ -1,5 +1,6 @@
 import { externalAiProvider } from './externalAiProvider'
 import { localCatalogAssistant, logExchange } from './localCatalogAssistant'
+import { detectShopQuestion } from './shopQuestions'
 import { AiNotConfiguredError, type AiProvider, type AskOptions, type AssistantAnswer } from './types'
 
 export type { AnswerKind, AssistantAnswer } from './types'
@@ -15,7 +16,8 @@ export const aiProvider: AiProvider = {
   name: useExternal ? 'external+local' : 'local',
   async ask(query: string, options: AskOptions): Promise<AssistantAnswer> {
     let answer: AssistantAnswer
-    if (useExternal) {
+    // Questions about the shop have fixed, true answers: no need for the external AI.
+    if (useExternal && !detectShopQuestion(query)) {
       try {
         answer = await externalAiProvider.ask(query, options)
       } catch (error) {

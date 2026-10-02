@@ -115,11 +115,12 @@ export const esParts: PartsDictionary = {
     title: 'Asistente de piezas',
     subtitle: 'Responde solo con datos del catálogo EuroCargo.',
     intro:
-      'Describa la pieza y el vehículo. Busco en el catálogo y le muestro lo que existe, con precio, estado y disponibilidad reales.',
+      'Describa la pieza y el vehículo. Busco en el catálogo y le muestro lo que existe, con el precio, el estado y la disponibilidad registrados en el catálogo.',
     examples: [
       'Faro delantero izquierdo Peugeot 307 SW 2003',
       'Pastillas de freno Golf V',
       'Filtro de aceite Clio III usado',
+      '¿Los precios y el stock son reales?',
     ],
     placeholder: 'Ej.: faro delantero izquierdo Peugeot 307 SW 2003',
     send: 'Enviar',
@@ -141,6 +142,17 @@ export const esParts: PartsDictionary = {
     externalUnavailable: 'El asistente avanzado no está disponible temporalmente. Mostramos los resultados de la búsqueda en el catálogo.',
     newConversation: 'Nueva conversación',
     questions: { whichVehicle: '¿Para qué vehículo es? Indique la marca, el modelo y el año (y el motor, si lo sabe) para confirmar la compatibilidad.', whichPart: '¿Qué pieza busca para este vehículo? Ej.: pastillas de freno, filtro de aceite, faro izquierdo.' },
+    info: {
+      allDemo: 'En este momento, los {demo} productos del catálogo son de demostración (DEMO) y sirven para probar la tienda: los precios son ilustrativos, la disponibilidad no corresponde a stock real y no son ofertas reales.',
+      mixed: 'El catálogo tiene {real} producto(s) reales y {demo} de demostración. Los de demostración llevan el sello DEMO y la nota «precio de demostración»: no son ofertas reales.',
+      noDemo: 'No hay productos de demostración a la vista: los {real} productos del catálogo son ofertas de EuroCargo.',
+      empty: 'El catálogo aún no tiene productos a la venta. Díganos qué pieza busca y EuroCargo la buscará por usted.',
+      unknown: 'Los productos con el sello DEMO son de demostración: el precio es ilustrativo y no son ofertas reales.',
+      prices: 'En los productos DEMO el precio es solo ilustrativo. En los demás, el precio mostrado es orientativo: EuroCargo confirma el precio final, la disponibilidad y los portes antes de cualquier pago. Las piezas sin precio aparecen como «Precio a consultar».',
+      availability: 'La disponibilidad de cada pieza es la registrada en el catálogo; en los productos DEMO no corresponde a stock real. EuroCargo confirma siempre la disponibilidad y el plazo antes de cualquier pago.',
+      orders: 'Para hacer un pedido, añada las piezas a la solicitud y envíela (necesita una cuenta). EuroCargo confirma el precio final, la disponibilidad, los portes y el plazo antes de cualquier pago, y puede seguir el pedido en su área. Si no encuentra la pieza, use «Pida esta pieza a EuroCargo».',
+      searchHint: 'Para buscar una pieza, descríbala con el vehículo; por ejemplo: pastillas de freno Golf V 2006.',
+    },
   },
   specialist: {
     talk: 'Hablar con un especialista',

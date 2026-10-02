@@ -115,8 +115,8 @@ export const enParts: PartsDictionary = {
     title: 'Parts assistant',
     subtitle: 'Answers only with EuroCargo catalogue data.',
     intro:
-      'Describe the part and the vehicle. I search the catalogue and show what exists — with real price, condition and availability.',
-    examples: ['Front left headlight Peugeot 307 SW 2003', 'Brake pads Golf V', 'Used oil filter Clio III'],
+      'Describe the part and the vehicle. I search the catalogue and show what exists — with the price, condition and availability recorded in the catalogue.',
+    examples: ['Front left headlight Peugeot 307 SW 2003', 'Brake pads Golf V', 'Used oil filter Clio III', 'Are the prices and stock real?'],
     placeholder: 'E.g. front left headlight Peugeot 307 SW 2003',
     send: 'Send',
     thinking: 'Searching the catalogue…',
@@ -137,6 +137,17 @@ export const enParts: PartsDictionary = {
     externalUnavailable: 'The advanced assistant is temporarily unavailable. Showing catalogue search results.',
     newConversation: 'New conversation',
     questions: { whichVehicle: 'Which vehicle is it for? Give the make, model and year (and engine, if you know it) so we can confirm compatibility.', whichPart: 'Which part are you looking for on this vehicle? E.g. brake pads, oil filter, left headlight.' },
+    info: {
+      allDemo: 'Right now, all {demo} products in the catalogue are demonstration (DEMO) products used to test the shop: prices are illustrative, availability is not real stock and they are not real offers.',
+      mixed: 'The catalogue has {real} real product(s) and {demo} demonstration ones. Demonstration products carry the DEMO badge and the “demo price” note: they are not real offers.',
+      noDemo: 'No demonstration products are shown: the {real} products in the catalogue are EuroCargo offers.',
+      empty: 'The catalogue has no products for sale yet. Tell us which part you need and EuroCargo will look for it.',
+      unknown: 'Products with the DEMO badge are demonstration products: the price is illustrative and they are not real offers.',
+      prices: 'DEMO product prices are illustrative only. For other products the price shown is indicative: EuroCargo confirms the final price, availability and shipping before any payment. Parts without a price show “Price on request”.',
+      availability: 'Each part’s availability is what the catalogue records; for DEMO products it is not real stock. EuroCargo always confirms availability and lead time before any payment.',
+      orders: 'To order, add the parts to your request and send it (you need an account). EuroCargo confirms the final price, availability, shipping and lead time before any payment, and you can follow the request in your account. If you cannot find a part, use “Ask EuroCargo for this part”.',
+      searchHint: 'To search for a part, describe it with the vehicle — for example: brake pads Golf V 2006.',
+    },
   },
   specialist: {
     talk: 'Talk to a specialist',

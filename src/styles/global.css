@@ -3479,6 +3479,19 @@ tbody tr:hover {
   padding-top: 10px;
   border-top: 1px dashed var(--border);
 }
+.assistant-info {
+  margin: 8px 0;
+  padding: 8px 12px;
+  border-left: 3px solid var(--info);
+  background: var(--info-bg);
+  border-radius: var(--radius-sm);
+}
+.assistant-info p {
+  margin: 0;
+}
+.assistant-info p + p {
+  margin-top: 6px;
+}
 .assistant-question {
   margin: 8px 0;
   padding: 8px 12px;

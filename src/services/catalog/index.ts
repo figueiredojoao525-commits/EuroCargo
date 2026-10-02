@@ -23,7 +23,8 @@ export function clearCatalogCache() {
  */
 const mode = import.meta.env.VITE_CATALOG_PROVIDER ?? 'auto'
 
-async function externalEnabled(): Promise<boolean> {
+/** True while searches go to the external / licensed catalogue instead of the local tables. */
+export async function externalEnabled(): Promise<boolean> {
   if (mode === 'local') return false
   if (mode === 'external') return true
   return hasLiveSource()

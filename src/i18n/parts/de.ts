@@ -123,8 +123,8 @@ export const deParts: PartsDictionary = {
     title: 'Teile-Assistent',
     subtitle: 'Antwortet nur mit Daten aus dem EuroCargo-Katalog.',
     intro:
-      'Beschreiben Sie Teil und Fahrzeug. Ich durchsuche den Katalog und zeige, was vorhanden ist — mit echtem Preis, Zustand und Verfügbarkeit.',
-    examples: ['Scheinwerfer vorne links Peugeot 307 SW 2003', 'Bremsbeläge Golf V', 'Ölfilter Clio III gebraucht'],
+      'Beschreiben Sie Teil und Fahrzeug. Ich durchsuche den Katalog und zeige, was vorhanden ist — mit Preis, Zustand und Verfügbarkeit laut Katalog.',
+    examples: ['Scheinwerfer vorne links Peugeot 307 SW 2003', 'Bremsbeläge Golf V', 'Ölfilter Clio III gebraucht', 'Sind Preise und Bestand echt?'],
     placeholder: 'z. B. Scheinwerfer vorne links Peugeot 307 SW 2003',
     send: 'Senden',
     thinking: 'Katalog wird durchsucht…',
@@ -145,6 +145,17 @@ export const deParts: PartsDictionary = {
     externalUnavailable: 'Der erweiterte Assistent ist vorübergehend nicht verfügbar. Hier die Ergebnisse der Katalogsuche.',
     newConversation: 'Neues Gespräch',
     questions: { whichVehicle: 'Für welches Fahrzeug? Nennen Sie Marke, Modell und Baujahr (und den Motor, falls bekannt), damit wir die Kompatibilität bestätigen können.', whichPart: 'Welches Teil suchen Sie für dieses Fahrzeug? Z. B. Bremsbeläge, Ölfilter, Scheinwerfer links.' },
+    info: {
+      allDemo: 'Derzeit sind alle {demo} Produkte im Katalog Demonstrationsprodukte (DEMO) zum Testen des Shops: Die Preise sind beispielhaft, die Verfügbarkeit entspricht keinem echten Bestand und es sind keine echten Angebote.',
+      mixed: 'Der Katalog enthält {real} echte(s) Produkt(e) und {demo} Demonstrationsprodukte. Demonstrationsprodukte tragen das DEMO-Abzeichen und den Hinweis „Demopreis“: Es sind keine echten Angebote.',
+      noDemo: 'Es werden keine Demonstrationsprodukte angezeigt: Die {real} Produkte im Katalog sind Angebote von EuroCargo.',
+      empty: 'Der Katalog hat noch keine Produkte im Verkauf. Sagen Sie uns, welches Teil Sie suchen, und EuroCargo sucht es für Sie.',
+      unknown: 'Produkte mit dem DEMO-Abzeichen sind Demonstrationsprodukte: Der Preis ist beispielhaft und es sind keine echten Angebote.',
+      prices: 'Bei DEMO-Produkten ist der Preis nur beispielhaft. Bei den übrigen ist der angezeigte Preis ein Richtwert: EuroCargo bestätigt Endpreis, Verfügbarkeit und Versandkosten vor jeder Zahlung. Teile ohne Preis zeigen „Preis auf Anfrage“.',
+      availability: 'Die Verfügbarkeit jedes Teils ist die im Katalog erfasste; bei DEMO-Produkten ist es kein echter Bestand. EuroCargo bestätigt Verfügbarkeit und Lieferzeit immer vor jeder Zahlung.',
+      orders: 'Zum Bestellen fügen Sie die Teile Ihrer Anfrage hinzu und senden sie ab (ein Konto ist nötig). EuroCargo bestätigt Endpreis, Verfügbarkeit, Versandkosten und Lieferzeit vor jeder Zahlung, und Sie können die Anfrage in Ihrem Bereich verfolgen. Wenn Sie ein Teil nicht finden, nutzen Sie „Dieses Teil bei EuroCargo anfragen“.',
+      searchHint: 'Um ein Teil zu suchen, beschreiben Sie es mit dem Fahrzeug — zum Beispiel: Bremsbeläge Golf V 2006.',
+    },
   },
   specialist: {
     talk: 'Mit einem Experten sprechen',
