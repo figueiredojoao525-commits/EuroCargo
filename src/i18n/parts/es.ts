@@ -102,7 +102,9 @@ export const esParts: PartsDictionary = {
     vin: 'VIN (número de bastidor)',
     plate: 'Matrícula',
     vinOrPlate: 'VIN o matrícula',
-    lookupNone: 'El proveedor del catálogo no ha identificado este vehículo. Elija la marca y el modelo arriba.',
+    lookupNone: 'No ha sido posible identificar este vehículo. Elija la marca y el modelo arriba.',
+    vinNhtsa: 'El VIN se descodifica con la base pública de la NHTSA (EE. UU.). En vehículos europeos suele identificar solo la marca: confirme el modelo y el año.',
+    vinPartial: 'El VIN solo ha permitido identificar la marca. Elija el modelo y el año arriba.',
     showParts: 'Ver piezas compatibles',
     browse: 'Marcas y modelos',
     vinHint: 'La búsqueda por matrícula o VIN estará disponible cuando se conecte un catálogo externo con licencia.',
@@ -134,7 +136,7 @@ export const esParts: PartsDictionary = {
       'No he encontrado piezas con compatibilidad confirmada para {vehicle}. Muestro piezas similares registradas para otros vehículos.',
     none: 'No hemos encontrado una coincidencia confirmada en nuestro catálogo. Contacte con un especialista.',
     unsupported: {
-      vin: 'La búsqueda por VIN necesita un catálogo externo que aún no está conectado. Indique marca, modelo y año.',
+      vin: 'No he podido identificar el vehículo con este VIN (la base pública de la NHTSA cubre sobre todo vehículos de EE. UU.). Indique la marca, el modelo y el año.',
       plate:
         'La búsqueda por matrícula necesita un catálogo externo que aún no está conectado. Indique marca, modelo y año.',
     },

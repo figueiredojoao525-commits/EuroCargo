@@ -62,6 +62,7 @@ export function ProductPage() {
           name={name}
           categorySlug={p.category?.slug}
           illustrativeKey={illustrativeKey(p.category?.slug, p.name)}
+          productId={p.id}
         />
 
         <div className="product-info">

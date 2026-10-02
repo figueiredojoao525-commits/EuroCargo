@@ -103,21 +103,52 @@ pasta e volte a importar.
 
 ## Fotografias ilustrativas (manutenção)
 
-- Cada produto é ligado a um **tipo de peça** pela categoria e pelo nome (`src/utils/partTypes.ts`); se o tipo não
-  tiver foto, usa a de outro tipo da mesma categoria; se a categoria não tiver nenhuma, mostra o desenho.
-- As fotos escolhidas estão em `scripts/images/illustrative-selection.json` (tipo → ficheiro do Commons); os créditos
-  vão para `src/data/illustrative-images.json` e são mostrados no site.
-- Só se aceitam licenças que permitem uso comercial com crédito: **CC0, domínio público, CC BY, CC BY-SA**
-  (nunca NC/ND, nem ficheiros com restrições de marca/pessoas). A licença é verificada de novo em cada `build`.
-- Para trocar ou acrescentar uma foto:
-  1. `npm run images:illustrative -- candidates --only brake-pads` → abra
-     `images-work/illustrative/sheet-*.html` no browser e escolha;
-  2. ponha o título (`File:…`) em `illustrative-selection.json`;
-  3. `npm run images:illustrative -- build`, confirme as imagens em `public/images/illustrative/` e publique.
-- Um tipo sem foto pode indicar um tipo semelhante (`similar` em `partTypes.ts`, ex.: radiador → ventilador do
-  radiador, condensador de A/C → compressor de A/C); senão usa a primeira foto da categoria.
-- Tipos ainda sem foto livre adequada: bomba de direção assistida, rótula, rolamento de roda, bomba de água,
-  correia de acessórios, junta da tampa das válvulas, radiador, condensador de A/C.
+- Cada produto é ligado a um **tipo de peça** pela categoria e pelo nome (`src/utils/partTypes.ts`). Um tipo pode ter
+  **várias fotos**: cada produto mostra sempre a mesma (escolhida pelo id do produto), por isso produtos do mesmo
+  tipo não aparecem todos com a mesma imagem; a página do produto mostra todas as fotos do tipo, cada uma com o seu
+  crédito. Se o tipo não tiver foto, usa um tipo semelhante (`similar`) e depois a primeira foto da categoria; se a
+  categoria não tiver nenhuma, mostra o desenho. A página Categorias mostra uma foto ilustrativa por categoria.
+- Escolhas em `scripts/images/illustrative-selection.json` (tipo → um título ou uma lista: `"File:…"` do Commons,
+  `"pexels:<id>"`, `"pixabay:<id>"`); créditos (autor, licença, página de origem, fonte, data de importação, SHA-256)
+  em `src/data/illustrative-images.json`, mostrados no site.
+- Commons: só **CC0, domínio público, CC BY, CC BY-SA** (nunca NC/ND, nem ficheiros com restrições de marca/pessoas).
+  A licença é verificada de novo em cada `build`. Excluem-se também, na revisão visual, fotos de outros veículos
+  (comboios, motos, bicicletas) e fotos em que uma marca comercial aparece em destaque.
+- Para acrescentar ou trocar fotos:
+  1. `npm run images:illustrative -- candidates [--only brake-pads,oil-filter]` — pesquisa em **pt, en, es, fr e de**
+     (termos em `partTypes.ts`) e escreve em `images-work/illustrative/`:
+     `candidates-report.csv` (cada ficheiro encontrado: aprovado pela licença, rejeitado e porquê, duplicado,
+     já selecionado) e `sheet-*.html` (folhas de contacto para escolher a olho);
+  2. acrescente os títulos escolhidos à lista do tipo em `illustrative-selection.json`;
+  3. `npm run images:illustrative -- build` (só descarrega o que é novo; pedidos às APIs ficam em cache 24 h em
+     `images-work/cache/`), confirme as imagens em `public/images/illustrative/` e publique.
+- Tipos ainda sem foto livre adequada: bomba de direção assistida (usa a foto da categoria Direção), condensador de
+  A/C (usa a do compressor), junta da tampa das válvulas (usa a da categoria Motor).
+
+### Pexels e Pixabay (opcional, chaves gratuitas)
+
+Os conectores existem mas só funcionam com chave. As chaves ficam **só no seu computador**, no ficheiro `.env.local`
+(nunca no Git nem no site — sem o prefixo `VITE_`):
+
+```
+PEXELS_API_KEY=a-sua-chave      # https://www.pexels.com/api/  → "Get started" (conta gratuita)
+PIXABAY_API_KEY=a-sua-chave     # https://pixabay.com/api/docs/ → a chave aparece com sessão iniciada
+```
+
+Depois: `npm run images:illustrative -- candidates --source pexels` (ou `pixabay`), escolha nas folhas de contacto
+e acrescente `"pexels:<id>"` / `"pixabay:<id>"` à seleção; `build` descarrega e otimiza (o Pixabay não permite usar
+os URLs deles de forma permanente — as fotos passam a ser servidas pela EuroCargo). Regras respeitadas
+(verificadas a 2026-10-02): Pexels — 200 pedidos/hora, crédito ao fotógrafo e ligação ao Pexels, nada de replicar o
+Pexels; Pixabay — 100 pedidos/minuto, cache de 24 h, indicar a origem. A ferramenta limita os pedidos por execução e
+só descarrega as fotos escolhidas — nunca cópias em massa.
+
+### Outras fontes analisadas
+
+- **NHTSA vPIC** — dados de veículos, não de peças: usado para descodificar o VIN (ver
+  [catalog-and-ai.md](catalog-and-ai.md) → Veículos).
+- **VehiclesDB** (CC BY 4.0, ~4 900 modelos de automóveis de 14 países) — pode complementar as marcas/modelos da EEA
+  com uma migração gerada como a da EEA; não foi aplicado porque obriga a SQL novo e a EEA já cobre a Europa.
+- **CarAPI** (MIT) — fotos de automóveis inteiros via Wikimedia/Wikidata, não de peças; não integrado.
 
 ## Armazenamento, tráfego e custos
 
@@ -126,7 +157,7 @@ Preços verificados a 2026-10-02 (confirme em supabase.com/pricing e vercel.com/
 | Serviço | Gratuito | Uso atual |
 |---|---|---|
 | Supabase Storage (plano Free) | 1 GB de ficheiros, 5 GB/mês de tráfego (+5 GB em cache); **sem transformações de imagem** (por isso as fotos são otimizadas antes de carregar). No plano Free não há cobrança: se a quota for ultrapassada, o serviço é restringido | 0 fotos próprias |
-| Vercel (fotos ilustrativas) | 100 GB/mês de transferência no plano Hobby | 42 fotos (84 ficheiros), 2,4 MB no total (~10–40 KB por miniatura) |
+| Vercel (fotos ilustrativas) | 100 GB/mês de transferência no plano Hobby | 92 fotos (184 ficheiros), 5,8 MB no total (~10–40 KB por miniatura) |
 
 Estimativas: cada foto própria ocupa ~150–470 KB (as duas versões) → **1 GB ≈ 2 000–6 000 fotos**. Uma página
 da loja carrega 12 miniaturas de ~20–55 KB (~0,3–0,7 MB) → 5 GB/mês ≈ 7 000–15 000 páginas da loja vistas.

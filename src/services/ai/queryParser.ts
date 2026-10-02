@@ -74,6 +74,11 @@ const USED_WORDS = [
 
 // Request phrasing that is not part of the part name ("I need a…", "Preciso de uma…"), accent-free.
 const FILLER_WORDS = new Set([
+  // vehicle identifiers' labels ("VIN WVW…", "FIN …", "chassis …")
+  'vin',
+  'fin',
+  'chassis',
+  'chassi',
   // pt
   'preciso',
   'precisava',

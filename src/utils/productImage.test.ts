@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { partTypeOf } from './partTypes'
-import { illustrativeImage, illustrativeKey, responsive } from './productImage'
+import { categoryImage, illustrativeById, illustrativeImage, illustrativeImages, illustrativeKey, responsive } from './productImage'
 
 test('product names map to the right part type', () => {
   const cases: [string, string, string][] = [
@@ -32,14 +32,35 @@ test('product names map to the right part type', () => {
 test('illustrative photo: part type first, then the category, else none', () => {
   assert.equal(illustrativeKey('travagem', 'Pastilhas de travão'), 'brake-pads')
   // A type without its own photo uses a photo of the same category (still labelled illustrative).
-  const fallback = illustrativeKey('motor', 'Bomba de água')
-  assert.ok(fallback && fallback !== 'water-pump')
-  assert.equal(illustrativeKey('refrigeracao', 'Radiador do motor'), 'radiator-fan')
+  assert.equal(illustrativeKey('motor', 'Bomba de água'), 'water-pump')
+  const fallback = illustrativeKey('direcao', 'Bomba de direção assistida')
+  assert.ok(fallback && fallback !== 'power-steering-pump')
+  assert.equal(illustrativeKey('refrigeracao', 'Radiador do motor'), 'radiator')
+  assert.equal(illustrativeKey('ar-condicionado', 'Condensador de ar condicionado'), 'ac-compressor')
   assert.equal(illustrativeKey('categoria-inexistente', 'X'), null)
   const image = illustrativeImage('brake-pads')!
   assert.equal(image.src, '/images/illustrative/brake-pads-800.webp')
   assert.match(image.srcSet, /brake-pads-400\.webp 400w, .*brake-pads-800\.webp 800w/)
   assert.ok(image.credit.license && image.credit.sourceUrl.startsWith('https://commons.wikimedia.org/'))
+  assert.equal(image.credit.source, 'Wikimedia Commons')
+})
+
+test('several photos per type: stable per product and spread across products', () => {
+  const all = illustrativeImages('brake-disc')
+  assert.ok(all.length >= 2)
+  assert.equal(all[0].id, 'brake-disc')
+  // Same product → same photo, every time.
+  assert.equal(illustrativeImage('brake-disc', 'produto-1')?.id, illustrativeImage('brake-disc', 'produto-1')?.id)
+  // Many products → more than one photo used.
+  const used = new Set(Array.from({ length: 30 }, (_, i) => illustrativeImage('brake-disc', `p${i}`)?.id))
+  assert.ok(used.size >= 2)
+  // The gallery list starts with the product's photo and contains every photo once.
+  const list = illustrativeImages('brake-disc', 'p7')
+  assert.equal(list[0].id, illustrativeImage('brake-disc', 'p7')?.id)
+  assert.equal(new Set(list.map((i) => i.id)).size, all.length)
+  assert.equal(illustrativeById('nao-existe'), null)
+  assert.equal(categoryImage('travagem')?.id, 'brake-pads')
+  assert.equal(categoryImage('categoria-inexistente'), null)
 })
 
 test('imported photos get a small variant for cards; other URLs are untouched', () => {

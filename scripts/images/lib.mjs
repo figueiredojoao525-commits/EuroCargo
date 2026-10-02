@@ -107,3 +107,34 @@ export function csv(rows, columns) {
   }
   return `${[columns.join(','), ...rows.map((r) => columns.map((c) => cell(r[c])).join(','))].join('\n')}\n`
 }
+
+/**
+ * JSON GET with a 24 h disk cache (images-work/cache) and retries. Keeps repeated runs from hitting the
+ * APIs again (Pixabay requires 24 h caching; Wikimedia and Pexels ask clients to limit requests).
+ * `cacheKey` lets callers keep secrets (API keys) out of the cache file names.
+ */
+export async function cachedJson(url, { headers = {}, cacheKey = url, ttlHours = 24, fresh = false } = {}) {
+  const file = join(WORK, 'cache', `${createHash('sha1').update(cacheKey).digest('hex')}.json`)
+  if (!fresh && existsSync(file)) {
+    const cached = JSON.parse(readFileSync(file, 'utf8'))
+    if (Date.now() - cached.at < ttlHours * 3600_000) return cached.data
+  }
+  for (let attempt = 1; ; attempt++) {
+    let res
+    try {
+      res = await fetch(url, { headers, signal: AbortSignal.timeout(20_000) })
+    } catch (error) {
+      if (attempt >= 3) throw new Error(`Serviço indisponível (${error.message})`)
+      await new Promise((r) => setTimeout(r, 1500 * attempt))
+      continue
+    }
+    if (res.ok) {
+      const data = await res.json()
+      writeJson(file, { at: Date.now(), data })
+      return data
+    }
+    if (res.status === 401 || res.status === 403) throw new Error(`Acesso recusado (${res.status}): verifique a chave da API`)
+    if (attempt >= 3) throw new Error(`HTTP ${res.status}`)
+    await new Promise((r) => setTimeout(r, (res.status === 429 ? 10_000 : 1500) * attempt))
+  }
+}

@@ -62,3 +62,9 @@ test('bare reference token and VIN detection', () => {
   assert.equal(vin.vin, 'VF3LCRFJC74512345')
   assert.equal(vin.text, 'filtro')
 })
+
+test('"VIN WVWZZZ1KZ6W123456 filtro de óleo": the VIN label is not a search word', () => {
+  const p = parseQuery('VIN WVWZZZ1KZ6W123456 filtro de óleo', makes, models)
+  assert.equal(p.vin, 'WVWZZZ1KZ6W123456')
+  assert.equal(p.text, 'filtro de oleo')
+})

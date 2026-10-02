@@ -1,6 +1,6 @@
 // Wikimedia Commons client for the image tools: official API only (no scraping), identified
 // User-Agent, and a licence filter that keeps only files reusable on a commercial site with credit.
-import { env } from './lib.mjs'
+import { cachedJson, env } from './lib.mjs'
 
 const API = 'https://commons.wikimedia.org/w/api.php'
 // Wikimedia asks automated clients to identify themselves.
@@ -32,14 +32,9 @@ const cleanAuthor = (name) =>
     .replace(/\s+/g, ' ')
     .trim()
 
-export async function api(params) {
+export async function api(params, { fresh = false } = {}) {
   const url = `${API}?${new URLSearchParams({ format: 'json', formatversion: '2', origin: '*', ...params })}`
-  for (let attempt = 1; ; attempt++) {
-    const res = await fetch(url, { headers: { 'User-Agent': USER_AGENT } })
-    if (res.ok) return res.json()
-    if (attempt >= 3) throw new Error(`Commons ${res.status}`)
-    await new Promise((r) => setTimeout(r, 1500 * attempt))
-  }
+  return cachedJson(url, { headers: { 'User-Agent': USER_AGENT }, fresh })
 }
 
 export function describe(page) {

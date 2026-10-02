@@ -121,6 +121,7 @@ function AnswerView({ answer }: { answer: AssistantAnswer }) {
                   <ProductImage
                     url={first.image}
                     illustrativeKey={illustrativeKey(first.category?.slug, first.name)}
+                    seed={first.id}
                     categorySlug={first.category?.slug}
                     size="sm"
                     sizes="64px"

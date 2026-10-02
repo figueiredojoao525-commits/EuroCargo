@@ -102,7 +102,9 @@ export const frParts: PartsDictionary = {
     vin: 'VIN (numéro de châssis)',
     plate: 'Immatriculation',
     vinOrPlate: 'VIN ou immatriculation',
-    lookupNone: 'Le fournisseur du catalogue n’a pas identifié ce véhicule. Choisissez la marque et le modèle ci-dessus.',
+    lookupNone: 'Impossible d’identifier ce véhicule. Choisissez la marque et le modèle ci-dessus.',
+    vinNhtsa: 'Le VIN est décodé avec la base publique de la NHTSA (États-Unis). Pour les véhicules européens, elle n’identifie souvent que la marque : confirmez le modèle et l’année.',
+    vinPartial: 'Le VIN n’a permis d’identifier que la marque. Choisissez le modèle et l’année ci-dessus.',
     showParts: 'Voir les pièces compatibles',
     browse: 'Marques et modèles',
     vinHint:
@@ -135,7 +137,7 @@ export const frParts: PartsDictionary = {
       'Aucune pièce à compatibilité confirmée pour {vehicle}. Voici des pièces similaires enregistrées pour d’autres véhicules.',
     none: 'Nous n’avons pas trouvé de correspondance confirmée dans notre catalogue. Contactez un spécialiste.',
     unsupported: {
-      vin: 'La recherche par VIN nécessite un catalogue externe qui n’est pas encore connecté. Indiquez la marque, le modèle et l’année.',
+      vin: 'Je n’ai pas pu identifier le véhicule avec ce VIN (la base publique de la NHTSA couvre surtout les véhicules des États-Unis). Indiquez la marque, le modèle et l’année.',
       plate:
         'La recherche par immatriculation nécessite un catalogue externe qui n’est pas encore connecté. Indiquez la marque, le modèle et l’année.',
     },

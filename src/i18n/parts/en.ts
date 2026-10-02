@@ -102,7 +102,9 @@ export const enParts: PartsDictionary = {
     vin: 'VIN (chassis number)',
     plate: 'Licence plate',
     vinOrPlate: 'VIN or licence plate',
-    lookupNone: 'The catalogue provider could not identify this vehicle. Choose the make and model above.',
+    lookupNone: 'This vehicle could not be identified. Choose the make and model above.',
+    vinNhtsa: 'The VIN is decoded with the public NHTSA database (USA). For European vehicles it usually identifies only the make: confirm the model and year.',
+    vinPartial: 'The VIN only identified the make. Choose the model and year above.',
     showParts: 'Show compatible parts',
     browse: 'Makes and models',
     vinHint: 'Search by licence plate or VIN will be available once a licensed external catalogue is connected.',
@@ -129,7 +131,7 @@ export const enParts: PartsDictionary = {
       'I found no parts with confirmed compatibility for {vehicle}. Showing similar parts recorded for other vehicles.',
     none: 'We did not find a confirmed match in our catalogue. Please contact a specialist.',
     unsupported: {
-      vin: 'VIN search needs an external catalogue that is not connected yet. Please give the make, model and year.',
+      vin: 'I could not identify the vehicle from this VIN (the public NHTSA database mainly covers US vehicles). Give the make, model and year.',
       plate:
         'Licence plate search needs an external catalogue that is not connected yet. Please give the make, model and year.',
     },

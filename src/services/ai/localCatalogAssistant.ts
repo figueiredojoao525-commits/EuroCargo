@@ -128,7 +128,8 @@ export const localCatalogAssistant: AiProvider = {
         ? await catalogProvider.searchByVIN(parsed.vin)
         : await catalogProvider.searchByPlate(parsed.plate!, '')
       const vehicle = lookup.vehicles[0]
-      if (lookup.supported) parsed.unsupported = undefined
+      // Keep the "VIN not identified" notice when nothing was decoded.
+      if (lookup.supported && vehicle) parsed.unsupported = undefined
       if (vehicle?.makeId && !parsed.make) {
         const makes = await catalogProvider.listMakes()
         parsed.make = makes.find((m) => m.id === vehicle.makeId)

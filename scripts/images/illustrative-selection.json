@@ -1,44 +1,168 @@
 {
-  "abs-sensor": "File:ABS Sensor VAG IMG 0562.JPG",
-  "ac-compressor": "File:Taumelscheibenverdichter-Schnitt.JPG",
+  "abs-sensor": [
+    "File:ABS Sensor VAG IMG 0562.JPG",
+    "File:VolvoABSSensor20221121191304.jpg"
+  ],
+  "ac-compressor": [
+    "File:Taumelscheibenverdichter-Schnitt.JPG",
+    "File:Bock VW Käfer Einbaufoto.jpg"
+  ],
+  "accessory-belt": [
+    "File:Keilrippenriemen Servopumpe Spannrollen VW T4 IMG 20160922 135213.jpg"
+  ],
   "air-filter": "File:Ram air cleaner.jpg",
-  "alternator": "File:Automotive alternator. Terminals.jpg",
-  "battery": "File:Starterbatterie Blei-Calcium.jpg",
-  "brake-caliper": "File:Disk brake dsc03682.jpg",
-  "brake-disc": "File:Ventilated 2-Piece Floating Disc Curved Drilled & Slotted Brake Rotor.jpg",
-  "brake-fluid": "File:Brake fluid reservoir in Škoda Fabia I.jpg",
+  "alternator": [
+    "File:Automotive alternator. Terminals.jpg",
+    "File:Alternador 005.JPG"
+  ],
+  "ball-joint": [
+    "File:New upper and lower ball joints, tie rod ends, boots, shocks and brake pads. (3517829024).jpg",
+    "File:Car, Front tire, Failed Ball Joint.jpg"
+  ],
+  "battery": [
+    "File:Starterbatterie Blei-Calcium.jpg",
+    "File:Lead-acid automotive battery, 55 Ah.jpg"
+  ],
+  "brake-caliper": [
+    "File:Disk brake dsc03682.jpg",
+    "File:2020 Chevrolet Bolt EV front disc brake 2.jpg"
+  ],
+  "brake-disc": [
+    "File:Ventilated 2-Piece Floating Disc Curved Drilled & Slotted Brake Rotor.jpg",
+    "File:Ventilated Plain (Smooth) Brake Rotor.jpg",
+    "File:Bremsanlage.jpg"
+  ],
+  "brake-fluid": [
+    "File:Brake fluid reservoir in Škoda Fabia I.jpg",
+    "File:Brake fluid (5049376195).jpg"
+  ],
   "brake-pads": "File:Brake pads fitted with spring anchor.jpg",
   "bulb": "File:045 Replacing car headlight bulb - HIR2 type 12V halogen lightbulb for Toyota Auris.jpg",
-  "bumper": "File:Paraurti auto abbandonato nel Parco Alto Milanese - Legnano (MI), Lombardy, Italy - 2020-11-02.jpg",
+  "bumper": [
+    "File:Paraurti auto abbandonato nel Parco Alto Milanese - Legnano (MI), Lombardy, Italy - 2020-11-02.jpg",
+    "File:Moscow, lost bumper, Jan 2026 01.jpg"
+  ],
   "bumper-grille": "File:Dülmen, Wiesmann Sports Cars, Wiesmann Spyder Concept -- 2018 -- 9614.jpg",
-  "cabin-filter": "File:Autobacs Pro Air conditioner filter H-0001.jpg",
+  "cabin-filter": [
+    "File:Autobacs Pro Air conditioner filter H-0001.jpg",
+    "File:A dirty cabin filter.jpg",
+    "File:Mercedes E500 Cabin Filters.jpg"
+  ],
   "clutch-bearing": "File:M5OD transmission, input.jpg",
-  "clutch-kit": "File:Close-up view of a worn clutch disc among automotive tools in a workshop.jpg",
-  "coil-spring": "File:Double wishbone suspension.jpg",
-  "control-arm": "File:Double wishbone suspension.jpg",
+  "clutch-kit": [
+    "File:Close-up view of a worn clutch disc among automotive tools in a workshop.jpg",
+    "File:Clutch disc.JPG"
+  ],
+  "coil-spring": [
+    "File:Double wishbone suspension.jpg",
+    "File:Jeep Liberty Springs 2005.jpg"
+  ],
+  "control-arm": [
+    "File:Bras de suspension droit Citroën C15D.jpg",
+    "File:Basic Construction of Single Wishbone Suspension System.jpg"
+  ],
   "coolant": "File:Antifreeze in the radiator.jpg",
-  "cv-joint": "File:CV Joint with broken tone ring.JPG",
-  "drive-shaft": "File:CV joint half axle.jpg",
-  "engine-oil": "File:SIGAUS aceite.jpg",
-  "first-aid-kit": "File:Erste Hilfe 003 2026 02 17.jpg",
-  "floor-mats": "File:Tailored-rubber-mats-moulded-car-mats.jpg",
+  "cv-joint": [
+    "File:CV Joint with broken tone ring.JPG",
+    "File:ШРУСы автомобилей УАЗ в магазине ф2.jpg",
+    "File:2008-04-23 Cracked CV boot.jpg"
+  ],
+  "drive-shaft": [
+    "File:CV joint half axle.jpg",
+    "File:Fahrzeugtechnik Vorderachse.jpg"
+  ],
+  "engine-oil": [
+    "File:SIGAUS aceite.jpg",
+    "File:Motor oil refill with funnel.JPG",
+    "File:Motor oil.JPG"
+  ],
+  "first-aid-kit": [
+    "File:Erste Hilfe 003 2026 02 17.jpg",
+    "File:Kit pronto soccorso moto (aperto).JPG"
+  ],
+  "floor-mats": [
+    "File:Tailored-rubber-mats-moulded-car-mats.jpg",
+    "File:Fitted-rubber-car-mats-image.jpg",
+    "File:Eva Car Mats.jpg"
+  ],
   "flywheel": "File:Zweimassenschwungrad und kupplung aufgeschnitten.jpg",
-  "fuel-filter": "File:Fuel filter.jpg",
-  "headlight": "File:Headlight of a Soviet car.jpg",
-  "lambda-sensor": "File:Lambda sond till volvo240 etc.jpg",
-  "muffler": "File:Oldrich-Jelinek-catalytic-silencer-1964.jpg",
-  "oil-filter": "File:Olejový filtr s těsněním.jpg",
-  "radiator-fan": "File:Radiator fans installed.jpg",
+  "fuel-filter": [
+    "File:Fuel filter.jpg",
+    "File:Dieselfilter PKW VAG.jpg",
+    "File:Car fuel pre-filter.jpg"
+  ],
+  "headlight": [
+    "File:Headlight of a Soviet car.jpg",
+    "File:Close view of a car headlight with condensation on a black vehicle parked.jpg",
+    "File:Vintage car headlight. (Unsplash).jpg"
+  ],
+  "lambda-sensor": [
+    "File:Lambda sond till volvo240 etc.jpg",
+    "File:New vs old oxygen sensors (4144783963).jpg"
+  ],
+  "muffler": [
+    "File:Oldrich-Jelinek-catalytic-silencer-1964.jpg",
+    "File:Silencer 001.JPG"
+  ],
+  "oil-filter": [
+    "File:Olejový filtr s těsněním.jpg",
+    "File:Engine oil filter cutaway.JPG"
+  ],
+  "radiator": [
+    "File:Radiateur de voiture.jpg",
+    "File:Radiateur de voiture - 2.jpg"
+  ],
+  "radiator-fan": [
+    "File:Radiator fans installed.jpg",
+    "File:Mismatched fans.jpg"
+  ],
   "roof-bars": "File:Mjukt takräcke Northrack.jpg",
-  "shock-absorber": "File:Dülmen, Wiesmann Sports Cars, Wiesmann Spyder Concept -- 2018 -- 9574.jpg",
-  "side-mirror": "File:Car-SideMirror.jpg",
-  "stabilizer-link": "File:Aygo C1 Stabilisatorkoppelstange IMG 20161112 173104126.jpg",
+  "shock-absorber": [
+    "File:Dülmen, Wiesmann Sports Cars, Wiesmann Spyder Concept -- 2018 -- 9574.jpg",
+    "File:Ford RS200 engine.jpg"
+  ],
+  "side-mirror": [
+    "File:Car-SideMirror.jpg",
+    "File:Wing mirror.jpg",
+    "File:Outer rear-view mirror 001.JPG"
+  ],
+  "stabilizer-link": [
+    "File:Aygo C1 Stabilisatorkoppelstange IMG 20161112 173104126.jpg",
+    "File:Stabilisatorkoppelstange mit Kugelgelenken BWCM IMG 20160202 1602.jpg"
+  ],
   "starter-motor": "File:Automobile starter.JPG",
-  "tail-light": "File:Red car tail light (Unsplash).jpg",
-  "thermostat": "File:Replacement Thermostat.jpg",
+  "tail-light": [
+    "File:Red car tail light (Unsplash).jpg",
+    "File:Hillman Avenger tail light (9073314699).jpg",
+    "File:Damaged car tail light seen in a junkyard.jpg"
+  ],
+  "thermostat": [
+    "File:Replacement Thermostat.jpg",
+    "File:Double valve automotive thermostat.jpg"
+  ],
   "tie-rod-end": "File:Tie rod end.jpeg",
-  "timing-kit": "File:Zahnriemenantriebe.jpg",
-  "warning-triangle": "File:Triangle de présignalisation.JPG",
-  "washer-fluid": "File:Windshield washer fluid can.jpg",
-  "wiper-blades": "File:Used Michelin 8019 windshield wiper blade tip.jpg"
+  "timing-kit": [
+    "File:Zahnriemenantriebe.jpg",
+    "File:Toothed rubber timing belt.jpg"
+  ],
+  "warning-triangle": [
+    "File:Triangle de présignalisation.JPG",
+    "File:Red triangle of a car.jpg",
+    "File:三角表示板.jpg"
+  ],
+  "washer-fluid": [
+    "File:Windshield washer fluid can.jpg",
+    "File:Man pouring windshield washer fluid.jpg"
+  ],
+  "water-pump": [
+    "File:Kuehlmittelpumpe Suzuki G10A.jpg"
+  ],
+  "wheel-bearing": [
+    "File:Wheel assembly cross section-Bearings Spacer installed into hub with axle-Inline skates-Persp view-Bearings Preloaded-IMG 7794-bg-FRD.png"
+  ],
+  "wiper-blades": [
+    "File:Used Michelin 8019 windshield wiper blade tip.jpg",
+    "File:Windshield Wiper 2.jpg",
+    "File:Windshield Wiper 1.jpg"
+  ]
 }

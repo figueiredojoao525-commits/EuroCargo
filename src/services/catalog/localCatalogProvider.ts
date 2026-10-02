@@ -20,6 +20,7 @@ import {
   PRODUCT_DETAIL_SELECT,
   VARIANT_COLUMNS,
 } from './columns'
+import { decodeVin, sameName } from '../vehicles/nhtsa'
 import { NO_LOOKUP, type CatalogProvider } from './types'
 
 // Reference lists change rarely: cache them for the session to avoid repeated queries.
@@ -124,6 +125,8 @@ const LOCAL_CAPABILITIES: ReadonlySet<CatalogCapability> = new Set([
   'vehicle',
   'images',
   'compatibility',
+  // VIN through NHTSA vPIC (public data, no key): see src/services/vehicles/nhtsa.ts.
+  'vin',
 ])
 
 /** EuroCargo's own catalogue in Supabase. Only public (active) data is readable here. */
@@ -140,8 +143,31 @@ export const localCatalogProvider: CatalogProvider = {
 
   searchByVehicle: (vehicle, options = {}) => cachedSearch({ ...options, ...vehicle }),
 
-  // VIN / plate decoding needs a provider that really offers it (never guessed locally).
-  searchByVIN: async () => NO_LOOKUP,
+  // VIN: NHTSA vPIC (vehicle data only). The model and year are used only when NHTSA decodes the VIN
+  // cleanly (US-market vehicles); for European VINs usually only the make is known. Plates: no free source.
+  async searchByVIN(vin: string) {
+    const decoded = await decodeVin(vin)
+    if (!decoded?.make) return { supported: true, vehicles: [] }
+    const makes = await localCatalogProvider.listMakes()
+    const make = makes.find((m) => sameName(m.name, decoded.make!))
+    const models = make && decoded.model ? await localCatalogProvider.listModels(make.id) : []
+    const model = decoded.model ? models.find((m) => sameName(m.name, decoded.model!)) : undefined
+    return {
+      supported: true,
+      vehicles: [
+        {
+          make: make?.name ?? decoded.make,
+          model: model?.name ?? decoded.model,
+          variant: null,
+          year: decoded.year,
+          engine_code: null,
+          fuel: decoded.fuel,
+          makeId: make?.id,
+          modelId: model?.id,
+        },
+      ],
+    }
+  },
   searchByPlate: async () => NO_LOOKUP,
 
   async getProduct(id: string): Promise<ProductDetail | null> {

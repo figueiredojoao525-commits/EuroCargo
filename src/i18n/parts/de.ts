@@ -109,7 +109,9 @@ export const deParts: PartsDictionary = {
     vin: 'FIN (Fahrgestellnummer)',
     plate: 'Kennzeichen',
     vinOrPlate: 'FIN oder Kennzeichen',
-    lookupNone: 'Der Kataloganbieter konnte dieses Fahrzeug nicht identifizieren. Wählen Sie oben Marke und Modell.',
+    lookupNone: 'Dieses Fahrzeug konnte nicht ermittelt werden. Wählen Sie oben Marke und Modell.',
+    vinNhtsa: 'Die FIN wird mit der öffentlichen NHTSA-Datenbank (USA) entschlüsselt. Bei europäischen Fahrzeugen wird meist nur die Marke erkannt: Bitte Modell und Baujahr bestätigen.',
+    vinPartial: 'Anhand der FIN wurde nur die Marke erkannt. Wählen Sie oben Modell und Baujahr.',
     showParts: 'Passende Teile anzeigen',
     browse: 'Marken und Modelle',
     vinHint:
@@ -137,7 +139,7 @@ export const deParts: PartsDictionary = {
       'Keine Teile mit bestätigter Passform für {vehicle}. Angezeigt werden ähnliche Teile für andere Fahrzeuge.',
     none: 'Wir haben keinen bestätigten Treffer in unserem Katalog gefunden. Bitte wenden Sie sich an einen Experten.',
     unsupported: {
-      vin: 'Die FIN-Suche benötigt einen externen Katalog, der noch nicht angebunden ist. Bitte Marke, Modell und Baujahr angeben.',
+      vin: 'Ich konnte das Fahrzeug mit dieser FIN nicht ermitteln (die öffentliche NHTSA-Datenbank deckt vor allem US-Fahrzeuge ab). Nennen Sie Marke, Modell und Baujahr.',
       plate:
         'Die Kennzeichensuche benötigt einen externen Katalog, der noch nicht angebunden ist. Bitte Marke, Modell und Baujahr angeben.',
     },

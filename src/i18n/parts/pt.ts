@@ -102,7 +102,9 @@ export const ptParts = {
     vin: 'VIN (número de chassis)',
     plate: 'Matrícula',
     vinOrPlate: 'VIN ou matrícula',
-    lookupNone: 'O fornecedor do catálogo não identificou este veículo. Escolha a marca e o modelo acima.',
+    lookupNone: 'Não foi possível identificar este veículo. Escolha a marca e o modelo acima.',
+    vinNhtsa: 'O VIN é descodificado pela base pública da NHTSA (EUA). Em veículos europeus costuma identificar só a marca: confirme o modelo e o ano.',
+    vinPartial: 'O VIN só permitiu identificar a marca. Escolha o modelo e o ano acima.',
     showParts: 'Ver peças compatíveis',
     browse: 'Marcas e modelos',
     vinHint: 'A pesquisa por matrícula ou VIN ficará disponível quando for ligado um catálogo externo licenciado.',
@@ -134,7 +136,7 @@ export const ptParts = {
       'Não encontrei peças com compatibilidade confirmada para {vehicle}. Mostro peças semelhantes registadas para outros veículos.',
     none: 'Não encontrámos uma correspondência confirmada no nosso catálogo. Contacte um especialista.',
     unsupported: {
-      vin: 'A pesquisa por VIN precisa de um catálogo externo que ainda não está ligado. Indique a marca, o modelo e o ano.',
+      vin: 'Não consegui identificar o veículo por este VIN (a base pública da NHTSA cobre sobretudo veículos dos EUA). Indique a marca, o modelo e o ano.',
       plate:
         'A pesquisa por matrícula precisa de um catálogo externo que ainda não está ligado. Indique a marca, o modelo e o ano.',
     },

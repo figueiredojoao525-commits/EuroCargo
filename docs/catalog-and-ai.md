@@ -72,7 +72,7 @@ Admin → Catálogo → Providers  ─────────────► ca
 | `getProduct(id)` | página do produto (imagens, compatibilidades) |
 | `searchByReference(ref)` / `searchByOE(oe)` | referência do fabricante / EAN · número OE (inclui referências cruzadas) |
 | `searchByVehicle(vehicle)` | peças compatíveis com um veículo |
-| `searchByVIN(vin)` / `searchByPlate(plate, country)` | só com provider que ofereça o serviço; o local devolve `{ supported: false }` |
+| `searchByVIN(vin)` / `searchByPlate(plate, country)` | VIN: NHTSA vPIC (ver Veículos); matrícula: só com provider que ofereça o serviço (o local devolve `{ supported: false }`) |
 | `getVehicle(ids)`, `getCompatibility(id)`, `getProductImages(id)`, `getAlternatives(product)` | leituras auxiliares |
 | `listCategories/Makes/Models/Variants` | listas de referência (em cache) |
 | `capabilities()` | o que o provider sabe responder (`vin`, `plate`, …) — a UI mostra a pesquisa por VIN/matrícula só quando existe |
@@ -159,8 +159,16 @@ palavras da pergunta. Estas perguntas são sempre respondidas localmente, mesmo 
 
 Marca → Modelo (+ geração) → Versão/motor (nome, código do motor, combustível, cilindrada, kW, cv, anos) →
 compatibilidade por produto (anos, posição, notas, verificada). O seletor da loja mostra "Motorização" quando
-o modelo tem versões. VIN e matrícula: preparado em `searchByVIN` / `searchByPlate`, ativo só com um provider
-que ofereça esse serviço (a pesquisa não guarda VIN nem matrículas).
+o modelo tem versões. Matrícula: preparado em `searchByPlate`, ativo só com um provider que ofereça esse serviço.
+
+**VIN (NHTSA vPIC, gratuito, sem chave):** `src/services/vehicles/nhtsa.ts` descodifica o VIN no browser com a API
+pública da NHTSA (EUA) — dados de **veículos**, nunca de peças, e sem criar compatibilidades. Cobertura:
+- veículos do mercado dos EUA: marca, modelo, ano, combustível e cilindrada (só quando a NHTSA não reporta erros);
+- veículos europeus (e a maioria dos que circulam em Angola, importados da Europa/Ásia): normalmente **só a
+  marca** (pelo WMI, os 3 primeiros caracteres); o ano não é fiável (na Europa o 10.º carácter não é obrigatório)
+  e por isso não é usado; algumas marcas nem isso (ex.: VF1… da Renault não foi identificado no teste).
+O site avisa que o VIN é enviado à NHTSA e pede para confirmar modelo e ano; o assistente usa a marca encontrada
+como filtro. Nenhum VIN é guardado.
 
 ## Fornecedores e preços
 

@@ -13,6 +13,7 @@ const VIN = /^[A-HJ-NPR-Z0-9]{17}$/i
 /**
  * Vehicle by VIN or licence plate. Shown only when a configured provider really
  * decodes them (capabilities 'vin' / 'plate'); otherwise just the hint text.
+ * VIN: NHTSA vPIC (public US data) — often only the make for European vehicles.
  */
 export function VehicleLookup() {
   const { t } = useI18n()
@@ -67,8 +68,10 @@ export function VehicleLookup() {
           </button>
         </div>
       </Field>
+      {canVin && <p className="muted small">{t.vehicles.vinNhtsa}</p>}
       {error && <Alert tone="error">{error}</Alert>}
       {matches && matches.length === 0 && <Alert tone="info">{t.vehicles.lookupNone}</Alert>}
+      {matches?.length === 1 && !matches[0].model && <Alert tone="info">{t.vehicles.vinPartial}</Alert>}
       {matches && matches.length > 0 && (
         <ul className="compat-list">
           {matches.map((m, i) => (

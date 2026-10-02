@@ -102,7 +102,9 @@ export const itParts: PartsDictionary = {
     vin: 'VIN (numero di telaio)',
     plate: 'Targa',
     vinOrPlate: 'VIN o targa',
-    lookupNone: 'Il fornitore del catalogo non ha identificato questo veicolo. Scegli marca e modello qui sopra.',
+    lookupNone: 'Non è stato possibile identificare questo veicolo. Scegli marca e modello qui sopra.',
+    vinNhtsa: 'Il VIN viene decodificato con la banca dati pubblica della NHTSA (USA). Per i veicoli europei di solito identifica solo la marca: conferma modello e anno.',
+    vinPartial: 'Dal VIN è stata identificata solo la marca. Scegli modello e anno qui sopra.',
     showParts: 'Mostra ricambi compatibili',
     browse: 'Marche e modelli',
     vinHint: 'La ricerca per targa o VIN sarà disponibile quando verrà collegato un catalogo esterno con licenza.',
@@ -129,7 +131,7 @@ export const itParts: PartsDictionary = {
       'Nessun ricambio con compatibilità confermata per {vehicle}. Mostro ricambi simili registrati per altri veicoli.',
     none: 'Non abbiamo trovato una corrispondenza confermata nel nostro catalogo. Contatta uno specialista.',
     unsupported: {
-      vin: 'La ricerca per VIN richiede un catalogo esterno non ancora collegato. Indica marca, modello e anno.',
+      vin: 'Non sono riuscito a identificare il veicolo da questo VIN (la banca dati pubblica della NHTSA copre soprattutto veicoli USA). Indica marca, modello e anno.',
       plate: 'La ricerca per targa richiede un catalogo esterno non ancora collegato. Indica marca, modello e anno.',
     },
     disclaimer:

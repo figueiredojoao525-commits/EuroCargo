@@ -13,6 +13,7 @@ export function ProductCard({ product }: { product: ProductCardData }) {
           <ProductImage
             url={product.image}
             illustrativeKey={product.illustrativeKey}
+            seed={product.id}
             categorySlug={product.categorySlug}
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 280px"
           />

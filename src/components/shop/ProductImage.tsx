@@ -1,15 +1,17 @@
 import { useState } from 'react'
 import { useI18n } from '../../i18n/context'
-import { illustrativeImage, responsive } from '../../utils/productImage'
+import { illustrativeById, illustrativeImage, responsive, type IllustrativeImage } from '../../utils/productImage'
 import { ProductIllustration } from './ProductIllustration'
 
 /**
- * A product's photo, or the illustrative photo of its part type (labelled), or the drawn
+ * A product's photo, or an illustrative photo of its part type (labelled), or the drawn
  * category illustration. Any image that fails to load falls back to the next option.
  */
 export function ProductImage({
   url,
   illustrativeKey,
+  seed,
+  imageId,
   categorySlug,
   alt = '',
   size = 'md',
@@ -17,7 +19,12 @@ export function ProductImage({
   eager = false,
 }: {
   url: string | null | undefined
+  /** Part type whose illustrative photos may be shown. */
   illustrativeKey: string | null | undefined
+  /** Product id: picks the same photo of the type for that product every time. */
+  seed?: string
+  /** A specific illustrative photo (gallery). */
+  imageId?: string
   categorySlug: string | null | undefined
   alt?: string
   size?: 'sm' | 'md' | 'lg'
@@ -46,7 +53,7 @@ export function ProductImage({
     )
   }
 
-  const illustrative = failed.illustrative ? null : illustrativeImage(illustrativeKey)
+  const illustrative = failed.illustrative ? null : imageId ? illustrativeById(imageId) : illustrativeImage(illustrativeKey, seed)
   if (illustrative) {
     return (
       <figure className={`product-image product-image-illustrative product-image-${size}`}>
@@ -71,10 +78,9 @@ export function ProductImage({
   return <ProductIllustration categorySlug={categorySlug} size={size} />
 }
 
-/** "Imagem ilustrativa · Foto: Autor, CC BY-SA 4.0 (Wikimedia Commons)" with links. */
-export function IllustrativeCredit({ illustrativeKey }: { illustrativeKey: string | null | undefined }) {
+/** "Imagem ilustrativa … Foto: Autor, CC BY-SA 4.0 (Wikimedia Commons)" with links. */
+export function IllustrativeCredit({ image }: { image: IllustrativeImage | null | undefined }) {
   const { t } = useI18n()
-  const image = illustrativeImage(illustrativeKey)
   if (!image) return null
   const { credit } = image
   return (
@@ -91,7 +97,7 @@ export function IllustrativeCredit({ illustrativeKey }: { illustrativeKey: strin
       ) : (
         credit.license
       )}{' '}
-      (Wikimedia Commons)
+      ({credit.source})
     </p>
   )
 }
